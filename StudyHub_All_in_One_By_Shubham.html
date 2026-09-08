@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="StudyHub - Smart Learning Platform for Classes 1-12">
+<title>StudyHub | Smart Learning | Shubham Kumar</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#f5f7fb;color:#172033}button,input,textarea,select{font:inherit}button{cursor:pointer}.sidebar{position:fixed;inset:0 auto 0 0;width:250px;background:#101827;color:#dce5f5;padding:20px 14px;display:flex;flex-direction:column;gap:8px;z-index:20}.brand{font-size:22px;font-weight:800;display:flex;gap:10px;align-items:center;padding:8px 10px 22px}.brand-mark{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,#6d5dfc,#18b6a4);color:white}.nav{border:0;background:transparent;color:#aebbd0;text-align:left;padding:12px 14px;border-radius:10px;display:flex;gap:12px;align-items:center}.nav:hover,.nav.active{background:#1d2a40;color:#fff}.sidebar-bottom{margin-top:auto}.sidebar small{display:block;padding:16px 10px;color:#71809a;line-height:1.5}.main{margin-left:250px;min-height:100vh}.topbar{height:70px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);display:flex;align-items:center;gap:12px;padding:12px 28px;position:sticky;top:0;z-index:10;border-bottom:1px solid #e8ecf3}.search{height:44px;max-width:650px;flex:1;margin:auto;display:flex;align-items:center;gap:10px;background:#f1f4f9;border:1px solid #e5eaf2;border-radius:12px;padding:0 12px}.search input{border:0;background:transparent;outline:0;flex:1}.search kbd{font-size:11px;color:#7c8799;background:white;border:1px solid #dfe4ec;padding:3px 6px;border-radius:5px}.icon-btn{border:0;background:#eef2f8;border-radius:10px;width:42px;height:42px}.hidden{display:none!important}#content{padding:30px;max-width:1450px;margin:auto}.hero{background:linear-gradient(120deg,#171f38,#29385e);color:white;border-radius:22px;padding:30px;display:flex;justify-content:space-between;gap:25px;overflow:hidden}.hero h1{font-size:34px;margin:8px 0}.hero p{color:#bdc8db;max-width:680px}.hero .orb{width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,#8c7dff55,transparent 65%);align-self:center}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:22px 0}.card{background:white;border:1px solid #e7ebf2;border-radius:16px;padding:20px;box-shadow:0 5px 18px #26324b0a}.stat b{font-size:28px;display:block;margin-top:8px}.muted{color:#77839a}.section-head{display:flex;align-items:center;justify-content:space-between;margin:28px 0 14px}.section-head h2{margin:0}.btn{border:0;border-radius:10px;padding:10px 15px;background:#635bdb;color:white}.btn.secondary{background:#edf0f7;color:#283247}.class-grid,.subject-grid,.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.class-card{padding:18px;border-radius:15px;background:white;border:1px solid #e7ebf2}.class-card h3{margin:0 0 6px}.subject{padding:16px;border:1px solid #e5eaf2;border-radius:14px;background:#fff}.subject strong{display:block;margin-bottom:7px}.quiz-layout{display:grid;grid-template-columns:1fr 280px;gap:18px}.option{display:block;width:100%;padding:14px;margin:9px 0;text-align:left;background:#f5f7fb;border:1px solid #e1e6ef;border-radius:11px}.option:hover{border-color:#635bdb}.option.correct{background:#e5f7ef;border-color:#35a879}.option.wrong{background:#fff0f0;border-color:#d95c5c}.progress{height:8px;background:#e8edf4;border-radius:9px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#635bdb,#22b8a5)}textarea{width:100%;min-height:130px;border:1px solid #dde3ed;border-radius:11px;padding:12px;resize:vertical}.input,select{width:100%;padding:11px;border:1px solid #dde3ed;border-radius:10px;background:white}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.note{white-space:pre-wrap}.pill{display:inline-block;padding:5px 9px;border-radius:99px;background:#eef0ff;color:#5149b6;font-size:12px}.flash{min-height:230px;display:grid;place-items:center;text-align:center;font-size:25px}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:13px;border-bottom:1px solid #e8ecf3;text-align:left}.timer{font-size:56px;font-weight:800;text-align:center;margin:25px}.dark body{}.dark .topbar,.dark .card,.dark .class-card,.dark .subject,.dark .modal-card{background:#182234;color:#e7edf8;border-color:#2b3950}.dark body{background:#0f1724;color:#e7edf8}.dark .search,.dark .option,.dark .input,.dark select,.dark textarea{background:#111b2b;color:#e7edf8;border-color:#2c3a50}.dark .muted{color:#9aa8bd}.modal{position:fixed;inset:0;background:#0a102099;display:grid;place-items:center;z-index:50;padding:20px}.modal-card{background:white;border-radius:18px;padding:25px;width:min(650px,100%);max-height:85vh;overflow:auto;position:relative}.close{position:absolute;right:15px;top:10px;border:0;background:transparent;font-size:28px}.toast{position:fixed;bottom:20px;right:20px}.toastmsg{background:#182234;color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 8px 25px #0003}.empty{text-align:center;padding:40px;color:#7b8799}.achievement{display:flex;gap:12px;align-items:center}.badge{width:44px;height:44px;border-radius:12px;background:#eef0ff;display:grid;place-items:center;font-size:22px}@media(max-width:900px){.sidebar{transform:translateX(-100%);transition:.2s}.sidebar.open{transform:none}.main{margin-left:0}.grid{grid-template-columns:repeat(2,1fr)}.quiz-layout{grid-template-columns:1fr}.hero .orb{display:none}}@media(max-width:560px){#content{padding:18px}.topbar{padding:10px 14px}.grid{grid-template-columns:1fr}.search kbd{display:none}.hero h1{font-size:27px}}
+
+</style>
+</head>
+<body>
+<div id="app">
+<aside class="sidebar">
+<div class="brand"><span class="brand-mark">S</span><span>StudyHub</span></div>
+<button class="nav active" data-view="dashboard">⌂ <span>Dashboard</span></button>
+<button class="nav" data-view="classes">▦ <span>Classes 1–12</span></button>
+<button class="nav" data-view="quiz">⚡ <span>Practice Quiz</span></button>
+<button class="nav" data-view="notes">▤ <span>My Notes</span></button>
+<button class="nav" data-view="flashcards">◇ <span>Flashcards</span></button>
+<button class="nav" data-view="planner">◷ <span>Study Planner</span></button>
+<button class="nav" data-view="analytics">◒ <span>Analytics</span></button>
+<button class="nav" data-view="leaderboard">♛ <span>Leaderboard</span></button>
+<button class="nav" data-view="knowledge">✦ <span>Daily Knowledge</span></button>
+<div class="sidebar-bottom">
+<button class="nav" data-view="settings">⚙ <span>Settings</span></button>
+<small>Created with ❤️ by<br><b>Shubham Kumar</b></small>
+</div>
+</aside>
+<main class="main">
+<header class="topbar">
+<button id="menuBtn" class="icon-btn">☰</button>
+<div class="search"><span>⌕</span><input id="globalSearch" placeholder="Search subjects, notes, quizzes..."><kbd>Ctrl K</kbd></div>
+<button id="themeBtn" class="icon-btn" title="Toggle theme">☾</button>
+<button id="commandBtn" class="icon-btn" title="Command palette">⌘</button>
+</header>
+<section id="content"></section>
+<footer style="text-align:center;padding:20px;color:#77839a">StudyHub • Created with ❤️ by <strong>Shubham Kumar</strong></footer>
+</main>
+</div>
+<div id="modal" class="modal hidden"><div class="modal-card"><button class="close" id="closeModal">×</button><div id="modalBody"></div></div></div>
+<div id="toast"></div>
+<script>
+const SUBJECTS={
+1:["English","Mathematics","EVS"],2:["English","Mathematics","EVS"],3:["English","Mathematics","Science","Social Studies"],
+4:["English","Mathematics","Science","Social Studies"],5:["English","Mathematics","Science","Social Studies"],
+6:["English","Mathematics","Science","Social Science"],7:["English","Mathematics","Science","Social Science"],
+8:["English","Mathematics","Science","Social Science"],9:["English","Mathematics","Science","Social Science","Computer"],
+10:["English","Mathematics","Science","Social Science","Computer"],11:["English","Physics","Chemistry","Mathematics","Biology","Accountancy","Economics","Business Studies"],
+12:["English","Physics","Chemistry","Mathematics","Biology","Accountancy","Economics","Business Studies"]
+};
+const TOPICS=["Fractions","Algebra","Geometry","Grammar","Vocabulary","Numbers","Science Basics","Reasoning","Data Handling","General Knowledge"];
+const BANK=[];
+for(let c=1;c<=12;c++)for(const s of SUBJECTS[c])for(let i=1;i<=35;i++){
+  let q,a;
+  if(s==="Mathematics"||s==="Physics"||s==="Chemistry"){
+    q=`Class ${c} ${s}: Which value is closest to ${i*2+3}?`;
+    a=String(i*2+3); 
+  }else if(s==="English"){
+    q=`Class ${c} English: Which option is a correctly spelled word?`;
+    a="Education";
+  }else{
+    q=`Class ${c} ${s}: Which statement is most appropriate for a basic practice question?`;
+    a="Learning is improved by regular practice";
+  }
+  const opts=[a, "Only memorising is useful", "Practice should be avoided", "Learning never needs review"];
+  BANK.push({id:`${c}-${s}-${i}`,classNo:c,subject:s,topic:TOPICS[i%TOPICS.length],q,a,opts});
+}
+const KNOWLEDGE=[
+"Water covers most of Earth's surface, but only a small portion is fresh water.",
+"The human brain contains billions of nerve cells that communicate through electrical and chemical signals.",
+"The Earth completes one revolution around the Sun in about one year.",
+"Regular revision helps move information from short-term memory toward longer-term memory.",
+"Plants use light energy to make food through photosynthesis."
+];
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const state=JSON.parse(localStorage.getItem("studyhub_state")||'{"theme":"light","classNo":10,"points":0,"quizDone":0,"correct":0,"notes":[],"plans":[],"streak":1}');
+let quiz=null,timer=null,seconds=0;
+function save(){localStorage.setItem("studyhub_state",JSON.stringify(state))}
+function toast(t){const d=document.createElement("div");d.className="toastmsg";d.textContent=t;$("#toast").append(d);setTimeout(()=>d.remove(),2200)}
+function setView(v){$$(".nav").forEach(x=>x.classList.toggle("active",x.dataset.view===v));render(v)}
+function render(v="dashboard"){
+ const c=$("#content");
+ if(v==="dashboard")return dashboard(c);
+ if(v==="classes")return classes(c);
+ if(v==="quiz")return quizSetup(c);
+ if(v==="notes")return notes(c);
+ if(v==="flashcards")return flashcards(c);
+ if(v==="planner")return planner(c);
+ if(v==="analytics")return analytics(c);
+ if(v==="leaderboard")return leaderboard(c);
+ if(v==="knowledge")return knowledge(c);
+ if(v==="settings")return settings(c);
+}
+function dashboard(c){
+ c.innerHTML=`<div class="hero"><div><span class="pill">SMART LEARNING PLATFORM</span><h1>Learn smarter. Practice better.</h1><p>StudyHub brings classes, quizzes, notes, flashcards, planning and progress tracking into one focused workspace.</p><button class="btn" id="startBtn">Start Practice</button></div><div class="orb"></div></div>
+ <div class="grid"><div class="card stat">Current Class<b>${state.classNo}</b><span class="muted">Personalized learning</span></div><div class="card stat">Quiz Attempts<b>${state.quizDone}</b><span class="muted">Keep practicing</span></div><div class="card stat">Accuracy<b>${state.quizDone?Math.round(state.correct/state.quizDone):0}%</b><span class="muted">Recent average</span></div><div class="card stat">Points<b>${state.points}</b><span class="muted">StudyHub XP</span></div></div>
+ <div class="section-head"><h2>Quick Access</h2></div><div class="feature-grid">${["quiz","notes","flashcards","planner","analytics","knowledge"].map((x,i)=>`<button class="card" data-go="${x}" style="text-align:left"><b>${["Practice Quiz","My Notes","Flashcards","Study Planner","Analytics","Daily Knowledge"][i]}</b><p class="muted">${["Random questions by class and subject","Save your own study notes","Review concepts with cards","Plan your study sessions","See your learning activity","Learn one useful fact today"][i]}</p></button>`).join("")}</div>
+ <div class="section-head"><h2>Your Subjects</h2><span class="muted">Class ${state.classNo}</span></div><div class="subject-grid">${SUBJECTS[state.classNo].map(s=>`<div class="subject"><strong>${s}</strong><span class="muted">${BANK.filter(q=>q.classNo===state.classNo&&q.subject===s).length} practice questions</span></div>`).join("")}</div>`;
+ $("#startBtn").onclick=()=>setView("quiz"); $$("[data-go]").forEach(b=>b.onclick=()=>setView(b.dataset.go));
+}
+function classes(c){c.innerHTML=`<div class="section-head"><h1>Classes 1–12</h1><span class="muted">Choose your class</span></div><div class="class-grid">${Array.from({length:12},(_,i)=>i+1).map(n=>`<button class="class-card" data-class="${n}"><h3>Class ${n}</h3><span class="muted">${SUBJECTS[n].length} subjects</span></button>`).join("")}</div><div id="classDetails"></div>`;$$("[data-class]").forEach(b=>b.onclick=()=>{state.classNo=+b.dataset.class;save();$("#classDetails").innerHTML=`<div class="card"><h2>Class ${state.classNo}</h2><div class="subject-grid">${SUBJECTS[state.classNo].map(s=>`<div class="subject"><strong>${s}</strong><span class="muted">Practice • Chapters • Revision</span></div>`).join("")}</div></div>`;toast(`Class ${state.classNo} selected`)})}
+function quizSetup(c){
+ c.innerHTML=`<div class="section-head"><h1>Practice Quiz</h1><span class="pill">${BANK.length}+ question bank</span></div><div class="card"><div class="grid"><div><label>Class</label><select id="qClass">${Array.from({length:12},(_,i)=>`<option ${state.classNo===i+1?"selected":""}>${i+1}</option>`).join("")}</select></div><div><label>Subject</label><select id="qSub"></select></div><div><label>Questions</label><select id="qCount"><option>10</option><option>20</option><option>30</option></select></div><div><label>Mode</label><select id="qMode"><option>Practice</option><option>Timed</option></select></div></div><button class="btn" id="beginQuiz">Generate Random Quiz</button></div><div id="quizArea"></div>`;
+ const fill=()=>$("#qSub").innerHTML=SUBJECTS[+$("#qClass").value].map(s=>`<option>${s}</option>`).join("");
+ fill();$("#qClass").onchange=fill;$("#beginQuiz").onclick=startQuiz;
+}
+function shuffle(a){return a.sort(()=>Math.random()-.5)}
+function startQuiz(){
+ const cl=+$("#qClass").value,sub=$("#qSub").value,count=+$("#qCount").value;
+ const pool=shuffle(BANK.filter(x=>x.classNo===cl&&x.subject===sub).slice());
+ quiz={items:pool.slice(0,Math.min(count,pool.length)),i:0,score:0,answered:false}; renderQuestion();
+}
+function renderQuestion(){
+ const a=$("#quizArea"),x=quiz.items[quiz.i];
+ if(!x)return finishQuiz();
+ a.innerHTML=`<div class="card"><div class="row"><span class="pill">Question ${quiz.i+1}/${quiz.items.length}</span><span class="muted">${x.subject} • Class ${x.classNo}</span></div><div class="progress" style="margin:15px 0"><i style="width:${quiz.i/quiz.items.length*100}%"></i></div><h2>${x.q}</h2><div id="options">${shuffle([...x.opts]).map(o=>`<button class="option" data-o="${o.replaceAll('"','&quot;')}">${o}</button>`).join("")}</div><div id="feedback"></div></div>`;
+ $$("#options .option").forEach(b=>b.onclick=()=>answer(b,x));
+}
+function answer(btn,x){
+ if(quiz.answered)return;quiz.answered=true;
+ const correct=btn.dataset.o===x.a;
+ if(correct){quiz.score++;state.points+=10;btn.classList.add("correct")}else{btn.classList.add("wrong");toast("Keep going — review the correct answer.");}
+ $$("#options .option").forEach(b=>{if(b.dataset.o===x.a)b.classList.add("correct")});
+ $("#feedback").innerHTML=`<div class="card" style="margin-top:15px"><b>${correct?"Correct!":"Correct answer: "+x.a}</b><p class="muted">Topic: ${x.topic}. Review this concept and try another question.</p><button class="btn" id="nextQ">${quiz.i+1===quiz.items.length?"Finish":"Next Question"}</button></div>`;
+ $("#nextQ").onclick=()=>{quiz.i++;quiz.answered=false;renderQuestion()};
+ save();
+}
+function finishQuiz(){state.quizDone++;state.correct+=Math.round(quiz.score/quiz.items.length*100);save();$("#quizArea").innerHTML=`<div class="card" style="text-align:center"><h2>Quiz Complete 🎉</h2><div class="timer">${Math.round(quiz.score/quiz.items.length*100)}%</div><p>You scored <b>${quiz.score}/${quiz.items.length}</b>.</p><button class="btn" onclick="setView('quiz')">Try Another Quiz</button></div>`}
+function notes(c){
+ c.innerHTML=`<div class="section-head"><h1>My Notes</h1><button class="btn" id="newNote">+ New Note</button></div><div class="class-grid">${state.notes.length?state.notes.map((n,i)=>`<article class="card"><span class="pill">${n.subject||"General"}</span><h3>${n.title}</h3><p class="note">${n.body}</p><button class="btn secondary" data-del="${i}">Delete</button></article>`).join(""):`<div class="card empty">No notes yet. Create your first note.</div>`}</div>`;
+ $("#newNote").onclick=()=>noteModal();$$("[data-del]").forEach(b=>b.onclick=()=>{state.notes.splice(+b.dataset.del,1);save();notes(c);toast("Note deleted")});
+}
+function noteModal(){
+ $("#modalBody").innerHTML=`<h2>Create Note</h2><input class="input" id="nt" placeholder="Title"><br><br><select id="ns">${SUBJECTS[state.classNo].map(s=>`<option>${s}</option>`).join("")}</select><br><br><textarea id="nb" placeholder="Write your note..."></textarea><br><br><button class="btn" id="saveNote">Save Note</button>`;
+ $("#modal").classList.remove("hidden");$("#saveNote").onclick=()=>{const title=$("#nt").value.trim(),body=$("#nb").value.trim();if(!title||!body)return toast("Add a title and note");state.notes.unshift({title,body,subject:$("#ns").value});save();$("#modal").classList.add("hidden");setView("notes");toast("Note saved")};
+}
+function flashcards(c){const cards=shuffle([...BANK]).slice(0,12);let i=0,flip=false;c.innerHTML=`<div class="section-head"><h1>Flashcards</h1><span class="muted">Tap the card to reveal</span></div><div class="card flash" id="flash">${cards[i].q}</div><div class="row" style="justify-content:center;margin:15px"><button class="btn secondary" id="flip">Reveal</button><button class="btn" id="next">Next</button></div>`;$("#flip").onclick=()=>{flip=!flip;$("#flash").textContent=flip?cards[i].a:cards[i].q};$("#next").onclick=()=>{i=(i+1)%cards.length;flip=false;$("#flash").textContent=cards[i].q}}
+function planner(c){c.innerHTML=`<div class="section-head"><h1>Study Planner</h1><button class="btn" id="addPlan">+ Add Session</button></div><div class="class-grid">${state.plans.length?state.plans.map((p,i)=>`<div class="card"><span class="pill">${p.date}</span><h3>${p.subject}</h3><p>${p.task}</p><button class="btn secondary" data-pdel="${i}">Done / Remove</button></div>`).join(""):`<div class="card empty">No study sessions planned.</div>`}</div>`;$("#addPlan").onclick=()=>{const date=prompt("Date (e.g. Monday)"),subject=prompt("Subject"),task=prompt("Task");if(date&&subject&&task){state.plans.push({date,subject,task});save();planner(c)}};$$("[data-pdel]").forEach(b=>b.onclick=()=>{state.plans.splice(+b.dataset.pdel,1);save();planner(c)})}
+function analytics(c){const acc=state.quizDone?Math.round(state.correct/state.quizDone):0;c.innerHTML=`<h1>Learning Analytics</h1><div class="grid"><div class="card stat">Quiz Attempts<b>${state.quizDone}</b></div><div class="card stat">Average Accuracy<b>${acc}%</b></div><div class="card stat">XP Earned<b>${state.points}</b></div><div class="card stat">Notes<b>${state.notes.length}</b></div></div><div class="card"><h2>Consistency</h2><p class="muted">Your local StudyHub progress is stored on this device.</p><div class="progress"><i style="width:${Math.min(acc,100)}%"></i></div></div>`}
+function leaderboard(c){const names=["Shubham","Aarav","Ananya","Vihaan","Diya"];const rows=names.map((n,i)=>({n,p:Math.max(1200-i*137,state.points-(i-2)*40)})).sort((a,b)=>b.p-a.p);c.innerHTML=`<h1>Leaderboard</h1><div class="card"><table class="table"><tr><th>Rank</th><th>Student</th><th>XP</th></tr>${rows.map((r,i)=>`<tr><td>#${i+1}</td><td>${r.n}${r.n==="Shubham"?" ⭐":""}</td><td>${r.p}</td></tr>`).join("")}</table></div>`}
+function knowledge(c){const fact=KNOWLEDGE[new Date().getDate()%KNOWLEDGE.length];c.innerHTML=`<h1>Daily Knowledge</h1><div class="card" style="padding:40px;text-align:center"><div style="font-size:50px">✦</div><h2>Today's Fact</h2><p style="font-size:20px;line-height:1.6">${fact}</p><button class="btn" onclick="setView('knowledge')">Show Another</button></div>`}
+function settings(c){c.innerHTML=`<h1>Settings</h1><div class="card"><h3>Learning Class</h3><select id="setClass">${Array.from({length:12},(_,i)=>`<option ${state.classNo===i+1?"selected":""}>${i+1}</option>`).join("")}</select><br><br><button class="btn" id="saveSet">Save Settings</button><button class="btn secondary" id="reset">Reset Local Progress</button></div>`;$("#saveSet").onclick=()=>{state.classNo=+$("#setClass").value;save();toast("Settings saved")};$("#reset").onclick=()=>{if(confirm("Reset local StudyHub progress?")){localStorage.removeItem("studyhub_state");location.reload()}}}
+$$(".nav").forEach(b=>b.onclick=()=>setView(b.dataset.view));
+$("#themeBtn").onclick=()=>{document.documentElement.classList.toggle("dark");state.theme=document.documentElement.classList.contains("dark")?"dark":"light";save()};
+$("#menuBtn").onclick=()=>$(".sidebar").classList.toggle("open");
+$("#closeModal").onclick=()=>$("#modal").classList.add("hidden");
+document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();$("#globalSearch").focus()}});
+$("#globalSearch").oninput=e=>{const q=e.target.value.toLowerCase().trim();if(!q)return;if(q.includes("quiz"))setView("quiz");else if(q.includes("note"))setView("notes");else if(q.includes("flash"))setView("flashcards");else if(q.includes("plan"))setView("planner");else if(q.includes("leader"))setView("leaderboard");};
+if(state.theme==="dark")document.documentElement.classList.add("dark");
+render();
+
+</script>
+</body>
+</html>
