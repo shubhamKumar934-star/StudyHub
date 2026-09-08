@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#5b5cf0">
+<meta name="description" content="StudyHub — an advanced all-in-one learning, practice, notes, timer and progress platform created by Shubham Kumar.">
+<meta name="author" content="Shubham Kumar">
+<title>StudyHub — Ultimate Learning Platform | Shubham Kumar</title>
+<style>
+:root{
+ --bg:#f4f6fb;--surface:#ffffff;--surface2:#f8f9fe;--text:#172033;--muted:#6b7280;
+ --primary:#5b5cf0;--primary2:#8b5cf6;--primary3:#4338ca;--line:#e5e7ef;
+ --success:#16a34a;--successBg:#dcfce7;--danger:#dc2626;--dangerBg:#fee2e2;
+ --warning:#d97706;--warningBg:#fef3c7;--info:#0284c7;--infoBg:#e0f2fe;
+ --shadow:0 18px 55px rgba(25,35,65,.08);--shadow2:0 8px 24px rgba(25,35,65,.07);
+ --radius:18px;--sidebar:274px;--top:76px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.55}
+a{text-decoration:none;color:inherit}
+::selection{background:#c7d2fe;color:#312e81}
+.hidden{display:none!important}
+.app{min-height:100vh}
+.sidebar{
+ position:fixed;z-index:100;left:0;top:0;bottom:0;width:var(--sidebar);
+ background:linear-gradient(180deg,#11162a 0%,#151b35 55%,#101427 100%);
+ color:#fff;padding:18px 14px;overflow:auto;border-right:1px solid rgba(255,255,255,.07)
+}
+.brand{display:flex;align-items:center;gap:12px;padding:8px 10px 20px}
+.brandLogo{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#6366f1,#a855f7);box-shadow:0 10px 25px rgba(99,102,241,.35);font-weight:950;font-size:22px}
+.brandName{font-weight:900;font-size:21px;letter-spacing:-.4px}
+.brandBy{font-size:9px;letter-spacing:1.5px;color:#aeb6d0;margin-top:3px;font-weight:800}
+.navGroup{margin:9px 0 16px}
+.navLabel{font-size:10px;text-transform:uppercase;letter-spacing:1.6px;color:#78819c;padding:10px 12px 7px;font-weight:800}
+.navBtn{
+ width:100%;border:0;background:transparent;color:#bac1d4;padding:11px 12px;border-radius:12px;
+ display:flex;align-items:center;gap:11px;text-align:left;font-weight:720;transition:.18s
+}
+.navBtn:hover{background:rgba(255,255,255,.07);color:#fff;transform:translateX(1px)}
+.navBtn.active{background:linear-gradient(90deg,rgba(99,102,241,.28),rgba(139,92,246,.12));color:#fff;box-shadow:inset 3px 0 0 #818cf8}
+.navIcon{width:20px;height:20px;display:grid;place-items:center;flex:none}
+.sideCard{margin:12px 5px;padding:14px;border-radius:15px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.07)}
+.sideCardTitle{font-size:12px;font-weight:800}
+.sideCardText{font-size:11px;color:#929bb5;line-height:1.5;margin-top:5px}
+.sideFooter{font-size:10px;color:#7f88a2;line-height:1.6;padding:12px 10px 20px;text-align:center}
+.sideFooter strong{color:#d8dcff}
+.main{margin-left:var(--sidebar);min-height:100vh}
+.topbar{
+ height:var(--top);position:sticky;top:0;z-index:80;background:rgba(255,255,255,.9);backdrop-filter:blur(18px);
+ border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 24px
+}
+.menuBtn{display:none;width:42px;height:42px;border:1px solid var(--line);background:var(--surface);border-radius:12px}
+.searchWrap{position:relative;flex:1;max-width:720px}
+.searchInput{
+ width:100%;height:44px;border:1px solid var(--line);border-radius:13px;background:var(--surface2);
+ padding:0 45px 0 43px;outline:0;color:var(--text);transition:.2s
+}
+.searchInput:focus{border-color:#a5b4fc;box-shadow:0 0 0 4px rgba(99,102,241,.10);background:var(--surface)}
+.searchIcon{position:absolute;left:15px;top:12px;color:#7c8497}
+.searchShortcut{position:absolute;right:10px;top:8px;border:1px solid var(--line);background:var(--surface);border-radius:7px;padding:4px 7px;font-size:10px;color:var(--muted)}
+.searchResults{
+ position:absolute;top:51px;left:0;right:0;background:var(--surface);border:1px solid var(--line);border-radius:15px;
+ box-shadow:var(--shadow);padding:8px;max-height:440px;overflow:auto
+}
+.searchResult{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;padding:11px;border-radius:10px;text-align:left;color:var(--text)}
+.searchResult:hover{background:var(--surface2)}
+.topActions{margin-left:auto;display:flex;gap:8px;align-items:center}
+.iconBtn{
+ width:42px;height:42px;border:1px solid var(--line);background:var(--surface);border-radius:12px;color:var(--text);
+ display:grid;place-items:center;transition:.18s
+}
+.iconBtn:hover{transform:translateY(-1px);border-color:#c7c9ff;background:#f8f8ff}
+.avatarBtn{width:44px;height:44px;border-radius:14px;border:0;background:linear-gradient(135deg,#ddd6fe,#c4b5fd);color:#4c1d95;font-weight:950;font-size:16px}
+.page{max-width:1600px;margin:auto;padding:25px 28px 45px}
+.hero{
+ position:relative;overflow:hidden;border-radius:25px;padding:30px;color:#fff;
+ background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.16),transparent 26%),linear-gradient(135deg,#4338ca,#6d28d9 55%,#8b5cf6);
+ box-shadow:0 25px 70px rgba(67,56,202,.22)
+}
+.hero:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-75px;bottom:-105px;background:rgba(255,255,255,.08)}
+.heroInner{position:relative;z-index:2;display:flex;justify-content:space-between;gap:25px;align-items:center}
+.hero h1{font-size:36px;letter-spacing:-1px;margin:0 0 8px}
+.hero p{margin:0;color:#ebeaff;line-height:1.55;max-width:700px}
+.heroActions{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
+.heroArt{font-size:90px;filter:drop-shadow(0 15px 25px rgba(0,0,0,.18));user-select:none}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.7px;font-weight:900;opacity:.78;margin-bottom:8px}
+.grid{display:grid;gap:16px}
+.statsGrid{grid-template-columns:repeat(5,1fr);margin:18px 0}
+.card{
+ background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow2);padding:19px
+}
+.statCard{display:flex;align-items:center;gap:14px}
+.statIcon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#eef2ff;font-size:21px}
+.statText{min-width:0}
+.statLabel{font-size:11px;color:var(--muted);font-weight:700}
+.statValue{font-size:26px;font-weight:950;letter-spacing:-.5px;margin-top:2px}
+.statSub{font-size:10px;color:var(--muted);margin-top:2px}
+.sectionHead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:27px 0 13px}
+.sectionHead h2,.sectionHead h3{margin:0;letter-spacing:-.3px}
+.sectionHead p{margin:5px 0 0}
+.muted{color:var(--muted)}
+.small{font-size:12px}.tiny{font-size:10px}
+.btn{
+ border:0;border-radius:11px;background:var(--primary);color:#fff;padding:10px 15px;font-weight:800;
+ box-shadow:0 8px 18px rgba(91,92,240,.16);transition:.18s
+}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.03)}
+.btn.secondary{background:#eef2ff;color:#4338ca;box-shadow:none}
+.btn.ghost{background:var(--surface2);color:var(--text);box-shadow:none;border:1px solid var(--line)}
+.btn.success{background:#16a34a}.btn.danger{background:#fee2e2;color:#991b1b;box-shadow:none}
+.btn.warning{background:#fef3c7;color:#92400e;box-shadow:none}
+.btn.info{background:#e0f2fe;color:#075985;box-shadow:none}
+.btn.sm{padding:8px 11px;font-size:12px}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 9px;background:#eef2ff;color:#4338ca;font-size:10px;font-weight:850}
+.pill.success{background:var(--successBg);color:#166534}.pill.warning{background:var(--warningBg);color:#92400e}
+.pill.info{background:var(--infoBg);color:#075985}.pill.gray{background:#eef0f4;color:#596274}
+.twoCol{grid-template-columns:1.55fr 1fr}.threeCol{grid-template-columns:repeat(3,1fr)}
+.fourCol{grid-template-columns:repeat(4,1fr)}.fiveCol{grid-template-columns:repeat(5,1fr)}
+.subjectGrid{grid-template-columns:repeat(6,1fr)}
+.subjectCard{
+ border:1px solid var(--line);background:var(--surface);border-radius:17px;padding:17px;cursor:pointer;transition:.2s;min-height:155px
+}
+.subjectCard:hover{transform:translateY(-3px);border-color:#c4b5fd;box-shadow:var(--shadow)}
+.subjectIcon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:#f0f2ff}
+.subjectCard h3{font-size:15px;margin:12px 0 4px}.subjectCard p{font-size:11px;line-height:1.45;margin:0}
+.subjectMeta{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.classGrid{grid-template-columns:repeat(6,1fr)}
+.classCard{
+ border:1px solid var(--line);background:var(--surface);border-radius:15px;padding:15px;text-align:left;cursor:pointer;transition:.18s
+}
+.classCard:hover{border-color:#a5b4fc;transform:translateY(-2px);box-shadow:var(--shadow2)}
+.classNumber{font-size:23px;font-weight:950}.classCard small{color:var(--muted);font-size:10px}
+.progress{height:9px;border-radius:99px;background:#eaedf4;overflow:hidden}.progress>i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#5b5cf0,#8b5cf6);transition:.4s}
+.progress.big{height:12px}
+.list{display:grid;gap:9px}.row{
+ display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 13px;border:1px solid var(--line);
+ background:var(--surface);border-radius:12px
+}
+.row:hover{background:var(--surface2)}
+.activityDot{width:9px;height:9px;border-radius:50%;background:#818cf8;flex:none}
+.activityMain{display:flex;align-items:center;gap:10px;min-width:0}.activityMain>div{min-width:0}
+.activityTitle{font-size:12px;font-weight:780;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chart{height:190px;display:flex;align-items:end;gap:10px;padding:16px 8px 28px}
+.barWrap{flex:1;height:100%;display:flex;align-items:end;justify-content:center;position:relative}
+.bar{width:min(30px,70%);min-height:5px;border-radius:9px 9px 3px 3px;background:linear-gradient(180deg,#8b5cf6,#4f46e5);transition:.3s}
+.barLabel{position:absolute;bottom:-23px;font-size:9px;color:var(--muted)}
+.barValue{position:absolute;top:-20px;font-size:9px;color:var(--muted)}
+.toolGrid{grid-template-columns:repeat(4,1fr)}
+.toolCard{cursor:pointer;transition:.2s}.toolCard:hover{transform:translateY(-2px)}
+.toolIcon{font-size:29px}.toolCard h3{margin:10px 0 3px;font-size:14px}.toolCard p{margin:0;font-size:11px}
+.tableWrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:620px}.table th,.table td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:12px}.table th{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:3px}.tab{white-space:nowrap;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:10px;padding:9px 12px;font-size:11px;font-weight:780}.tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.chapterCard{border:1px solid var(--line);border-radius:15px;background:var(--surface);padding:16px}
+.chapterCard h3{margin:0 0 6px;font-size:15px}.chapterCard p{font-size:11px;line-height:1.6;margin:0}
+.lessonGrid{grid-template-columns:1.4fr .7fr}
+.noteBox{white-space:pre-wrap;line-height:1.75;font-size:13px;background:var(--surface2);border:1px solid var(--line);border-radius:13px;padding:18px}
+.keyPoints{display:grid;gap:8px;margin-top:13px}.keyPoint{padding:10px 12px;background:var(--surface2);border:1px solid var(--line);border-radius:10px;font-size:11px}
+.formGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.field label{display:block;font-size:11px;font-weight:800;margin-bottom:6px}.field input,.field select,.field textarea{
+ width:100%;border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:11px;padding:11px;outline:0
+}.field textarea{min-height:130px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:#a5b4fc;box-shadow:0 0 0 3px rgba(99,102,241,.09)}
+.quizShell{max-width:980px;margin:auto}.quizHeader{display:flex;justify-content:space-between;gap:12px;align-items:center}.quizQuestion{font-size:24px;line-height:1.45;font-weight:900;margin:23px 0}.options{display:grid;gap:10px}.option{
+ position:relative;width:100%;border:2px solid var(--line);background:var(--surface);color:var(--text);padding:15px 16px;border-radius:13px;
+ text-align:left;display:flex;align-items:center;gap:11px;transition:.16s
+}
+.option:hover{border-color:#a5b4fc;background:#fafaff}.optionLetter{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--surface2);font-size:11px;font-weight:900;flex:none}
+.option.selected{border-color:#6366f1;background:#eef2ff}.option.correct{border-color:#22c55e;background:#dcfce7}.option.wrong{border-color:#ef4444;background:#fee2e2}
+.explain{margin-top:16px;border-radius:13px;padding:14px;background:#f8fafc;border:1px solid var(--line);font-size:12px;line-height:1.6}
+.quizBottom{display:flex;justify-content:space-between;gap:10px;margin-top:17px;align-items:center}
+.resultCircle{width:170px;height:170px;border-radius:50%;margin:15px auto;display:grid;place-items:center;background:conic-gradient(#6366f1 var(--score),#e9e7ff 0);position:relative}
+.resultCircle:after{content:"";position:absolute;width:126px;height:126px;border-radius:50%;background:var(--surface)}
+.resultCircle span{position:relative;z-index:2;font-size:31px;font-weight:950}
+.calc{max-width:480px;margin:auto}.calcDisplay{width:100%;height:74px;border:1px solid var(--line);border-radius:15px;background:var(--surface2);color:var(--text);font-size:31px;text-align:right;padding:10px 15px;outline:0}.calcHistory{max-height:100px;overflow:auto;font-size:10px;color:var(--muted);padding:7px}.calcKeys{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:9px}.calcKeys button{height:54px;border:1px solid var(--line);border-radius:12px;background:var(--surface2);color:var(--text);font-weight:850}.calcKeys button:hover{background:#eef2ff;border-color:#c7d2fe}.calcKeys .op{background:#eef2ff;color:#4338ca}.calcKeys .equal{background:var(--primary);color:#fff;border-color:var(--primary)}
+.timerCard{text-align:center;max-width:700px;margin:auto}.timerClock{font-size:86px;line-height:1;font-weight:950;letter-spacing:-4px;margin:26px 0}.timerRing{width:300px;height:300px;border-radius:50%;margin:10px auto;background:conic-gradient(#6366f1 var(--timerPct),#e9e7ff 0);display:grid;place-items:center}.timerRingInner{width:252px;height:252px;border-radius:50%;background:var(--surface);display:grid;place-items:center}.timerMode{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}.timerMode button{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:8px 12px;font-size:11px}.timerMode button.active{background:#eef2ff;color:#4338ca;border-color:#a5b4fc}
+.flashcard{min-height:270px;display:grid;place-items:center;text-align:center;padding:30px;cursor:pointer;background:linear-gradient(135deg,#f5f3ff,#eef2ff);border:1px solid #ddd6fe;border-radius:22px}
+.flashcard h2{font-size:26px;margin:10px}.flashcard p{font-size:13px;line-height:1.6;max-width:650px}
+.flashControls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:13px}
+.noteItem{padding:16px;border:1px solid var(--line);border-radius:15px;background:var(--surface)}.noteItem h3{margin:0 0 6px}.noteText{font-size:12px;line-height:1.65;white-space:pre-wrap}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.calCell{min-height:62px;border:1px solid var(--line);border-radius:10px;padding:7px;background:var(--surface)}.calCell.mutedDay{opacity:.4}.calCell.today{border-color:#818cf8;box-shadow:inset 0 0 0 2px #eef2ff}.calDay{font-size:10px;font-weight:900}.calTask{font-size:8px;margin-top:5px;color:#4338ca;background:#eef2ff;border-radius:5px;padding:3px}
+.achievementGrid{grid-template-columns:repeat(4,1fr)}.achievement{padding:16px;border:1px solid var(--line);border-radius:15px;background:var(--surface)}.achievement.locked{opacity:.48;filter:grayscale(.6)}.achievementIcon{font-size:30px}.achievement h3{font-size:13px;margin:9px 0 4px}.achievement p{font-size:10px;margin:0;color:var(--muted)}
+.leaderRow{display:grid;grid-template-columns:38px 1fr auto;align-items:center;gap:10px;padding:12px;border-bottom:1px solid var(--line)}.rank{font-weight:950;text-align:center}.rank.gold{color:#ca8a04}.rank.silver{color:#64748b}.rank.bronze{color:#b45309}
+.modal{position:fixed;z-index:300;inset:0;background:rgba(9,13,28,.64);backdrop-filter:blur(5px);display:grid;place-items:center;padding:18px}
+.modalBox{width:min(760px,100%);max-height:91vh;overflow:auto;background:var(--surface);border-radius:20px;border:1px solid var(--line);box-shadow:0 30px 100px rgba(0,0,0,.25);padding:22px}
+.modalHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}.modalHead h2{margin:0}
+.toast{position:fixed;z-index:500;right:20px;bottom:20px;background:#111827;color:#fff;padding:12px 15px;border-radius:11px;box-shadow:var(--shadow);font-size:12px;max-width:330px}
+.commandPalette{position:fixed;z-index:400;inset:0;background:rgba(9,13,28,.55);display:grid;place-items:start center;padding-top:11vh}.commandBox{width:min(650px,92vw);background:var(--surface);border-radius:18px;box-shadow:0 30px 100px rgba(0,0,0,.3);overflow:hidden}.commandInput{width:100%;border:0;border-bottom:1px solid var(--line);padding:17px;font-size:16px;outline:0;background:var(--surface);color:var(--text)}.commandList{padding:8px;max-height:420px;overflow:auto}.commandItem{display:flex;align-items:center;gap:10px;padding:12px;border-radius:10px;cursor:pointer}.commandItem:hover{background:var(--surface2)}
+.empty{text-align:center;padding:45px 20px;color:var(--muted)}.emptyIcon{font-size:45px;margin-bottom:8px}
+.toggle{width:44px;height:24px;border-radius:99px;background:#d1d5db;position:relative;display:inline-block;cursor:pointer}.toggle i{position:absolute;width:18px;height:18px;left:3px;top:3px;border-radius:50%;background:#fff;transition:.2s}.toggle.on{background:#6366f1}.toggle.on i{left:23px}
+hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+body.dark{
+ --bg:#0a1020;--surface:#111a2d;--surface2:#0d1628;--text:#edf2ff;--muted:#9aa6bd;--line:#26324a;
+ --shadow:0 18px 55px rgba(0,0,0,.25);--shadow2:0 8px 24px rgba(0,0,0,.2)
+}
+body.dark .topbar{background:rgba(17,26,45,.88)}body.dark .iconBtn:hover{background:#17213a}body.dark .searchShortcut{background:#111a2d}
+body.dark .option:hover{background:#121d33}body.dark .flashcard{background:linear-gradient(135deg,#15122b,#101a35)}
+body.dark .resultCircle:after{background:var(--surface)}
+body.dark .hero p{color:#e4e5ff}
+@media(max-width:1250px){.subjectGrid{grid-template-columns:repeat(3,1fr)}.statsGrid{grid-template-columns:repeat(3,1fr)}.classGrid{grid-template-columns:repeat(4,1fr)}.achievementGrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:950px){:root{--sidebar:82px}.sidebar{padding:13px 8px}.brand{justify-content:center}.brandText,.navLabel,.navBtn span,.sideCard,.sideFooter{display:none}.navBtn{justify-content:center}.main{margin-left:var(--sidebar)}.menuBtn{display:grid;place-items:center}.hero h1{font-size:29px}.heroArt{font-size:65px}.toolGrid{grid-template-columns:repeat(2,1fr)}.twoCol,.lessonGrid{grid-template-columns:1fr}.topbar{padding:0 13px}}
+@media(max-width:650px){.page{padding:16px 13px 35px}.topbar{height:68px}.topActions .hideMobile{display:none}.statsGrid{grid-template-columns:1fr 1fr}.subjectGrid,.toolGrid,.classGrid{grid-template-columns:1fr 1fr}.hero{padding:22px}.heroArt{display:none}.hero h1{font-size:25px}.heroInner{display:block}.formGrid{grid-template-columns:1fr}.timerRing{width:250px;height:250px}.timerRingInner{width:210px;height:210px}.timerClock{font-size:66px}.calendar{gap:3px}.calCell{min-height:52px;padding:5px}.quizQuestion{font-size:20px}.calcKeys button{height:48px}}
+@media(max-width:420px){.statsGrid{grid-template-columns:1fr}.subjectGrid,.toolGrid,.classGrid{grid-template-columns:1fr}.searchWrap{display:none}.page{padding-left:10px;padding-right:10px}.sidebar{width:68px}.main{margin-left:68px}.hero h1{font-size:23px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal" class="modal hidden"><div id="modalBox" class="modalBox"></div></div>
+<div id="toast" class="toast hidden"></div>
+<div id="command" class="commandPalette hidden"><div class="commandBox"><input id="commandInput" class="commandInput" placeholder="Type a command or search..."><div id="commandList" class="commandList"></div></div></div>
+
+<script>
+"use strict";
+
+/* =========================================================
+   STUDYHUB ULTIMATE — CREATED BY SHUBHAM KUMAR
+   Self-contained single-file learning platform.
+   ========================================================= */
+
+const ICONS={
+ home:"⌂",classes:"🎓",quiz:"🧠",notes:"📝",timer:"⏱",calculator:"🧮",flashcards:"🗂",planner:"🗓",
+ analytics:"📊",achievements:"🏆",knowledge:"💡",leaderboard:"🥇",settings:"⚙",help:"❔",search:"⌕",
+ bell:"🔔",sun:"☀",moon:"☾",check:"✓",close:"×",arrow:"→"
+};
+
+const SUBJECTS={
+ Mathematics:{icon:"📐",desc:"Numbers, algebra, geometry, data and problem solving",color:"indigo"},
+ English:{icon:"📖",desc:"Grammar, vocabulary, reading, writing and communication",color:"blue"},
+ Science:{icon:"🔬",desc:"Living systems, matter, energy, Earth and space",color:"green"},
+ "Social Studies":{icon:"🌍",desc:"History, geography, civics, economics and society",color:"amber"},
+ Computer:{icon:"💻",desc:"Digital skills, coding, algorithms and computer literacy",color:"violet"},
+ Hindi:{icon:"🪶",desc:"व्याकरण, शब्द-भंडार, पठन, लेखन और साहित्य",color:"rose"}
+};
+
+const CLASS_SUBJECTS={};
+for(let c=1;c<=12;c++){
+  CLASS_SUBJECTS[c]=c<=5?["Mathematics","English","EVS/Science","Hindi","Computer"]:["Mathematics","English","Science","Social Studies","Computer","Hindi"];
+}
+
+const CHAPTERS={
+ Mathematics:["Number System","Fractions & Decimals","Ratio & Proportion","Algebra & Patterns","Geometry","Mensuration","Data Handling","Probability","Linear Equations","Coordinate Geometry"],
+ English:["Grammar","Vocabulary","Reading Skills","Writing Skills","Comprehension","Parts of Speech","Tenses","Sentence Structure","Creative Writing","Communication"],
+ Science:["Living World","Matter","Force & Energy","Environment","Human Body","Plants","Light & Sound","Electricity","Earth & Space","Scientific Thinking"],
+ "EVS/Science":["My Surroundings","Plants & Animals","Food & Health","Water & Air","Family & Community","Transport","Safety","Earth & Environment","Weather","Our Resources"],
+ "Social Studies":["History","Geography","Civics","Economics","Culture & Society","Maps & Resources","Government","Resources","Environment","Indian Heritage"],
+ Computer:["Computer Basics","Hardware & Software","Internet","Algorithms & Coding","Cyber Safety","Digital Skills","Data & Information","Programming Logic","AI Basics","Productivity Tools"],
+ Hindi:["व्याकरण","शब्द-भंडार","पठन कौशल","लेखन कौशल","साहित्य","संज्ञा और सर्वनाम","विशेषण और क्रिया","वाक्य रचना","मुहावरे","रचनात्मक लेखन"]
+};
+
+const LESSONS={
+ Mathematics:[
+  "Start by identifying what the question gives you and what it asks you to find.",
+  "Write the rule or formula before substituting values. This makes multi-step problems easier to check.",
+  "Use estimation to see whether your final answer is reasonable.",
+  "For geometry, draw a simple labelled diagram whenever possible."
+ ],
+ English:[
+  "Read the whole sentence or paragraph before deciding what an individual word means.",
+  "For grammar questions, identify the subject, verb and time reference first.",
+  "For writing tasks, plan the beginning, middle and ending before writing the final response.",
+  "Build vocabulary by using new words in your own sentences."
+ ],
+ Science:[
+  "Connect every definition with an observation, example or experiment.",
+  "Learn processes as sequences: identify the starting point, changes and result.",
+  "Use labelled diagrams for systems, cycles and structures.",
+  "Explain a concept without looking at your notes to test active recall."
+ ],
+ "EVS/Science":[
+  "Connect classroom ideas with things you can observe at home, school and outdoors.",
+  "Group observations into living, non-living, natural and human-made categories when useful.",
+  "Use simple diagrams and tables to compare ideas.",
+  "Ask what happens, why it happens and how it affects people or the environment."
+ ],
+ "Social Studies":[
+  "Build timelines for historical events and cause-effect chains for major changes.",
+  "For geography, connect location, physical features, climate and human activity.",
+  "For civics, learn the purpose of an institution before memorising its name.",
+  "Use maps, keywords and short summaries to revise efficiently."
+ ],
+ Computer:[
+  "Think of a computer system as input, processing, storage and output.",
+  "Break coding problems into small steps and test one step at a time.",
+  "Protect accounts by using unique passwords and checking links before opening them.",
+  "Learn technology by explaining what a tool does and when it is useful."
+ ],
+ Hindi:[
+  "नियम को उदाहरण के साथ समझें और फिर स्वयं एक नया उदाहरण बनाएँ।",
+  "पठन में पहले पूरे वाक्य का अर्थ समझें, फिर कठिन शब्दों पर ध्यान दें।",
+  "लेखन में भूमिका, मुख्य विचार और निष्कर्ष का क्रम रखें।",
+  "नए शब्दों का प्रयोग अपने वाक्यों में करने से शब्द-भंडार मजबूत होता है।"
+ ]
+};
+
+const FACTS=[
+ ["🧠","Active recall means trying to remember information before looking at the answer. It can make revision more effective."],
+ ["🌍","Earth rotates on its axis, producing the regular cycle of day and night."],
+ ["💧","Water can exist naturally as a solid, liquid and gas."],
+ ["💻","Programs are sets of instructions that tell a computer how to perform tasks."],
+ ["🌱","Plants use light energy to help make food through photosynthesis."],
+ ["🔭","Scientists can learn about distant objects in space by studying the light that reaches Earth."],
+ ["📚","Spaced practice means revisiting learning across separate sessions rather than doing everything at once."],
+ ["🧩","Breaking a complex problem into smaller sub-problems is a useful general problem-solving strategy."],
+ ["⚡","An electric circuit needs a complete path for current to flow."],
+ ["🌳","Forests provide habitats, help cycle water and store carbon."],
+ ["🗺","Maps use symbols, scale and direction to represent places and features."],
+ ["🔢","A prime number has exactly two positive factors: 1 and itself."]
+];
+
+const state={
+ page:"home",
+ class:6,
+ subject:"Mathematics",
+ chapter:0,
+ theme:localStorage.getItem("sh_theme")||"light",
+ sidebarOpen:false,
+ search:"",
+ notes:load("sh_notes",[]),
+ stats:load("sh_stats",{quizzes:0,correct:0,questions:0,minutes:0,streak:0,points:0}),
+ history:load("sh_history",[]),
+ progress:load("sh_progress",{}),
+ tasks:load("sh_tasks",[]),
+ achievements:load("sh_achievements",[]),
+ quiz:null,
+ timer:null,
+ calc:"",
+ calcHistory:load("sh_calc_history",[]),
+ flashIndex:0,
+ flashFlipped:false,
+ settings:load("sh_settings",{sound:true,autoAdvance:false}),
+};
+
+function load(k,fallback){try{const v=localStorage.getItem(k);return v?JSON.parse(v):fallback}catch(e){return fallback}}
+function saveAll(){
+ localStorage.setItem("sh_theme",state.theme);
+ localStorage.setItem("sh_notes",JSON.stringify(state.notes));
+ localStorage.setItem("sh_stats",JSON.stringify(state.stats));
+ localStorage.setItem("sh_history",JSON.stringify(state.history));
+ localStorage.setItem("sh_progress",JSON.stringify(state.progress));
+ localStorage.setItem("sh_tasks",JSON.stringify(state.tasks));
+ localStorage.setItem("sh_achievements",JSON.stringify(state.achievements));
+ localStorage.setItem("sh_calc_history",JSON.stringify(state.calcHistory));
+ localStorage.setItem("sh_settings",JSON.stringify(state.settings));
+}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function now(){return Date.now()}
+function todayKey(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function notify(msg){
+ const t=document.getElementById("toast");t.textContent=msg;t.classList.remove("hidden");
+ clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.add("hidden"),2600);
+}
+function playClick(){if(!state.settings.sound)return}
+function initials(){return "S"}
+function accuracy(){return state.stats.questions?Math.round(state.stats.correct/state.stats.questions*100):0}
+function xp(){return Math.max(0,Number(state.stats.points||state.stats.correct*10||0))}
+function setPage(p){
+ state.page=p;state.sidebarOpen=false;
+ document.querySelectorAll(".navBtn").forEach(b=>b.classList.toggle("active",b.dataset.page===p));
+ render();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function navButton(page,label,icon){
+ return `<button class="navBtn ${state.page===page?"active":""}" data-page="${page}" onclick="setPage('${page}')"><i class="navIcon">${icon}</i><span>${label}</span></button>`;
+}
+function layout(content){
+ return `<div class="app">
+ <aside class="sidebar ${state.sidebarOpen?"open":""}">
+   <div class="brand"><div class="brandLogo">S</div><div class="brandText"><div class="brandName">StudyHub</div><div class="brandBy">BY SHUBHAM KUMAR</div></div></div>
+   <div class="navGroup">
+    <div class="navLabel">Workspace</div>
+    ${navButton("home","Dashboard",ICONS.home)}
+    ${navButton("classes","My Classes",ICONS.classes)}
+    ${navButton("quiz","Quiz Arena",ICONS.quiz)}
+    ${navButton("notes","My Notes",ICONS.notes)}
+    ${navButton("flashcards","Flashcards",ICONS.flashcards)}
+    ${navButton("planner","Study Planner",ICONS.planner)}
+   </div>
+   <div class="navGroup">
+    <div class="navLabel">Tools</div>
+    ${navButton("timer","Focus Timer",ICONS.timer)}
+    ${navButton("calculator","Calculator",ICONS.calculator)}
+    ${navButton("analytics","Analytics",ICONS.analytics)}
+    ${navButton("achievements","Achievements",ICONS.achievements)}
+    ${navButton("leaderboard","Leaderboard",ICONS.leaderboard)}
+    ${navButton("knowledge","Daily Knowledge",ICONS.knowledge)}
+   </div>
+   <div class="navGroup">
+    <div class="navLabel">Support</div>
+    ${navButton("settings","Settings",ICONS.settings)}
+    ${navButton("help","Help Center",ICONS.help)}
+   </div>
+   <div class="sideCard"><div class="sideCardTitle">Your StudyHub</div><div class="sideCardText">Learn smarter, practise regularly, track progress and build consistent study habits.</div></div>
+   <div class="sideFooter">StudyHub • Smart Learning Platform<br><strong>Created with ❤️ by Shubham Kumar</strong><br>Learn • Practice • Improve • Achieve</div>
+ </aside>
+ <main class="main">
+  <header class="topbar">
+   <button class="menuBtn" onclick="toggleSidebar()">☰</button>
+   <div class="searchWrap">
+    <span class="searchIcon">${ICONS.search}</span>
+    <input id="globalSearch" class="searchInput" value="${esc(state.search)}" placeholder="Search classes, subjects, tools..." oninput="globalSearch(this.value)" onkeydown="if(event.key==='Enter')openCommand(this.value)">
+    <span class="searchShortcut">Ctrl K</span>
+    <div id="searchResults" class="searchResults hidden"></div>
+   </div>
+   <div class="topActions">
+    <button class="iconBtn hideMobile" title="Command palette" onclick="openCommand()">⌘</button>
+    <button class="iconBtn" title="Toggle theme" onclick="toggleTheme()">${state.theme==="dark"?ICONS.sun:ICONS.moon}</button>
+    <button class="iconBtn" title="Notifications" onclick="openNotifications()">🔔</button>
+    <button class="avatarBtn" title="Student profile" onclick="openProfile()">S</button>
+   </div>
+  </header>
+  <section class="page">${content}</section>
+ </main>
+ </div>`;
+}
+
+function render(){
+ let content="";
+ if(state.page==="home")content=homePage();
+ else if(state.page==="classes")content=classesPage();
+ else if(state.page==="quiz")content=quizPage();
+ else if(state.page==="notes")content=notesPage();
+ else if(state.page==="flashcards")content=flashcardsPage();
+ else if(state.page==="planner")content=plannerPage();
+ else if(state.page==="timer")content=timerPage();
+ else if(state.page==="calculator")content=calculatorPage();
+ else if(state.page==="analytics")content=analyticsPage();
+ else if(state.page==="achievements")content=achievementsPage();
+ else if(state.page==="leaderboard")content=leaderboardPage();
+ else if(state.page==="knowledge")content=knowledgePage();
+ else if(state.page==="settings")content=settingsPage();
+ else if(state.page==="help")content=helpPage();
+ document.getElementById("app").innerHTML=layout(content);
+ updateTimerUI();
+}
+function sectionHead(title,sub,action=""){
+ return `<div class="sectionHead"><div><h2>${title}</h2>${sub?`<p class="muted small">${sub}</p>`:""}</div>${action}</div>`;
+}
+function homePage(){
+ const s=state.stats, acc=accuracy();
+ const week=[12,18,25,17,32,28,38].map((x,i)=>Math.min(100,x+(s.minutes%15)));
+ const recent=state.history.slice(-5).reverse();
+ return `
+ <div class="hero"><div class="heroInner"><div>
+   <div class="eyebrow">ULTIMATE STUDY DASHBOARD</div>
+   <h1>Welcome to StudyHub, Shubham 👋</h1>
+   <p>Your advanced learning workspace for Classes 1–12 — study, practise, revise, track progress and keep improving.</p>
+   <div class="heroActions"><button class="btn" onclick="setPage('classes')">Start Learning ${ICONS.arrow}</button><button class="btn secondary" onclick="setPage('quiz')">Enter Quiz Arena</button></div>
+ </div><div class="heroArt">🎓</div></div></div>
+ <div class="grid statsGrid">
+  ${statCard("🧠","Quiz Attempts",s.quizzes,"Completed sessions")}
+  ${statCard("✅","Questions Solved",s.questions,"Practice total")}
+  ${statCard("🎯","Accuracy",acc+"%","Overall performance")}
+  ${statCard("⏱","Study Minutes",s.minutes,"Focus time")}
+  ${statCard("⭐","Study XP",xp(),"Your local score")}
+ </div>
+ ${sectionHead("Choose Your Class","Open a class hub with subjects, chapters, notes and practice.","<button class='btn secondary sm' onclick=\"setPage('classes')\">View all</button>")}
+ <div class="grid classGrid">${Array.from({length:12},(_,i)=>`<button class="classCard" onclick="openClass(${i+1})"><div class="classNumber">${i+1}</div><small>Class ${i+1} • Learn & Practise</small></button>`).join("")}</div>
+ ${sectionHead("Your Subjects","Jump directly into a subject for your current class.")}
+ <div class="grid subjectGrid">${CLASS_SUBJECTS[state.class].map(subjectCard).join("")}</div>
+ <div class="grid twoCol" style="margin-top:18px">
+  <div class="card"><div class="sectionHead" style="margin:0 0 6px"><div><h3>Weekly Study Activity</h3><p class="muted tiny">A simple local progress view</p></div><span class="pill">This week</span></div>${miniChart(week)}</div>
+  <div class="card"><div class="sectionHead" style="margin:0 0 10px"><div><h3>Quick Tools</h3><p class="muted tiny">Everything in one place</p></div></div><div class="grid toolGrid">${quickTools().map(toolCard).join("")}</div></div>
+ </div>
+ ${sectionHead("Recent Activity","Your latest quizzes and study actions.")}
+ ${recent.length?`<div class="list">${recent.map(h=>`<div class="row"><div class="activityMain"><span class="activityDot"></span><div><div class="activityTitle">${esc(h.title)}</div><div class="tiny muted">${new Date(h.date).toLocaleString()}</div></div></div><span class="pill">${h.score}%</span></div>`).join("")}</div>`:`<div class="card empty"><div class="emptyIcon">🚀</div><b>Your journey starts here.</b><br><span class="small">Take a quiz or open a class to create your first activity.</span></div>`}
+ `;
+}
+function statCard(icon,label,value,sub){return `<div class="card statCard"><div class="statIcon">${icon}</div><div class="statText"><div class="statLabel">${label}</div><div class="statValue">${value}</div><div class="statSub">${sub}</div></div></div>`}
+function subjectCard(s){
+ const info=SUBJECTS[s]||{icon:"📘",desc:"Learn and practise"};
+ return `<div class="subjectCard" onclick="openStudy(${state.class},'${esc(s)}')"><div class="subjectIcon">${info.icon}</div><h3>${esc(s)}</h3><p class="muted">${info.desc}</p><div class="subjectMeta"><span class="pill">${CHAPTERS[s]?.length||8} Chapters</span><span class="tiny muted">${ICONS.arrow}</span></div></div>`;
+}
+function quickTools(){return[
+ ["🧠","Quiz Arena","Randomised practice","quiz"],["⏱","Focus Timer","Deep work sessions","timer"],["📝","Notes","Save your own notes","notes"],["🗂","Flashcards","Fast revision","flashcards"]
+]}
+function toolCard(x){return `<div class="card toolCard" onclick="setPage('${x[3]}')"><div class="toolIcon">${x[0]}</div><h3>${x[1]}</h3><p class="muted">${x[2]}</p></div>`}
+function miniChart(vals){
+ const labels=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],max=Math.max(...vals,1);
+ return `<div class="chart">${vals.map((v,i)=>`<div class="barWrap"><div class="bar" style="height:${Math.max(6,v/max*100)}%"></div><span class="barValue">${v}</span><span class="barLabel">${labels[i]}</span></div>`).join("")}</div>`;
+}
+
+function classesPage(){
+ const c=state.class, subs=CLASS_SUBJECTS[c];
+ return `${sectionHead("My Classes","Explore Classes 1–12. Select a class to open its complete learning hub.")}
+ <div class="grid classGrid">${Array.from({length:12},(_,i)=>`<button class="classCard" onclick="openClass(${i+1})" style="${c===i+1?"border-color:#818cf8;background:#f7f7ff":""}"><div class="classNumber">Class ${i+1}</div><small>${CLASS_SUBJECTS[i+1].length} subjects available</small></button>`).join("")}</div>
+ <div class="card" style="margin-top:20px">${sectionHead(`Class ${c} Learning Hub`,`Choose a subject to study chapters, review notes, practise questions and track progress.`)}
+ <div class="grid subjectGrid">${subs.map(subjectCard).join("")}</div></div>
+ <div class="card" style="margin-top:18px">${sectionHead("Class Study Snapshot","Your progress is stored locally on this device.")}
+ <div class="grid threeCol">${["Mathematics","English",subs.includes("Science")?"Science":"EVS/Science"].map(s=>progressCard(c,s)).join("")}</div></div>`;
+}
+function progressKey(c,s){return `${c}|${s}`}
+function getProgress(c,s){return Number(state.progress[progressKey(c,s)]||0)}
+function progressCard(c,s){
+ const p=getProgress(c,s),info=SUBJECTS[s]||{icon:"🌱"};
+ return `<div class="chapterCard"><div style="display:flex;justify-content:space-between;gap:8px"><b>${info.icon} ${esc(s)}</b><span class="pill">${p}%</span></div><div class="progress" style="margin-top:12px"><i style="width:${p}%"></i></div><div class="tiny muted" style="margin-top:7px">${p? "Keep building consistency.":"Not started yet."}</div></div>`;
+}
+function openClass(c){state.class=c;state.subject=CLASS_SUBJECTS[c][0];setPage("classes")}
+function openStudy(c,s){state.class=c;state.subject=s;state.chapter=0;setPage("study")}
+function studyPage(){
+ const s=state.subject,c=state.class,chapters=CHAPTERS[s]||CHAPTERS.Mathematics,ch=chapters[state.chapter]||chapters[0];
+ const lesson=LESSONS[s]||LESSONS.Mathematics;
+ const p=getProgress(c,s);
+ return `${sectionHead(`Class ${c} • ${esc(s)}`,"Complete learning hub — chapters, key ideas, practice and personal notes.","<button class='btn secondary sm' onclick=\"setPage('classes')\">← Back to Classes</button>")}
+ <div class="tabs">${chapters.map((x,i)=>`<button class="tab ${i===state.chapter?"active":""}" onclick="state.chapter=${i};render()">${esc(x)}</button>`).join("")}</div>
+ <div class="grid lessonGrid" style="margin-top:14px">
+  <div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><div><span class="pill">Chapter ${state.chapter+1}</span><h2 style="margin:9px 0 3px">${esc(ch)}</h2><p class="muted small">Class ${c} • ${esc(s)}</p></div><span style="font-size:42px">${SUBJECTS[s]?.icon||"📘"}</span></div>
+   <hr><div class="noteBox">${esc(lesson.join("\\n\\n"))}</div>
+   <div class="keyPoints"><div class="keyPoint">🎯 <b>Focus:</b> Understand the idea before memorising it.</div><div class="keyPoint">🧩 <b>Practice:</b> Solve questions and explain your reasoning.</div><div class="keyPoint">🔁 <b>Recall:</b> Close your notes and teach the concept in your own words.</div></div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px"><button class="btn" onclick="startQuiz(${c},'${esc(s)}')">Practice This Subject</button><button class="btn secondary" onclick="saveChapterNote()">Save Chapter Note</button><button class="btn ghost" onclick="markProgress('${esc(s)}')">Mark Progress</button></div>
+  </div>
+  <div class="card"><h3>Learning Progress</h3><div class="progress big" style="margin:15px 0 7px"><i style="width:${p}%"></i></div><div style="display:flex;justify-content:space-between"><span class="small muted">Subject progress</span><b>${p}%</b></div><hr><h3>Chapter Navigator</h3><div class="list" style="margin-top:10px">${chapters.map((x,i)=>`<button class="row" onclick="state.chapter=${i};render()"><span><b>${i+1}.</b> ${esc(x)}</span><span>${i===state.chapter?"●":"○"}</span></button>`).join("")}</div></div>
+ </div>`;
+}
+function saveChapterNote(){
+ const s=state.subject,c=state.class,ch=(CHAPTERS[s]||[])[state.chapter]||"Chapter";
+ const text=(LESSONS[s]||LESSONS.Mathematics).join("\n\n");
+ addNote(`Class ${c} • ${s} • ${ch}`,text);
+}
+function markProgress(s){
+ const key=progressKey(state.class,s);state.progress[key]=Math.min(100,getProgress(state.class,s)+10);saveAll();notify(`Progress updated to ${state.progress[key]}%`);render();
+}
+
+/* -------------------- QUESTION ENGINE -------------------- */
+function hashSeed(c,s){let n=c*1009;for(const ch of s)n=(n*31+ch.charCodeAt(0))%1000003;return n}
+function seeded(seed){let x=Math.sin(seed)*10000;return x-Math.floor(x)}
+function shuffle(a,seed=Math.random()*999999){
+ const b=[...a];for(let i=b.length-1;i>0;i--){seed=(seed*9301+49297)%233280;const j=Math.floor((seed/233280)*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b;
+}
+function qObj(q,opts,a,ex,tag="General",difficulty="Easy"){return{q,opts,a,ex,tag,difficulty}}
+function generateQuestionBank(c,s,count=180){
+ let bank=[],seed=hashSeed(c,s), i=0;
+ const add=(q,o,a,ex,tag,d)=>bank.push(qObj(q,o,a,ex,tag,d));
+ const mathEasy=[
+  ["addition",(n1,n2)=>{let a=n1+n2;return [`What is ${n1} + ${n2}?`,[a,a+1,a-1,a+2],0,"Add the two numbers.", "Arithmetic"]}],
+  ["subtraction",(n1,n2)=>{let a=n1-n2;if(a<0)return null;return [`What is ${n1} − ${n2}?`,[a,a+1,a+2,a-1],0,"Subtract the second number from the first.","Arithmetic"]}],
+  ["multiplication",(n1,n2)=>{let a=n1*n2;return [`What is ${n1} × ${n2}?`,[a,a+n1,a-n2,a+2],0,"Multiply the factors.","Arithmetic"]}],
+  ["division",(n1,n2)=>{let a=n1*n2;return [`What is ${a} ÷ ${n1}?`,[n2,n2+1,n2-1,n2+2],0,"Division reverses multiplication.","Arithmetic"]}],
+  ["square",(n1)=>{let a=n1*n1;return [`What is ${n1}²?`,[a,a+n1,a-n1,n1*2],0,"A square is the number multiplied by itself.","Number Sense"]}],
+  ["double",(n1)=>{let a=n1*2;return [`What is double ${n1}?`,[a,a+1,n1,a*2],0,"Double means multiply by 2.","Number Sense"]}],
+  ["ten",(n1)=>{let a=n1*10;return [`What is ${n1} × 10?`,[a,a+10,n1,a*10],0,"Multiplying by 10 shifts each place value one place left.","Place Value"]}]
+ ];
+ const eng=[
+  ["Choose the correct plural of “child”.",["childs","children","childes","childrens"],1,"The standard plural form is children.","Grammar"],
+  ["Choose the correct article: ___ apple.",["A","An","The","No article"],1,"Use “an” before a vowel sound here.","Grammar"],
+  ["Choose the past tense of “go”.",["goed","goes","went","going"],2,"The past tense of go is went.","Tenses"],
+  ["Choose the closest synonym of “happy”.",["sad","joyful","angry","weak"],1,"Joyful has a similar meaning to happy.","Vocabulary"],
+  ["Choose the antonym of “early”.",["fast","late","soon","quick"],1,"Late is the opposite of early.","Vocabulary"],
+  ["Which word is a noun?",["beautiful","quickly","teacher","run"],2,"Teacher names a person or role.","Parts of Speech"],
+  ["Which word is an adjective?",["blue","slowly","jump","teacher"],0,"Blue can describe a noun.","Parts of Speech"],
+  ["Choose the correct sentence.",["She go to school.","She goes to school.","She going school.","She gone school."],1,"A singular subject such as she takes goes in the simple present.","Grammar"],
+  ["Which punctuation mark usually ends a question?",[".","!", "?",":"],2,"Questions normally end with a question mark.","Punctuation"],
+  ["Choose the correct spelling.",["becaus","because","beacause","becose"],1,"Because is the standard spelling.","Vocabulary"]
+ ];
+ const sci=[
+  ["Which part of a plant usually absorbs water from soil?",["Flower","Root","Fruit","Leaf"],1,"Roots absorb water and minerals from soil.","Plants"],
+  ["Which gas do humans need for respiration?",["Oxygen","Helium","Hydrogen","Neon"],0,"Humans use oxygen during respiration.","Human Body"],
+  ["Which state of matter has a fixed shape?",["Solid","Liquid","Gas","None"],0,"A solid keeps its own shape under ordinary conditions.","Matter"],
+  ["The Sun is a:",["Planet","Star","Satellite","Comet"],1,"The Sun is a star.","Space"],
+  ["Which organ pumps blood around the body?",["Lungs","Heart","Stomach","Brain"],1,"The heart pumps blood through the circulatory system.","Human Body"],
+  ["Which is a renewable source of energy?",["Sunlight","Coal","Petrol","Natural gas"],0,"Sunlight is continually available on a human time scale.","Energy"],
+  ["Water changes into water vapour by:",["Freezing","Evaporation","Melting","Condensation"],1,"Evaporation is the change from liquid water to water vapour.","Water Cycle"],
+  ["Which is a living thing?",["Rock","Chair","Tree","Bottle"],2,"A tree is living.","Living World"],
+  ["Which force pulls objects toward Earth?",["Friction","Gravity","Magnetism","Sound"],1,"Gravity attracts objects toward Earth.","Force"],
+  ["Which sense organ is used for seeing?",["Ear","Nose","Eye","Skin"],2,"The eye is the main organ of vision.","Human Body"]
+ ];
+ const social=[
+  ["Which imaginary line divides Earth into Northern and Southern Hemispheres?",["Equator","Prime Meridian","Tropic of Cancer","Arctic Circle"],0,"The Equator is at 0° latitude.","Geography"],
+  ["A map is mainly used to:",["Cook food","Represent places","Measure temperature only","Grow plants"],1,"Maps represent locations and features.","Maps"],
+  ["Which is a natural resource?",["Water","Plastic bottle","Computer","Road"],0,"Water occurs naturally and is a resource.","Resources"],
+  ["A democracy is a system in which:",["People participate in choosing representatives","Only one person votes","No rules exist","Maps are banned"],0,"Democratic systems involve participation and representation.","Civics"],
+  ["Which direction is opposite to east?",["North","South","West","Northeast"],2,"West is opposite to east.","Geography"],
+  ["History mainly studies:",["Past events","Only future events","Only weather","Only numbers"],0,"History studies the past and how it changed.","History"],
+  ["Which is a continent?",["India","Asia","Pacific","Himalayas"],1,"Asia is a continent.","Geography"],
+  ["Which institution generally makes laws in a democracy?",["Legislature","Hospital","Museum","Post office"],0,"Legislatures are law-making bodies.","Civics"],
+  ["Which is a primary source?",["A diary written during an event","A modern summary","A textbook chapter","A fictional story"],0,"A diary created at the time can be a primary source.","History"],
+  ["Which feature helps identify height on many physical maps?",["Contour lines","Alphabetical order","Music notes","Clock hands"],0,"Contour lines connect places of equal elevation.","Maps"]
+ ];
+ const comp=[
+  ["What does CPU stand for?",["Central Processing Unit","Computer Power User","Central Print Unit","Control Program Utility"],0,"CPU stands for Central Processing Unit.","Computer Basics"],
+  ["Which device is mainly used to type text?",["Keyboard","Monitor","Speaker","Projector"],0,"A keyboard is a common text input device.","Hardware"],
+  ["Which is an example of an operating system?",["Windows","Keyboard","Printer","Mouse"],0,"Windows is an operating system.","Software"],
+  ["Which device is used to move a pointer on screen?",["Mouse","Speaker","Microphone","Router"],0,"A mouse is a pointing input device.","Hardware"],
+  ["What is a safer password practice?",["Use only your name","Use a mix of characters","Use 123456","Use your birthday"],1,"Unique passwords with varied characters are generally stronger.","Cyber Safety"],
+  ["Which one is a web browser?",["Chrome","Excel","Keyboard","CPU"],0,"Chrome is a web browser.","Internet"],
+  ["Which device prints a document on paper?",["Printer","Scanner","Router","Monitor"],0,"A printer produces a paper output.","Hardware"],
+  ["What does URL refer to?",["A web address","A keyboard key","A battery type","A file colour"],0,"URL means Uniform Resource Locator.","Internet"],
+  ["Which is safer online?",["Sharing passwords","Using privacy settings","Opening every unknown link","Posting personal details publicly"],1,"Privacy controls and careful link checking reduce common online risks.","Cyber Safety"],
+  ["Which symbol commonly starts a hashtag?",["@","#","&","%"],1,"The # symbol is commonly used for hashtags.","Internet"]
+ ];
+ const hindi=[
+  ["“राम स्कूल जाता है।” वाक्य में संज्ञा कौन-सी है?",["राम","जाता","है","कोई नहीं"],0,"राम व्यक्ति का नाम है, इसलिए संज्ञा है.","संज्ञा"],
+  ["“सुंदर” किस प्रकार का शब्द है?",["संज्ञा","विशेषण","क्रिया","सर्वनाम"],1,"सुंदर किसी की विशेषता बताता है.","विशेषण"],
+  ["“मैं” कौन-सा शब्द है?",["सर्वनाम","क्रिया","विशेषण","संज्ञा"],0,"मैं व्यक्ति के नाम के स्थान पर प्रयुक्त होता है.","सर्वनाम"],
+  ["“जल” का सामान्य समानार्थी शब्द कौन-सा है?",["आग","पानी","हवा","धूप"],1,"जल का सामान्य समानार्थी पानी है.","शब्द-भंडार"],
+  ["“दिन” का विलोम क्या है?",["सुबह","रात","प्रकाश","समय"],1,"दिन का विलोम रात है.","विलोम"],
+  ["“लड़का दौड़ता है।” में क्रिया कौन-सी है?",["लड़का","दौड़ता","है","में"],1,"दौड़ता कार्य का बोध कराता है.","क्रिया"],
+  ["वाक्य के अंत में सामान्य कथन के लिए कौन-सा चिह्न आता है?",["।","?","!",";"],0,"सामान्य कथन के अंत में पूर्ण विराम लगाया जाता है.","विराम चिन्ह"],
+  ["“पुस्तक” का बहुवचन क्या है?",["पुस्तकें","पुस्तकी","पुस्तकोंना","पुस्तकता"],0,"पुस्तक का सामान्य बहुवचन पुस्तकें है.","वचन"],
+  ["“सूर्य” का एक समानार्थी शब्द है:",["रवि","पवन","नीर","धरती"],0,"रवि सूर्य का समानार्थी शब्द है.","पर्यायवाची"],
+  ["“धीरे” किस प्रकार का शब्द हो सकता है?",["क्रिया-विशेषण","संज्ञा","सर्वनाम","वचन"],0,"धीरे क्रिया के ढंग को बता सकता है.","व्याकरण"]
+ ];
+ while(bank.length<count){
+   const n1=2+Math.floor(seeded(seed++)*49), n2=2+Math.floor(seeded(seed++)*31);
+   if(s==="Mathematics"){
+     const item=mathEasy[i%mathEasy.length][1](n1,n2);
+     if(item)add(item[0],item[1].map(String),item[2],item[3],item[4],c>=9?"Medium":c>=6?"Easy":"Easy");
+   }else{
+     const sets=s==="English"?eng:s==="Science"||s==="EVS/Science"?sci:s==="Social Studies"?social:s==="Computer"?comp:hindi;
+     const z=sets[i%sets.length];
+     add(z[0],z[1],z[2],z[3],z[4],c>=10?"Medium":c>=7?"Easy":"Easy");
+   }
+   i++;
+ }
+ /* add a second deterministic layer of maths / revision questions for richer variety */
+ if(s==="Mathematics"){
+   for(let n=1;n<=80 && bank.length<count;n++){
+     const a=(n*7)%43+5,b=(n*5)%17+2,ans=a+b;
+     add(`A number is ${a} and another number is ${b}. What is their total?`,[String(ans),String(ans+2),String(ans-2),String(ans+5)],0,"A total is found by addition.","Word Problems",c>=8?"Medium":"Easy");
+   }
+ }
+ return bank.map((q,idx)=>({...q,id:`${c}-${s}-${idx}`}));
+}
+
+function startQuiz(c,s){
+ const bank=generateQuestionBank(c,s,220);
+ const selected=shuffle(bank).slice(0,20).map(q=>{
+   const pairs=q.opts.map((o,i)=>({o,i}));
+   const shuffled=shuffle(pairs);
+   return {...q,opts:shuffled.map(x=>x.o),a:shuffled.findIndex(x=>x.i===q.a)};
+ });
+ state.quiz={c,s,questions:selected,index:0,score:0,answered:false,selected:null,started:now(),mode:"20 Questions"};
+ setPage("quiz");
+}
+function quizPage(){
+ if(!state.quiz){
+  return `${sectionHead("Quiz Arena","A premium practice area with fresh shuffled questions every session.")}
+   <div class="card quizShell">
+    <div class="grid formGrid">
+     <div class="field"><label>Class</label><select id="quizClass" onchange="refreshQuizSubjects()">${Array.from({length:12},(_,i)=>`<option value="${i+1}" ${i+1===state.class?"selected":""}>Class ${i+1}</option>`).join("")}</select></div>
+     <div class="field"><label>Subject</label><select id="quizSubject">${CLASS_SUBJECTS[state.class].map(s=>`<option>${esc(s)}</option>`).join("")}</select></div>
+    </div>
+    <div class="grid fourCol" style="margin-top:15px">
+      <div class="chapterCard"><b>🎲 Randomised</b><p class="muted">Question and option order changes.</p></div>
+      <div class="chapterCard"><b>📈 Scored</b><p class="muted">Track accuracy and XP locally.</p></div>
+      <div class="chapterCard"><b>💡 Explanations</b><p class="muted">Review the correct answer.</p></div>
+      <div class="chapterCard"><b>🏆 Achievements</b><p class="muted">Unlock milestones as you practise.</p></div>
+    </div>
+    <button class="btn" style="margin-top:16px" onclick="startQuizFromForm()">Start 20 Questions ${ICONS.arrow}</button>
+   </div>`;
+ }
+ const q=state.quiz.questions[state.quiz.index];
+ if(!q)return quizResult();
+ const total=state.quiz.questions.length,current=state.quiz.index+1;
+ return `<div class="quizShell">
+   <div class="quizHeader"><div><span class="pill">Class ${state.quiz.c} • ${esc(state.quiz.s)}</span><h2 style="margin:8px 0 0">Quiz Arena</h2></div><div style="text-align:right"><span class="pill">${current}/${total}</span><div class="tiny muted" style="margin-top:5px">Score: ${state.quiz.score}</div></div></div>
+   <div class="progress" style="margin:13px 0"><i style="width:${current/total*100}%"></i></div>
+   <div class="card"><div class="small muted">${esc(q.tag)} • ${esc(q.difficulty)}</div><div class="quizQuestion">${esc(q.q)}</div>
+    <div class="options">${q.opts.map((o,i)=>`<button class="option ${state.quiz.answered?(i===q.a?"correct":i===state.quiz.selected?"wrong":""):state.quiz.selected===i?"selected":""}" onclick="selectQuizAnswer(${i})"><span class="optionLetter">${String.fromCharCode(65+i)}</span><span>${esc(o)}</span></button>`).join("")}</div>
+    ${state.quiz.answered?`<div class="explain"><b>${state.quiz.selected===q.a?"✅ Correct answer!":"❌ Keep practising!"}</b><br><span class="muted">${esc(q.ex)}</span></div>`:""}
+    <div class="quizBottom"><button class="btn ghost sm" onclick="quitQuiz()">Exit Quiz</button>${state.quiz.answered?`<button class="btn sm" onclick="nextQuizQuestion()">${current===total?"See Result":"Next Question →"}</button>`:`<span class="tiny muted">Select an option to continue.</span>`}</div>
+   </div>
+ </div>`;
+}
+function startQuizFromForm(){const c=Number(document.getElementById("quizClass").value),s=document.getElementById("quizSubject").value;startQuiz(c,s)}
+function refreshQuizSubjects(){const c=Number(document.getElementById("quizClass").value),el=document.getElementById("quizSubject");el.innerHTML=CLASS_SUBJECTS[c].map(s=>`<option>${esc(s)}</option>`).join("")}
+function selectQuizAnswer(i){
+ if(!state.quiz||state.quiz.answered)return;
+ state.quiz.selected=i;state.quiz.answered=true;
+ if(i===state.quiz.questions[state.quiz.index].a){state.quiz.score++;state.stats.correct++;state.stats.points=(state.stats.points||0)+10}
+ state.stats.questions++;
+ saveAll();checkAchievements();render();
+}
+function nextQuizQuestion(){state.quiz.index++;state.quiz.answered=false;state.quiz.selected=null;render()}
+function quitQuiz(){if(confirm("Exit this quiz? Your current unfinished quiz will be discarded.")){state.quiz=null;setPage("home")}}
+function quizResult(){
+ const q=state.quiz,pct=Math.round(q.score/q.questions.length*100);
+ if(!q.saved){
+  state.stats.quizzes++;state.history.push({title:`Class ${q.c} • ${q.s} Quiz`,score:pct,date:now()});
+  state.progress[progressKey(q.c,q.s)]=Math.min(100,Math.max(getProgress(q.c,q.s),pct));
+  q.saved=true;saveAll();checkAchievements();
+ }
+ return `<div class="quizShell"><div class="card" style="text-align:center;padding:28px"><div style="font-size:54px">${pct>=90?"🏆":pct>=70?"🎉":pct>=50?"💪":"🚀"}</div><span class="pill">Quiz Complete</span><h1>${q.score}/${q.questions.length}</h1>
+ <div class="resultCircle" style="--score:${pct}%"><span>${pct}%</span></div><p class="muted">Class ${q.c} • ${esc(q.s)} • ${q.mode}</p>
+ <div class="grid threeCol" style="margin:18px 0;text-align:left"><div class="chapterCard"><b>Correct</b><div class="statValue">${q.score}</div></div><div class="chapterCard"><b>Accuracy</b><div class="statValue">${pct}%</div></div><div class="chapterCard"><b>XP Earned</b><div class="statValue">${q.score*10}</div></div></div>
+ <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap"><button class="btn" onclick="startQuiz(${q.c},'${esc(q.s)}')">Try Again</button><button class="btn secondary" onclick="state.quiz=null;openStudy(${q.c},'${esc(q.s)}')">Study Subject</button><button class="btn ghost" onclick="state.quiz=null;setPage('home')">Dashboard</button></div></div></div>`;
+}
+
+/* -------------------- NOTES -------------------- */
+function notesPage(){
+ return `${sectionHead("My Notes","Create, save, edit and delete personal study notes. They remain on this device.","<button class='btn' onclick=\"newNote()\">+ New Note</button>")}
+ <div class="grid twoCol"><div>${state.notes.length?`<div class="list">${state.notes.slice().reverse().map((n,ri)=>{const i=state.notes.length-1-ri;return `<article class="noteItem"><div style="display:flex;justify-content:space-between;gap:10px"><div><span class="pill">${esc(n.category||"Personal")}</span><h3>${esc(n.title)}</h3></div><div><button class="btn ghost sm" onclick="editNote(${i})">Edit</button> <button class="btn danger sm" onclick="deleteNote(${i})">Delete</button></div></div><div class="noteText">${esc(n.text)}</div><div class="tiny muted" style="margin-top:9px">${new Date(n.date).toLocaleString()}</div></article>`}).join("")}</div>`:`<div class="card empty"><div class="emptyIcon">📝</div><b>No notes yet</b><br><span class="small">Create a note or save a chapter from a class hub.</span></div>`}</div>
+ <div class="card"><h3>Note Ideas</h3><div class="list" style="margin-top:12px"><button class="row" onclick="newNote('Revision Summary')"><span>📚 Revision Summary</span><span>→</span></button><button class="row" onclick="newNote('Formula Sheet')"><span>📐 Formula Sheet</span><span>→</span></button><button class="row" onclick="newNote('Difficult Questions')"><span>🧩 Difficult Questions</span><span>→</span></button><button class="row" onclick="newNote('Vocabulary')"><span>🔤 Vocabulary List</span><span>→</span></button></div><hr><p class="muted small">Tip: Keep each note focused on one concept so revision stays fast.</p></div></div>`;
+}
+function newNote(title=""){
+ openModal(`<div class="modalHead"><h2>Create Note</h2><button class="iconBtn" onclick="closeModal()">✕</button></div>
+ <div class="formGrid"><div class="field"><label>Title</label><input id="noteTitle" value="${esc(title)}" placeholder="e.g. Algebra Revision"></div><div class="field"><label>Category</label><select id="noteCat"><option>Personal</option><option>Revision</option><option>Formula</option><option>Vocabulary</option><option>Important</option></select></div></div>
+ <div class="field" style="margin-top:12px"><label>Note</label><textarea id="noteText" placeholder="Write your study note here..."></textarea></div>
+ <button class="btn" onclick="saveNewNote()">Save Note</button>`);
+}
+function saveNewNote(){
+ const title=document.getElementById("noteTitle").value.trim()||"Untitled Note",text=document.getElementById("noteText").value.trim();
+ if(!text){notify("Please write something in your note.");return}
+ state.notes.push({title,text,category:document.getElementById("noteCat").value,date:now()});saveAll();closeModal();notify("Note saved successfully 📝");render();
+}
+function addNote(title,text){state.notes.push({title,text,category:"Study",date:now()});saveAll();notify("Chapter note saved 📝")}
+function editNote(i){
+ const n=state.notes[i];
+ openModal(`<div class="modalHead"><h2>Edit Note</h2><button class="iconBtn" onclick="closeModal()">✕</button></div>
+ <div class="field"><label>Title</label><input id="editTitle" value="${esc(n.title)}"></div><div class="field"><label>Note</label><textarea id="editText">${esc(n.text)}</textarea></div><button class="btn" onclick="state.notes[${i}].title=document.getElementById('editTitle').value.trim()||'Untitled Note';state.notes[${i}].text=document.getElementById('editText').value;state.notes[${i}].date=now();saveAll();closeModal();render();notify('Note updated')">Save Changes</button>`);
+}
+function deleteNote(i){if(confirm("Delete this note?")){state.notes.splice(i,1);saveAll();render();notify("Note deleted")}}
+/* -------------------- FLASHCARDS -------------------- */
+const FLASH=[
+ ["What is active recall?","A study method where you try to retrieve information from memory before checking your notes."],
+ ["What is a prime number?","A whole number greater than 1 with exactly two positive factors: 1 and itself."],
+ ["What does CPU stand for?","Central Processing Unit."],
+ ["What is evaporation?","The change of a liquid into a gas at its surface."],
+ ["What is a noun?","A word that names a person, place, thing or idea."],
+ ["What is the Equator?","An imaginary line around Earth at 0° latitude dividing the Northern and Southern Hemispheres."],
+ ["What is a URL?","A web address used to locate a resource on the internet."],
+ ["What is photosynthesis?","The process by which green plants use light energy to make food from carbon dioxide and water."],
+ ["What is a fraction?","A number representing a part of a whole, written with a numerator and denominator."],
+ ["What is gravity?","A force that attracts masses toward one another; near Earth it pulls objects toward the ground."]
+];
+function flashcardsPage(){
+ const f=FLASH[state.flashIndex%FLASH.length];
+ return `${sectionHead("Flashcards","Tap the card to reveal the answer. Use the controls for quick revision.","<span class='pill'>Card ${state.flashIndex%FLASH.length+1}/${FLASH.length}</span>")}
+ <div class="card" style="max-width:900px;margin:auto"><div class="flashcard" onclick="state.flashFlipped=!state.flashFlipped;render()">${state.flashFlipped?`<div><span class="pill success">ANSWER</span><p>${esc(f[1])}</p><div class="tiny muted">Tap to see the question again</div></div>`:`<div><span class="pill">QUESTION</span><h2>${esc(f[0])}</h2><p class="muted">Tap to reveal</p></div>`}</div><div class="flashControls"><button class="btn ghost" onclick="state.flashIndex=(state.flashIndex-1+FLASH.length)%FLASH.length;state.flashFlipped=false;render()">← Previous</button><button class="btn secondary" onclick="state.flashFlipped=!state.flashFlipped;render()">Flip Card</button><button class="btn" onclick="state.flashIndex=(state.flashIndex+1)%FLASH.length;state.flashFlipped=false;render()">Next →</button></div></div>
+ <div class="grid threeCol" style="margin-top:16px"><div class="card"><b>🔁 Revision</b><p class="muted small">Repeat cards until you can explain them without hints.</p></div><div class="card"><b>🎯 Focus</b><p class="muted small">Use short sessions rather than rushing through every card.</p></div><div class="card"><b>📝 Notes</b><p class="muted small">Add difficult concepts to My Notes for deeper review.</p></div></div>`;
+}
+
+/* -------------------- PLANNER -------------------- */
+function plannerPage(){
+ const tasks=state.tasks;
+ const days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+ return `${sectionHead("Study Planner","Plan small, realistic study actions and check them off.","<button class='btn' onclick=\"newTask()\">+ Add Task</button>")}
+ <div class="grid twoCol"><div class="card"><h3>My Tasks</h3><div class="list" style="margin-top:12px">${tasks.length?tasks.map((t,i)=>`<div class="row"><div style="display:flex;gap:10px;align-items:center"><input type="checkbox" ${t.done?"checked":""} onchange="toggleTask(${i})"><div><b style="${t.done?"text-decoration:line-through":""}">${esc(t.title)}</b><div class="tiny muted">${esc(t.day)} • ${esc(t.subject||"General")}</div></div></div><button class="btn danger sm" onclick="deleteTask(${i})">Delete</button></div>`).join(""):`<div class="empty"><div class="emptyIcon">🗓</div>No tasks yet.</div>`}</div></div>
+ <div class="card"><h3>Weekly Planner</h3><p class="muted small">Your planned study actions by day.</p><div class="list" style="margin-top:12px">${days.map(d=>{const n=tasks.filter(t=>t.day===d&&!t.done).length,done=tasks.filter(t=>t.day===d&&t.done).length;return `<div class="row"><span><b>${d}</b><br><span class="tiny muted">${done} completed • ${n} remaining</span></span><span class="pill">${done+n}</span></div>`}).join("")}</div></div></div>`;
+}
+function newTask(){
+ openModal(`<div class="modalHead"><h2>Add Study Task</h2><button class="iconBtn" onclick="closeModal()">✕</button></div>
+ <div class="field"><label>Task</label><input id="taskTitle" placeholder="e.g. Revise fractions"></div>
+ <div class="formGrid"><div class="field"><label>Day</label><select id="taskDay">${["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"].map(x=>`<option>${x}</option>`).join("")}</select></div><div class="field"><label>Subject</label><select id="taskSubject">${Object.keys(SUBJECTS).map(x=>`<option>${esc(x)}</option>`).join("")}</select></div></div>
+ <button class="btn" style="margin-top:12px" onclick="saveTask()">Add Task</button>`);
+}
+function saveTask(){const title=document.getElementById("taskTitle").value.trim();if(!title){notify("Add a task name first.");return}state.tasks.push({title,day:document.getElementById("taskDay").value,subject:document.getElementById("taskSubject").value,done:false});saveAll();closeModal();render();notify("Task added 🗓")}
+function toggleTask(i){state.tasks[i].done=!state.tasks[i].done;saveAll();checkAchievements();render()}
+function deleteTask(i){state.tasks.splice(i,1);saveAll();render();notify("Task deleted")}
+
+/* -------------------- TIMER -------------------- */
+function timerPage(){
+ const t=state.timer||{seconds:25*60,total:25*60,running:false,mode:"Focus"};
+ const pct=t.total?Math.max(0,Math.min(100,(t.seconds/t.total)*100)):100;
+ return `${sectionHead("Focus Timer","Use focused sessions, then take a short break. Study minutes are added when a session completes.")}
+ <div class="card timerCard"><div class="timerMode">${["Focus","Short Break","Long Break"].map(m=>`<button class="${t.mode===m?"active":""}" onclick="setTimerMode('${m}')">${m}</button>`).join("")}</div>
+ <div class="timerRing" id="timerRing" style="--timerPct:${pct}%"><div class="timerRingInner"><div><div id="timerClock" class="timerClock" style="font-size:62px;margin:0">${fmtTime(t.seconds)}</div><div id="timerStatus" class="small muted">${t.running?"Focus in progress":"Ready when you are."}</div></div></div></div>
+ <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap"><button class="btn" onclick="startTimer()">${t.running?"Running":"Start Timer"}</button><button class="btn secondary" onclick="pauseTimer()">Pause</button><button class="btn ghost" onclick="resetTimer()">Reset</button></div>
+ <div class="formGrid" style="max-width:500px;margin:18px auto 0"><div class="field"><label>Minutes</label><input id="timerMinutes" type="number" min="1" max="180" value="${Math.max(1,Math.round((t.total||1500)/60))}"></div><div class="field"><label>Tip</label><input value="Keep distractions away" readonly></div></div></div>
+ <div class="grid threeCol" style="margin-top:16px"><div class="card"><b>🎯 Focus</b><p class="muted small">Pick one task and work only on that task until the timer ends.</p></div><div class="card"><b>📵 Reduce distractions</b><p class="muted small">Silence unnecessary notifications and keep your study space ready.</p></div><div class="card"><b>🔁 Build a routine</b><p class="muted small">Regular sessions are easier to maintain than occasional very long sessions.</p></div></div>`;
+}
+function fmtTime(sec){sec=Math.max(0,Math.floor(sec));return `${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`}
+function setTimerMode(mode){
+ const mins=mode==="Focus"?25:mode==="Short Break"?5:15;
+ clearInterval(window.timerInt);state.timer={seconds:mins*60,total:mins*60,running:false,mode};render();
+}
+function startTimer(){
+ if(state.timer?.running)return;
+ const input=document.getElementById("timerMinutes");
+ if(!state.timer||state.timer.seconds<=0){const m=Math.max(1,Math.min(180,Number(input?.value)||25));state.timer={seconds:m*60,total:m*60,running:true,mode:"Focus"}}
+ else state.timer.running=true;
+ clearInterval(window.timerInt);window.timerInt=setInterval(()=>{
+   if(!state.timer?.running){clearInterval(window.timerInt);return}
+   state.timer.seconds--;updateTimerUI();
+   if(state.timer.seconds<=0){
+     clearInterval(window.timerInt);state.timer.running=false;
+     if(state.timer.mode==="Focus"){const mins=Math.round(state.timer.total/60);state.stats.minutes+=mins;state.stats.points=(state.stats.points||0)+mins;saveAll();checkAchievements()}
+     notify(`${state.timer.mode} session complete 🎉`);
+     render();
+   }
+ },1000);updateTimerUI();
+}
+function pauseTimer(){if(state.timer){state.timer.running=false;notify("Timer paused")}}
+function resetTimer(){clearInterval(window.timerInt);const mins=Number(document.getElementById("timerMinutes")?.value)||25;state.timer={seconds:mins*60,total:mins*60,running:false,mode:state.timer?.mode||"Focus"};updateTimerUI();notify("Timer reset")}
+function updateTimerUI(){
+ const el=document.getElementById("timerClock"),st=document.getElementById("timerStatus"),ring=document.getElementById("timerRing");
+ if(!el||!state.timer)return;el.textContent=fmtTime(state.timer.seconds);if(st)st.textContent=state.timer.running?"Focus in progress":"Ready when you are.";if(ring)ring.style.setProperty("--timerPct",`${Math.max(0,Math.min(100,state.timer.seconds/state.timer.total*100))}%`);
+}
+
+/* -------------------- CALCULATOR -------------------- */
+function calculatorPage(){
+ return `${sectionHead("Smart Calculator","Fast calculations with a safe expression parser and local history.","<button class='btn ghost sm' onclick=\"clearCalcHistory()\">Clear History</button>")}
+ <div class="card calc"><input id="calcDisplay" class="calcDisplay" value="${esc(state.calc)}" readonly><div class="calcHistory">${state.calcHistory.slice(-5).reverse().map(x=>`<div>${esc(x)}</div>`).join("")}</div>
+ <div class="calcKeys">${["C","⌫","%","÷","(",")","7","8","9","×","4","5","6","−","1","2","3","+","0",".","±","="].map(k=>`<button class="${["÷","×","−","+"].includes(k)?"op":k==="="? "equal":""}" onclick="calcKey('${k}')">${k}</button>`).join("")}</div></div>
+ <div class="card" style="max-width:480px;margin:16px auto"><h3>Calculator Tips</h3><p class="muted small">Supported operations include +, −, ×, ÷, brackets and percentages. Calculations are processed locally.</p></div>`;
+}
+function safeCalc(expr){
+ let e=expr.replaceAll("×","*").replaceAll("÷","/").replaceAll("−","-");
+ e=e.replace(/(\d+(?:\.\d+)?)%/g,"($1/100)");
+ if(!/^[0-9+*\/().\s-]+$/.test(e))throw new Error("Invalid expression");
+ if(!e.trim())return "";
+ /* No eval/Function: small arithmetic parser. */
+ const tokens=e.match(/(?:\d+(?:\.\d+)?|[()+\-*/])/g)||[];
+ let pos=0;
+ function parseExpr(){let v=parseTerm();while(tokens[pos]==="+"||tokens[pos]==="-"){const op=tokens[pos++],r=parseTerm();v=op==="+"?v+r:v-r}return v}
+ function parseTerm(){let v=parseFactor();while(tokens[pos]==="*"||tokens[pos]==="/"){const op=tokens[pos++],r=parseFactor();if(op==="/"&&r===0)throw new Error("Divide by zero");v=op==="*" ? v*r : v/r}return v}
+ function parseFactor(){if(tokens[pos]==="-"){pos++;return -parseFactor()}if(tokens[pos]==="+"){pos++;return parseFactor()}if(tokens[pos]==="("){pos++;const v=parseExpr();if(tokens[pos]!==")")throw new Error("Bracket error");pos++;return v}const t=tokens[pos++];if(!t||!/^\d/.test(t))throw new Error("Expression error");return Number(t)}
+ const val=parseExpr();if(pos!==tokens.length||!Number.isFinite(val))throw new Error("Expression error");return Number.isInteger(val)?String(val):String(Number(val.toFixed(10)));
+}
+function calcKey(k){
+ if(k==="C"){state.calc="";render();return}
+ if(k==="⌫"){state.calc=state.calc.slice(0,-1);render();return}
+ if(k==="±"){state.calc=state.calc.startsWith("-")?state.calc.slice(1):"-"+state.calc;render();return}
+ if(k==="="){
+  try{const result=safeCalc(state.calc);if(result!==""){state.calcHistory.push(`${state.calc} = ${result}`);state.calc=result;saveAll()}}
+  catch(e){state.calc="Error"}
+  render();return
+ }
+ state.calc+=k;render();
+}
+function clearCalcHistory(){state.calcHistory=[];saveAll();render();notify("Calculator history cleared")}
+
+/* -------------------- ANALYTICS -------------------- */
+function analyticsPage(){
+ const acc=accuracy(), hist=state.history;
+ const subjectScores={};hist.forEach(h=>{const m=h.title.match(/• (.+?) Quiz/);if(m){subjectScores[m[1]]??=[];subjectScores[m[1]].push(h.score)}})
+ const rows=Object.entries(subjectScores).map(([s,v])=>[s,Math.round(v.reduce((a,b)=>a+b,0)/v.length),v.length]);
+ return `${sectionHead("Analytics","A local performance overview based on your StudyHub activity.")}
+ <div class="grid statsGrid">${statCard("🎯","Accuracy",acc+"%","All quiz questions")}${statCard("🧠","Attempts",state.stats.quizzes,"Quiz sessions")}${statCard("📚","Questions",state.stats.questions,"Answered")}${statCard("⏱","Minutes",state.stats.minutes,"Focus sessions")}${statCard("⭐","XP",xp(),"Local score")}</div>
+ <div class="grid twoCol"><div class="card"><h3>Performance by Subject</h3>${rows.length?`<div class="tableWrap"><table class="table"><thead><tr><th>Subject</th><th>Average</th><th>Attempts</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td><b>${r[1]}%</b><div class="progress" style="margin-top:5px"><i style="width:${r[1]}%"></i></div></td><td>${r[2]}</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty"><div class="emptyIcon">📊</div>Complete a quiz to generate analytics.</div>`}</div>
+ <div class="card"><h3>Study Consistency</h3>${miniChart([8,15,22,18,28,20,34].map(v=>Math.min(100,v+state.stats.minutes%20)))}<p class="muted tiny">Illustrative local activity visualization based on stored study progress.</p></div></div>
+ <div class="card" style="margin-top:16px"><h3>Improvement Plan</h3><div class="grid threeCol" style="margin-top:12px"><div class="chapterCard"><b>1. Review mistakes</b><p class="muted">After each quiz, revisit concepts behind incorrect answers.</p></div><div class="chapterCard"><b>2. Use active recall</b><p class="muted">Try to explain an idea before opening your notes.</p></div><div class="chapterCard"><b>3. Stay consistent</b><p class="muted">Short, repeatable study sessions can build a strong routine.</p></div></div></div>`;
+}
+
+/* -------------------- ACHIEVEMENTS -------------------- */
+const ACH=[
+ ["firstQuiz","🚀","First Quiz","Complete your first quiz.",s=>s.quizzes>=1],
+ ["tenQuestions","🔟","10 Questions","Answer at least 10 questions.",s=>s.questions>=10],
+ ["fiftyQuestions","🎯","50 Questions","Answer at least 50 questions.",s=>s.questions>=50],
+ ["hundredQuestions","💯","100 Questions","Answer at least 100 questions.",s=>s.questions>=100],
+ ["highAccuracy","🏹","Sharp Mind","Reach 80% overall accuracy after 20+ questions.",s=>s.questions>=20&&accuracy()>=80],
+ ["fiveQuizzes","🧠","Quiz Regular","Complete five quizzes.",s=>s.quizzes>=5],
+ ["hourFocus","⏱","Focus Builder","Complete 60 focus minutes.",s=>s.minutes>=60],
+ ["noteMaker","📝","Note Maker","Create five notes.",s=>state.notes.length>=5],
+ ["planner","🗓","Planner Pro","Complete five planned tasks.",s=>state.tasks.filter(x=>x.done).length>=5],
+ ["xp","⭐","XP Hunter","Earn 250 XP.",s=>xp()>=250],
+ ["explorer","🌍","Subject Explorer","Practise three different subjects.",s=>new Set(state.history.map(h=>h.title.split("• ")[1]?.replace(" Quiz",""))).size>=3],
+ ["consistent","🔥","Consistency","Reach a 7-day local activity streak.",s=>s.streak>=7]
+];
+function checkAchievements(){
+ const unlocked=[];
+ for(const [id,icon,name,desc,fn] of ACH){
+   if(fn(state.stats)&&!state.achievements.includes(id)){state.achievements.push(id);unlocked.push(name)}
+ }
+ saveAll();if(unlocked.length)notify(`Achievement unlocked: ${unlocked.join(", ")} 🏆`);
+}
+function achievementsPage(){
+ checkAchievements();
+ return `${sectionHead("Achievements","Milestones that reward consistent learning.")}
+ <div class="grid achievementGrid">${ACH.map(a=>{const ok=state.achievements.includes(a[0]);return `<div class="achievement ${ok?"":"locked"}"><div class="achievementIcon">${a[1]}</div><h3>${a[2]} ${ok?"✓":""}</h3><p>${a[3]}</p><div style="margin-top:10px">${ok?`<span class="pill success">Unlocked</span>`:`<span class="pill gray">Locked</span>`}</div></div>`}).join("")}</div>`;
+}
+
+/* -------------------- LEADERBOARD -------------------- */
+function leaderboardPage(){
+ const others=[["Aarav",980],["Priya",930],["Rohan",890],["Ananya",850],["Kabir",810],["Meera",770],["Shubham Kumar",xp()]];
+ const sorted=others.sort((a,b)=>b[1]-a[1]);
+ return `${sectionHead("Leaderboard","A friendly local leaderboard for this device — no online account or real-money ranking involved.")}
+ <div class="card"><div class="leaderRow" style="font-size:10px;color:var(--muted);font-weight:800"><span>#</span><span>STUDENT</span><span>XP</span></div>${sorted.map((x,i)=>`<div class="leaderRow"><span class="rank ${i===0?"gold":i===1?"silver":i===2?"bronze":""}">${i+1}</span><div><b>${esc(x[0])}</b>${x[0]==="Shubham Kumar"?` <span class="pill">You</span>`:""}<div class="tiny muted">${x[0]==="Shubham Kumar"?"Your StudyHub progress":"Practice profile"}</div></div><span class="pill">${x[1]} XP</span></div>`).join("")}<p class="muted tiny" style="margin-top:15px">Leaderboard values are local demo profiles plus your own stored StudyHub XP.</p></div>`;
+}
+
+/* -------------------- DAILY KNOWLEDGE -------------------- */
+function knowledgePage(){
+ const f=FACTS[new Date().getDate()%FACTS.length];
+ return `${sectionHead("Daily Knowledge","One small idea every day. Explain it in your own words for stronger recall.","<button class='btn' onclick=\"newFact()\">Another Fact</button>")}
+ <div class="hero"><div class="heroInner"><div><div class="eyebrow">TODAY'S MICRO-LESSON</div><h1>${f[0]} Learn Something New</h1><p>${esc(f[1])}</p><div class="heroActions"><button class="btn secondary" onclick="newFact()">Show Another</button><button class="btn ghost" onclick="addNote('Daily Knowledge',${JSON.stringify(f[1])})">Save to Notes</button></div></div><div class="heroArt">💡</div></div></div>
+ <div class="grid threeCol" style="margin-top:18px"><div class="card"><b>🧠 Active Recall</b><p class="muted small">Close your notes and explain today's idea without looking.</p></div><div class="card"><b>🔗 Connect</b><p class="muted small">Find one real-life example connected to the idea.</p></div><div class="card"><b>✍️ Teach</b><p class="muted small">Pretend you are teaching the concept to another student.</p></div></div>`;
+}
+function newFact(){const f=FACTS[Math.floor(Math.random()*FACTS.length)];openModal(`<div class="modalHead"><h2>${f[0]} Quick Fact</h2><button class="iconBtn" onclick="closeModal()">✕</button></div><p style="font-size:17px;line-height:1.7">${esc(f[1])}</p><button class="btn" onclick="closeModal()">Got it</button>`)}
+/* -------------------- SETTINGS / HELP / PROFILE -------------------- */
+function settingsPage(){
+ return `${sectionHead("Settings","Customise your StudyHub experience.")}
+ <div class="grid twoCol"><div class="card"><h3>Appearance</h3><div class="row" style="margin-top:12px"><div><b>Dark Mode</b><div class="tiny muted">Switch between light and dark themes.</div></div><span class="toggle ${state.theme==="dark"?"on":""}" onclick="toggleTheme()"><i></i></span></div>
+ <div class="row"><div><b>Sound</b><div class="tiny muted">Keep interface sound preference ready for future enhancements.</div></div><span class="toggle ${state.settings.sound?"on":""}" onclick="state.settings.sound=!state.settings.sound;saveAll();render()"><i></i></span></div></div>
+ <div class="card"><h3>Data & Progress</h3><div class="list" style="margin-top:12px"><button class="row" onclick="exportData()"><span>📦 Export StudyHub Data</span><span>→</span></button><button class="row" onclick="resetProgress()"><span>♻ Reset Local Progress</span><span>→</span></button></div><p class="tiny muted" style="margin-top:12px">Export creates a JSON backup of your notes, progress, tasks and statistics.</p></div></div>
+ <div class="card" style="margin-top:16px"><h3>About StudyHub</h3><p class="muted small">StudyHub is a self-contained learning platform designed for Classes 1–12.</p><p class="small"><b>Created with ❤️ by Shubham Kumar</b></p></div>`;
+}
+function helpPage(){
+ const faqs=[
+  ["How do I start studying?","Open My Classes, select a class and subject, then choose a chapter. You can save notes or start a quiz."],
+  ["How does the quiz work?","Each session builds a large question pool and randomly selects questions. Options are shuffled too."],
+  ["Where are my notes stored?","Notes are stored locally in your browser/device using localStorage. They are not automatically uploaded anywhere."],
+  ["Can I use StudyHub on a phone?","Yes. The interface is responsive and includes a compact mobile sidebar."],
+  ["How do I change the theme?","Tap the moon/sun button in the top bar or open Settings."],
+  ["How does the timer count study time?","Completed Focus sessions add their duration to Study Minutes."],
+  ["Can I reset my progress?","Yes. Settings → Reset Local Progress. This is permanent for the stored local data."],
+  ["Who created StudyHub?","StudyHub is created with ❤️ by Shubham Kumar."]
+ ];
+ return `${sectionHead("Help Center","Quick answers for the main StudyHub features.")}
+ <div class="list">${faqs.map((f,i)=>`<div class="card"><button style="width:100%;border:0;background:transparent;color:var(--text);display:flex;justify-content:space-between;text-align:left;padding:0;font-weight:850" onclick="toggleFaq(${i})"><span>${esc(f[0])}</span><span id="faqIcon${i}">+</span></button><p id="faq${i}" class="muted small hidden" style="line-height:1.7;margin-bottom:0">${esc(f[1])}</p></div>`).join("")}</div>`;
+}
+function toggleFaq(i){const p=document.getElementById("faq"+i),ic=document.getElementById("faqIcon"+i);p.classList.toggle("hidden");ic.textContent=p.classList.contains("hidden")?"+":"−"}
+function openProfile(){
+ openModal(`<div class="modalHead"><h2>Student Profile</h2><button class="iconBtn" onclick="closeModal()">✕</button></div>
+ <div style="display:flex;align-items:center;gap:14px"><div class="avatarBtn" style="display:grid;place-items:center;width:70px;height:70px;font-size:25px">S</div><div><h2 style="margin:0">Shubham Kumar</h2><span class="pill">Creator • StudyHub</span><p class="muted small">Student learning profile</p></div></div>
+ <hr><div class="grid fourCol">${statCard("🧠","Quizzes",state.stats.quizzes,"Attempts")}${statCard("✅","Questions",state.stats.questions,"Solved")}${statCard("🎯","Accuracy",accuracy()+"%","Overall")}${statCard("⭐","XP",xp(),"Local")}</div>`);
+}
+function openNotifications(){openModal(`<div class="modalHead"><h2>Notifications</h2><button class="iconBtn" onclick="closeModal()">✕</button></div><div class="list"><div class="row"><span>🎉 StudyHub is ready for your next session.</span><span class="pill success">New</span></div><div class="row"><span>💡 Try Daily Knowledge for a quick revision break.</span><span>→</span></div><div class="row"><span>🏆 Complete milestones to unlock achievements.</span><span>→</span></div></div>`)}
+function openModal(x){document.getElementById("modalBox").innerHTML=x;document.getElementById("modal").classList.remove("hidden")}
+function closeModal(){document.getElementById("modal").classList.add("hidden")}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+
+/* -------------------- SEARCH / COMMAND -------------------- */
+function globalSearch(v){
+ state.search=v;const box=document.getElementById("searchResults");if(!box)return;
+ if(!v.trim()){box.classList.add("hidden");return}
+ const q=v.toLowerCase(),hits=[];
+ for(let c=1;c<=12;c++)for(const s of CLASS_SUBJECTS[c]){
+   if((`class ${c} ${s}`).toLowerCase().includes(q))hits.push({type:"Class",label:`Class ${c} • ${s}`,action:`openStudy(${c},'${esc(s)}')`});
+   for(const ch of (CHAPTERS[s]||[]))if(`${s} ${ch} class ${c}`.toLowerCase().includes(q))hits.push({type:"Chapter",label:`Class ${c} • ${s} • ${ch}`,action:`openStudy(${c},'${esc(s)}');state.chapter=${(CHAPTERS[s]||[]).indexOf(ch)};render()`});
+ }
+ const pages=[["Dashboard","home"],["My Classes","classes"],["Quiz Arena","quiz"],["My Notes","notes"],["Flashcards","flashcards"],["Study Planner","planner"],["Focus Timer","timer"],["Calculator","calculator"],["Analytics","analytics"],["Achievements","achievements"],["Leaderboard","leaderboard"],["Daily Knowledge","knowledge"],["Settings","settings"],["Help Center","help"]];
+ pages.forEach(p=>{if(p[0].toLowerCase().includes(q))hits.push({type:"Tool",label:p[0],action:`setPage('${p[1]}')`})});
+ box.innerHTML=hits.slice(0,25).map(h=>`<button class="searchResult" onclick="${h.action};document.getElementById('searchResults').classList.add('hidden')"><span class="pill">${h.type}</span><span>${esc(h.label)}</span></button>`).join("")||`<div class="empty" style="padding:25px">No matching results.</div>`;
+ box.classList.remove("hidden");
+}
+function openCommand(query=""){
+ const c=document.getElementById("command");c.classList.remove("hidden");const input=document.getElementById("commandInput");input.value=query;input.focus();renderCommands(query)
+}
+function renderCommands(q=""){
+ const commands=[
+  ["🏠","Go to Dashboard",()=>setPage("home")],["🎓","Open My Classes",()=>setPage("classes")],["🧠","Start Quiz Arena",()=>setPage("quiz")],
+  ["📝","Open My Notes",()=>setPage("notes")],["⏱","Open Focus Timer",()=>setPage("timer")],["🧮","Open Calculator",()=>setPage("calculator")],
+  ["🗂","Open Flashcards",()=>setPage("flashcards")],["🗓","Open Study Planner",()=>setPage("planner")],["📊","Open Analytics",()=>setPage("analytics")],
+  ["🏆","Open Achievements",()=>setPage("achievements")],["💡","Open Daily Knowledge",()=>setPage("knowledge")],["⚙","Open Settings",()=>setPage("settings")],
+  ["🌙","Toggle Theme",()=>toggleTheme()]
+ ];
+ const list=document.getElementById("commandList");const qq=q.toLowerCase();list.innerHTML=commands.filter(x=>!qq||x[1].toLowerCase().includes(qq)).map((x,i)=>`<div class="commandItem" onclick="runCommand(${i},${JSON.stringify(q)})"><span>${x[0]}</span><b>${x[1]}</b></div>`).join("");
+ window.__commands=commands;
+}
+function runCommand(i,q){const arr=window.__commands||[];if(arr[i])arr[i][2]();closeCommand()}
+function closeCommand(){document.getElementById("command").classList.add("hidden")}
+document.getElementById("command").addEventListener("click",e=>{if(e.target.id==="command")closeCommand()});
+document.getElementById("commandInput").addEventListener("input",e=>renderCommands(e.target.value));
+document.addEventListener("keydown",e=>{
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();openCommand()}
+ if(e.key==="Escape"){closeCommand();closeModal();const sr=document.getElementById("searchResults");if(sr)sr.classList.add("hidden")}
+});
+function toggleSidebar(){state.sidebarOpen=!state.sidebarOpen;render()}
+function toggleTheme(){state.theme=state.theme==="dark"?"light":"dark";document.body.classList.toggle("dark",state.theme==="dark");saveAll();notify(`${state.theme==="dark"?"Dark":"Light"} mode enabled`);render()}
+
+/* -------------------- DATA EXPORT / RESET -------------------- */
+function exportData(){
+ const data={exportedAt:new Date().toISOString(),creator:"Shubham Kumar",notes:state.notes,stats:state.stats,history:state.history,progress:state.progress,tasks:state.tasks,achievements:state.achievements,settings:state.settings};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="StudyHub-Shubham-Backup.json";a.click();URL.revokeObjectURL(url);notify("Backup exported 📦");
+}
+function resetProgress(){
+ if(!confirm("Reset StudyHub local progress, notes, tasks, history and achievements? This cannot be undone."))return;
+ state.notes=[];state.stats={quizzes:0,correct:0,questions:0,minutes:0,streak:0,points:0};state.history=[];state.progress={};state.tasks=[];state.achievements=[];state.calcHistory=[];state.calc="";saveAll();notify("Local progress reset");render();
+}
+
+/* -------------------- STARTUP -------------------- */
+document.body.classList.toggle("dark",state.theme==="dark");
+render();
+
+/* Make study page routable without adding a sidebar item. */
+const __oldRender=render;
+render=function(){
+ let content="";
+ if(state.page==="study")content=studyPage();
+ else if(state.page==="home")content=homePage();
+ else if(state.page==="classes")content=classesPage();
+ else if(state.page==="quiz")content=quizPage();
+ else if(state.page==="notes")content=notesPage();
+ else if(state.page==="flashcards")content=flashcardsPage();
+ else if(state.page==="planner")content=plannerPage();
+ else if(state.page==="timer")content=timerPage();
+ else if(state.page==="calculator")content=calculatorPage();
+ else if(state.page==="analytics")content=analyticsPage();
+ else if(state.page==="achievements")content=achievementsPage();
+ else if(state.page==="leaderboard")content=leaderboardPage();
+ else if(state.page==="knowledge")content=knowledgePage();
+ else if(state.page==="settings")content=settingsPage();
+ else if(state.page==="help")content=helpPage();
+ document.getElementById("app").innerHTML=layout(content);
+ updateTimerUI();
+};
+render();
+</script>
+</body>
+</html>
