@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyHub | Learn Smarter</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#f5f7fb;color:#172033;line-height:1.5}
+header{background:#fff;border-bottom:1px solid #e8ebf2;position:sticky;top:0;z-index:10}
+.nav{max-width:1100px;margin:auto;padding:15px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:24px;font-weight:800;color:#315efb;text-decoration:none}
+nav{display:flex;gap:20px}
+nav a{text-decoration:none;color:#566176;font-weight:600}
+nav a:hover{color:#315efb}
+.hero{background:linear-gradient(135deg,#315efb,#7148ff);color:white;padding:75px 20px;text-align:center}
+.hero h1{font-size:clamp(38px,7vw,64px);margin-bottom:10px}
+.hero p{font-size:19px;opacity:.92;max-width:650px;margin:0 auto 25px}
+.btn{display:inline-block;border:0;border-radius:12px;padding:13px 20px;font-weight:800;cursor:pointer;background:#fff;color:#315efb;text-decoration:none}
+.container{max-width:1100px;margin:auto;padding:45px 20px}
+.section-title{text-align:center;margin-bottom:25px}
+.section-title h2{font-size:30px}
+.section-title p{color:#687389}
+.classes{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.class-btn{background:#fff;border:1px solid #e5e9f2;border-radius:12px;padding:15px 8px;font-weight:750;cursor:pointer}
+.class-btn:hover,.class-btn.active{background:#315efb;color:white}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:25px}
+.card{background:#fff;border:1px solid #e8ebf2;border-radius:18px;padding:24px;box-shadow:0 6px 20px rgba(30,40,70,.05)}
+.icon{font-size:30px;margin-bottom:10px}
+.card h3{margin-bottom:6px}
+.card p{color:#687389;margin-bottom:15px}
+.card button{border:0;background:#eef2ff;color:#315efb;border-radius:9px;padding:10px 14px;font-weight:750;cursor:pointer}
+.panel{margin-top:20px;display:none}
+.panel.show{display:block}
+.quiz-question{font-size:20px;font-weight:750;margin:12px 0 18px}
+.options{display:grid;gap:10px}
+.option{padding:12px;border:1px solid #dfe4ee;border-radius:10px;background:#fff;text-align:left;cursor:pointer}
+.option:hover{border-color:#315efb}
+.result{margin-top:15px;font-weight:750}
+.timer{text-align:center}
+.time{font-size:58px;font-weight:800;letter-spacing:2px;margin:10px 0}
+.timer-controls button{margin:4px}
+.control{border:0;border-radius:10px;padding:10px 16px;background:#315efb;color:#fff;font-weight:750;cursor:pointer}
+.control.secondary{background:#e9edf5;color:#243047}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:450px;margin:auto}
+.calc input{padding:12px;border:1px solid #dfe4ee;border-radius:10px;font-size:16px}
+.calc button{grid-column:1/-1}
+.fact{font-size:20px;text-align:center;min-height:60px}
+.leaderboard table{width:100%;border-collapse:collapse}
+.leaderboard th,.leaderboard td{padding:12px;text-align:left;border-bottom:1px solid #edf0f5}
+footer{background:#172033;color:#cbd2df;text-align:center;padding:25px}
+.small{font-size:13px;color:#7a8599;margin-top:8px}.class-learning{display:none;margin-top:25px}.class-learning.show{display:block}.subject-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.subject-card{background:#fff;border:1px solid #e5e9f2;border-radius:16px;padding:20px;text-align:center}.subject-icon{font-size:32px;margin-bottom:8px}.subject-card p{color:#687389;font-size:14px;margin-bottom:12px}.subject-card button{border:0;border-radius:9px;padding:9px 14px;background:#eef2ff;color:#315efb;font-weight:750;cursor:pointer}.chapter-box{display:none;margin-top:18px;padding:18px;background:#f8f9fd;border-radius:14px}.chapter-box.show{display:block}@media(max-width:800px){.subject-grid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.subject-grid{grid-template-columns:1fr}}
+@media(max-width:800px){.classes{grid-template-columns:repeat(4,1fr)}.cards{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){nav{display:none}.classes{grid-template-columns:repeat(3,1fr)}.cards{grid-template-columns:1fr}.hero{padding:55px 18px}.container{padding:35px 15px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a class="logo" href="#">📚 StudyHub</a><span style="font-weight:700;color:#566176">Hi, Shubham 👋</span>
+    <nav>
+      <a href="#classes">Classes</a>
+      <a href="#tools">Tools</a>
+      <a href="#quiz">Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div style="font-size:20px;font-weight:700;margin-bottom:8px">Welcome to StudyHub, Shubham 👋</div><h1>Study Smarter. Learn Better.</h1>
+  <p>One simple place for students to practice, focus, test their knowledge, and learn something new every day.</p>
+  <a class="btn" href="#classes">Start Learning 🚀</a>
+</section>
+
+<section class="container" id="classes">
+  <div class="section-title">
+    <h2>Choose Your Class</h2>
+    <p>Select your class to personalize your StudyHub experience.</p>
+  </div>
+  <div class="classes" id="classGrid"></div>
+  <p id="selectedClass" class="small" style="text-align:center">No class selected yet.</p>
+  <div id="classLearning" class="class-learning card">
+    <h2 id="classTitle">📚 Class Learning</h2>
+    <p style="color:#687389;margin-top:5px">Choose a subject to start learning.</p>
+    <div class="subject-grid">
+      <div class="subject-card"><div class="subject-icon">📐</div><h3>Mathematics</h3><p>Numbers and problem solving.</p><button onclick="openSubject('Mathematics')">Open Subject</button></div>
+      <div class="subject-card"><div class="subject-icon">📖</div><h3>English</h3><p>Grammar, reading and writing.</p><button onclick="openSubject('English')">Open Subject</button></div>
+      <div class="subject-card"><div class="subject-icon">📝</div><h3>Hindi</h3><p>भाषा, व्याकरण और लेखन।</p><button onclick="openSubject('Hindi')">Open Subject</button></div>
+      <div class="subject-card"><div class="subject-icon">🌱</div><h3>EVS / Science</h3><p>Nature, science and everyday life.</p><button onclick="openSubject('EVS / Science')">Open Subject</button></div>
+      <div class="subject-card"><div class="subject-icon">🌍</div><h3>Social Studies</h3><p>People, places and society.</p><button onclick="openSubject('Social Studies')">Open Subject</button></div>
+      <div class="subject-card"><div class="subject-icon">💻</div><h3>Computer</h3><p>Basic computer and digital skills.</p><button onclick="openSubject('Computer')">Open Subject</button></div>
+    </div>
+    <div id="chapterBox" class="chapter-box"></div>
+  </div>
+</section>
+
+<section class="container" id="tools">
+  <div class="section-title">
+    <h2>Study Tools</h2>
+    <p>Useful tools for everyday learning.</p>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="icon">🧠</div><h3>Quick Quiz</h3>
+      <p>Test yourself with a short general knowledge quiz.</p>
+      <button onclick="showPanel('quiz')">Start Quiz</button>
+    </div>
+    <div class="card">
+      <div class="icon">⏱️</div><h3>Study Timer</h3>
+      <p>Focus on your studies with a simple study timer.</p>
+      <button onclick="showPanel('timer')">Open Timer</button>
+    </div>
+    <div class="card">
+      <div class="icon">🧮</div><h3>Calculator</h3>
+      <p>Quickly calculate basic academic values.</p>
+      <button onclick="showPanel('calculator')">Open Calculator</button>
+    </div>
+    <div class="card">
+      <div class="icon">💡</div><h3>Daily Knowledge</h3>
+      <p>Discover a new educational fact every time you visit.</p>
+      <button onclick="showPanel('fact')">Show Fact</button>
+    </div>
+    <div class="card">
+      <div class="icon">🏆</div><h3>Leaderboard</h3>
+      <p>A simple demo leaderboard for quiz practice.</p>
+      <button onclick="showPanel('leaderboard')">View Board</button>
+    </div>
+    <div class="card">
+      <div class="icon">🎯</div><h3>Learning Goal</h3>
+      <p>Choose a class and start building a consistent study habit.</p>
+      <button onclick="document.getElementById('classes').scrollIntoView({behavior:'smooth'})">Choose Class</button>
+    </div>
+  </div>
+
+  <div class="panel card" id="quiz">
+    <h2>Quick Quiz</h2>
+    <div id="quizBox"></div>
+  </div>
+
+  <div class="panel card timer" id="timer">
+    <h2>Study Timer</h2>
+    <div class="time" id="time">25:00</div>
+    <div class="timer-controls">
+      <button class="control" onclick="startTimer()">Start</button>
+      <button class="control secondary" onclick="pauseTimer()">Pause</button>
+      <button class="control secondary" onclick="resetTimer()">Reset</button>
+    </div>
+  </div>
+
+  <div class="panel card" id="calculator">
+    <h2>Calculator</h2>
+    <div class="calc">
+      <input id="num1" type="number" placeholder="First number">
+      <input id="num2" type="number" placeholder="Second number">
+      <button class="control" onclick="calculate()">Add Numbers</button>
+      <div id="calcResult" style="grid-column:1/-1;text-align:center;font-weight:750"></div>
+    </div>
+  </div>
+
+  <div class="panel card" id="fact">
+    <h2 style="text-align:center">Daily Knowledge 💡</h2>
+    <p class="fact" id="factText"></p>
+    <div style="text-align:center"><button class="control" onclick="newFact()">Another Fact</button></div>
+  </div>
+
+  <div class="panel card leaderboard" id="leaderboard">
+    <h2>Leaderboard 🏆</h2>
+    <table>
+      <thead><tr><th>Rank</th><th>Student</th><th>Score</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Alex</td><td>980</td></tr>
+        <tr><td>2</td><td>Sam</td><td>920</td></tr>
+        <tr><td>3</td><td>Riya</td><td>870</td></tr>
+        <tr><td>4</td><td>You</td><td id="yourScore">0</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <strong>📚 StudyHub</strong>
+  <p>Learn • Practice • Grow</p>
+  <p class="small">A student-friendly learning platform.</p>
+</footer>
+
+<script>
+const classGrid=document.getElementById('classGrid');
+for(let i=1;i<=12;i++){
+  const b=document.createElement('button');
+  b.className='class-btn';
+  b.textContent='Class '+i;
+  b.onclick=()=>selectClass(i,b);
+  classGrid.appendChild(b);
+}
+let selected=localStorage.getItem('studyhubClass');
+if(selected){
+  document.getElementById('selectedClass').textContent='Selected: Class '+selected+' ✓';
+  document.getElementById('classTitle').textContent='📚 Class '+selected+' Learning';
+  document.getElementById('classLearning').classList.add('show');
+}
+function selectClass(n,btn){
+  document.querySelectorAll('.class-btn').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  selected=n;
+  localStorage.setItem('studyhubClass',n);
+  document.getElementById('selectedClass').textContent='Selected: Class '+n+' ✓';
+  document.getElementById('classTitle').textContent='📚 Class '+n+' Learning';
+  document.getElementById('classLearning').classList.add('show');
+  document.getElementById('chapterBox').classList.remove('show');
+  document.getElementById('classLearning').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function openSubject(subject){
+  const box=document.getElementById('chapterBox');
+  const cls=selected || 1;
+  const chapters={
+    'Mathematics':['Chapter 1: Numbers','Chapter 2: Addition and Subtraction','Chapter 3: Multiplication and Division','Practice Questions'],
+    'English':['Chapter 1: Reading','Chapter 2: Grammar','Chapter 3: Vocabulary','Writing Practice'],
+    'Hindi':['अध्याय 1: पाठ','अध्याय 2: व्याकरण','अध्याय 3: शब्द ज्ञान','लेखन अभ्यास'],
+    'EVS / Science':['Chapter 1: Our Environment','Chapter 2: Plants and Animals','Chapter 3: Our Body','Practice Questions'],
+    'Social Studies':['Chapter 1: Our Community','Chapter 2: Places Around Us','Chapter 3: People and Society','Practice Questions'],
+    'Computer':['Chapter 1: Computer Basics','Chapter 2: Parts of a Computer','Chapter 3: Digital Safety','Practice Questions']
+  };
+  const list=chapters[subject] || ['Chapter 1','Chapter 2','Chapter 3','Practice Questions'];
+  box.innerHTML='<h3>Class '+cls+' — '+subject+'</h3><p style="color:#687389">Select a chapter to study.</p><ul>'+list.map(x=>'<li style="margin:8px 0">'+x+'</li>').join('')+'</ul>';
+  box.classList.add('show');
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));
+  const el=document.getElementById(id);
+  el.classList.add('show');
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  if(id==='quiz') loadQuiz();
+  if(id==='fact') newFact();
+}
+
+const questions=[
+ {q:'Which planet is known as the Red Planet?',a:['Earth','Mars','Jupiter','Venus'],c:1},
+ {q:'What is 12 × 5?',a:['50','55','60','65'],c:2},
+ {q:'Which gas do plants mainly use for photosynthesis?',a:['Oxygen','Nitrogen','Carbon dioxide','Hydrogen'],c:2},
+ {q:'How many days are there in a leap year?',a:['365','366','364','360'],c:1},
+ {q:'Which is the largest ocean on Earth?',a:['Atlantic','Indian','Pacific','Arctic'],c:2}
+];
+let qi=0,score=0;
+function loadQuiz(){
+ qi=0;score=0;renderQuestion();
+}
+function renderQuestion(){
+ const box=document.getElementById('quizBox');
+ if(qi>=questions.length){
+   box.innerHTML='<p class="quiz-question">Quiz Complete! 🎉</p><p>You scored <strong>'+score+'/'+questions.length+'</strong>.</p><button class="control" onclick="loadQuiz()">Try Again</button>';
+   document.getElementById('yourScore').textContent=score*100;
+   return;
+ }
+ const x=questions[qi];
+ box.innerHTML='<p class="small">Question '+(qi+1)+' of '+questions.length+'</p><div class="quiz-question">'+x.q+'</div><div class="options">'+
+ x.a.map((o,i)=>'<button class="option" onclick="answer('+i+')">'+o+'</button>').join('')+'</div><div id="quizResult" class="result"></div>';
+}
+function answer(i){
+ const x=questions[qi],r=document.getElementById('quizResult');
+ document.querySelectorAll('.option').forEach(b=>b.disabled=true);
+ if(i===x.c){score++;r.textContent='Correct! ✅';}else r.textContent='Not quite. The correct answer is '+x.a[x.c]+'.';
+ setTimeout(()=>{qi++;renderQuestion()},700);
+}
+
+let seconds=1500,timer=null;
+function updateTime(){
+ const m=String(Math.floor(seconds/60)).padStart(2,'0'),s=String(seconds%60).padStart(2,'0');
+ document.getElementById('time').textContent=m+':'+s;
+}
+function startTimer(){
+ if(timer)return;
+ timer=setInterval(()=>{if(seconds>0){seconds--;updateTime()}else{clearInterval(timer);timer=null;alert('Study session complete! 🎉')}},1000);
+}
+function pauseTimer(){clearInterval(timer);timer=null}
+function resetTimer(){pauseTimer();seconds=1500;updateTime()}
+
+function calculate(){
+ const a=Number(document.getElementById('num1').value),b=Number(document.getElementById('num2').value);
+ if(Number.isNaN(a)||Number.isNaN(b)){document.getElementById('calcResult').textContent='Please enter both numbers.';return}
+ document.getElementById('calcResult').textContent='Result: '+(a+b);
+}
+
+const facts=[
+ 'Water covers about 71% of Earth’s surface.',
+ 'The human brain uses a large amount of energy even when you are resting.',
+ 'Light from the Sun takes about 8 minutes to reach Earth.',
+ 'A group of stars forming a recognizable pattern is called a constellation.',
+ 'Plants use sunlight, water, and carbon dioxide to make food through photosynthesis.'
+];
+function newFact(){document.getElementById('factText').textContent=facts[Math.floor(Math.random()*facts.length)]}
+updateTime();
+</script>
+</body>
+</html>
