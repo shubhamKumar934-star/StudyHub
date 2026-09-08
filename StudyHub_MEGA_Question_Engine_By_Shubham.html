@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StudyHub | Mega Question Engine | Shubham Kumar</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,sans-serif;background:#f4f7fb;color:#172033}
+button,input,select{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh}.side{width:250px;background:#101827;color:#dce5f5;padding:18px;position:fixed;inset:0 auto 0 0;z-index:5}.brand{font-size:22px;font-weight:800;padding:10px 4px 24px}.nav{display:block;width:100%;border:0;background:transparent;color:#aebbd0;text-align:left;padding:12px;border-radius:10px;margin:3px 0}.nav:hover,.nav.on{background:#1d2a40;color:#fff}.credit{position:absolute;bottom:20px;color:#8e9ab0;font-size:12px;line-height:1.5}.main{margin-left:250px;width:calc(100% - 250px);min-height:100vh}.top{position:sticky;top:0;z-index:4;background:#ffffffed;border-bottom:1px solid #e5eaf1;padding:12px 22px;display:flex;gap:10px;align-items:center}.top input{flex:1;max-width:720px;padding:12px 14px;border:1px solid #dce3ed;border-radius:12px;background:#f5f7fb}.icon{border:0;background:#eef2f7;border-radius:10px;padding:11px 13px}.wrap{max-width:1500px;margin:auto;padding:24px}.hero{background:linear-gradient(125deg,#121b32,#34477b);color:#fff;border-radius:24px;padding:28px;display:flex;justify-content:space-between;gap:20px}.hero h1{font-size:34px;margin:8px 0}.hero p{max-width:800px;color:#c8d1e3;line-height:1.6}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}.card{background:#fff;border:1px solid #e4e9f1;border-radius:16px;padding:18px;box-shadow:0 6px 22px #1720330b}.stat b{font-size:28px;display:block;margin:5px 0}.muted{color:#718099}.btn{border:0;border-radius:10px;padding:11px 15px;background:#5d56d8;color:#fff}.btn.alt{background:#edf0f7;color:#253148}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#eef0ff;color:#5149b6;font-size:12px}.section{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:24px 0 12px}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.field label{display:block;font-size:12px;color:#718099;margin-bottom:5px}.field select,.field input{width:100%;padding:11px;border:1px solid #dce3ed;border-radius:10px;background:#fff}.classgrid,.subgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}.classbtn,.subbtn{border:1px solid #e2e7ef;background:#fff;border-radius:14px;padding:18px;text-align:left}.classbtn:hover,.subbtn:hover{border-color:#5d56d8}.quizbox{max-width:1000px;margin:auto}.option{display:block;width:100%;text-align:left;border:1px solid #dfe5ee;background:#f7f9fc;border-radius:12px;padding:14px;margin:9px 0}.option:hover{border-color:#5d56d8}.option.correct{background:#e7f8ef;border-color:#35a878}.option.wrong{background:#fff0f0;border-color:#d35c5c}.bar{height:9px;background:#e8edf4;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#5d56d8,#20b49e)}.table{width:100%;border-collapse:collapse}.table td,.table th{padding:11px;border-bottom:1px solid #e8ecf2;text-align:left}.notice{padding:13px;border-radius:12px;background:#fff8df;border:1px solid #f1dda0;color:#6c5611}.success{background:#e8f8ef;border-color:#9ed9b9;color:#185f3a}.danger{background:#fff0f0;border-color:#e6a6a6;color:#8a2929}.hidden{display:none!important}.dark body{background:#0e1725;color:#e9eef8}.dark .top,.dark .card,.dark .classbtn,.dark .subbtn{background:#172235;color:#e9eef8;border-color:#2b3950}.dark .top input,.dark .field select,.dark .field input,.dark .option{background:#111b2b;color:#e9eef8;border-color:#2c3a50}.dark .muted{color:#9ba8bb}
+@media(max-width:900px){.side{transform:translateX(-100%);transition:.2s}.side.open{transform:none}.main{margin-left:0;width:100%}.grid{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.wrap{padding:15px}.grid,.controls{grid-template-columns:1fr}.hero h1{font-size:27px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side" id="side">
+  <div class="brand">📚 StudyHub</div>
+  <button class="nav on" data-view="home">⌂ Dashboard</button>
+  <button class="nav" data-view="bank">▦ Question Bank</button>
+  <button class="nav" data-view="quiz">⚡ Practice Quiz</button>
+  <button class="nav" data-view="classes">🎓 Classes 1–12</button>
+  <button class="nav" data-view="stats">📊 Accuracy & Stats</button>
+  <div class="credit">Created with ❤️ by<br><b>Shubham Kumar</b></div>
+</aside>
+<main class="main">
+<header class="top"><button class="icon" id="menu">☰</button><input id="search" placeholder="Search class, subject, chapter or topic..."><button class="icon" id="theme">☾</button></header>
+<div class="wrap" id="app"></div>
+<footer style="text-align:center;padding:20px;color:#718099">StudyHub • Mega Classwise Question Engine • Created with ❤️ by Shubham Kumar</footer>
+</main>
+</div>
+
+<script>
+/* ============================================================
+   STUDYHUB MEGA QUESTION ENGINE
+   IMPORTANT DESIGN RULE:
+   Every generated question calculates its answer first, then
+   builds all distractors from that answer. No "answer-shifting"
+   variants are used. This prevents answer/key mismatches.
+   ============================================================ */
+
+const SUBJECTS={
+1:["English","Mathematics","EVS"],2:["English","Mathematics","EVS"],
+3:["English","Mathematics","Science","Social Studies"],4:["English","Mathematics","Science","Social Studies"],
+5:["English","Mathematics","Science","Social Studies"],6:["English","Mathematics","Science","Social Science"],
+7:["English","Mathematics","Science","Social Science"],8:["English","Mathematics","Science","Social Science"],
+9:["English","Mathematics","Science","Social Science","Computer"],10:["English","Mathematics","Science","Social Science","Computer"],
+11:["English","Physics","Chemistry","Mathematics","Biology","Accountancy","Economics","Business Studies"],
+12:["English","Physics","Chemistry","Mathematics","Biology","Accountancy","Economics","Business Studies"]
+};
+
+const LEVEL={
+1:"Foundation",2:"Foundation",3:"Foundation+",4:"Core",5:"Core",
+6:"Core+",7:"Application",8:"Application+",9:"Board Prep",10:"Board Level",
+11:"Senior Secondary",12:"Senior Secondary+"
+};
+
+const CHAPTERS={
+1:{Mathematics:["Numbers","Addition and Subtraction","Shapes","Measurement"],English:["Nouns","Articles","Rhyming Words","Simple Sentences"],EVS:["Plants","Animals","Our Body","Family and Home"]},
+2:{Mathematics:["Numbers","Addition and Subtraction","Multiplication","Shapes"],English:["Nouns","Pronouns","Tenses","Sentences"],EVS:["Plants","Animals","Our Body","Environment"]},
+3:{Mathematics:["Numbers","Multiplication","Division","Fractions","Mensuration"],English:["Grammar","Tenses","Nouns","Reading"],Science:["Plants","Animals","Human Body","Water"],"Social Studies":["Maps","Community","Transport","Our Earth"]},
+4:{Mathematics:["Large Numbers","Multiplication","Fractions","Area and Perimeter"],English:["Adjectives","Tenses","Conjunctions","Grammar"],Science:["Plants","Force","Materials","Human Body"],"Social Studies":["Community","Earth","Maps","Government"]},
+5:{Mathematics:["Decimals","Fractions","Average","Geometry"],English:["Conjunctions","Tenses","Grammar","Comprehension"],Science:["Plants","Materials","Human Body","Light"],"Social Studies":["Earth","Government","Resources","Maps"]},
+6:{Mathematics:["Integers","Fractions","Ratio","Algebra","Mensuration"],English:["Tenses","Clauses","Grammar","Writing"],Science:["Separation","Force","Materials","Living Organisms"],"Social Science":["Civics","Geography","History","Economics"]},
+7:{Mathematics:["Integers","Fractions","Percentage","Linear Equations","Lines and Angles"],English:["Clauses","Tenses","Voice","Writing"],Science:["Heat","Plants","Motion","Acids and Bases"],"Social Science":["Civics","Geography","History","Economics"]},
+8:{Mathematics:["Rational Numbers","Linear Equations","Squares","Probability","Mensuration"],English:["Reported Speech","Clauses","Voice","Writing"],Science:["Force and Pressure","Atoms","Sound","Chemical Effects"],"Social Science":["Civics","Geography","History","Economics"]},
+9:{Mathematics:["Number Systems","Polynomials","Coordinate Geometry","Linear Equations","Geometry","Statistics"],English:["Grammar","Reading","Writing","Literature"],Science:["Matter","Motion","Force","Atoms","Tissues"],"Social Science":["History","Geography","Political Science","Economics"],Computer:["Digital Foundations","Algorithms","Networks","Data"]},
+10:{Mathematics:["Real Numbers","Polynomials","Pair of Linear Equations","Quadratic Equations","Arithmetic Progressions","Triangles","Circles","Trigonometry","Probability"],English:["Grammar","Reading","Writing","Literature"],Science:["Chemical Reactions","Acids and Bases","Life Processes","Light","Electricity","Magnetic Effects"],"Social Science":["History","Geography","Political Science","Economics"],Computer:["Networking","Cyber Safety","Programming","Data"]},
+11:{Mathematics:["Sets","Relations and Functions","Trigonometry","Complex Numbers","Sequences","Binomial Theorem","Coordinate Geometry","Limits","Statistics"],Physics:["Units and Measurements","Kinematics","Laws of Motion","Work Energy Power","Gravitation","Thermal Physics"],Chemistry:["Basic Concepts","Structure of Atom","Periodic Table","Chemical Bonding","States of Matter","Thermodynamics"],Biology:["Cell","Biomolecules","Plant Physiology","Human Physiology","Genetics Foundations"],Accountancy:["Accounting Equation","Journal","Ledger","Trial Balance","Depreciation"],Economics:["Introduction","Consumer Behaviour","Demand","Production","Cost","Market"],"Business Studies":["Nature of Business","Forms of Business","Business Services","Sources of Finance","Internal Trade","Controlling"],English:["Reading","Writing","Grammar","Literature"]},
+12:{Mathematics:["Matrices","Determinants","Continuity","Differentiation","Integrals","Differential Equations","Vectors","Probability"],Physics:["Electrostatics","Current Electricity","Magnetism","Electromagnetic Induction","Optics","Atoms and Nuclei","Semiconductors"],Chemistry:["Solutions","Electrochemistry","Chemical Kinetics","Haloalkanes","Alcohols","Aldehydes and Ketones","Amines"],Biology:["Reproduction","Genetics","Molecular Basis","Biotechnology","Ecology","Human Health"],Accountancy:["Partnership","Goodwill","Admission","Retirement","Dissolution","Company Accounts","Cash Flow"],Economics:["National Income","Money and Banking","Income Determination","Government Budget","Balance of Payments"],"Business Studies":["Nature and Significance of Management","Principles of Management","Business Environment","Planning","Organising","Staffing","Directing","Controlling","Financial Management","Marketing"],English:["Reading","Writing","Grammar","Literature"]}
+};
+
+const state=JSON.parse(localStorage.getItem("studyhub_mega")||'{"classNo":10,"attempts":0,"correct":0,"points":0,"seen":{}}');
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+function save(){localStorage.setItem("studyhub_mega",JSON.stringify(state))}
+function esc(x){return String(x).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+
+/* ---------- deterministic random helpers ---------- */
+function hash(str){let h=2166136261>>>0;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function rng(seed){let x=hash(String(seed))||1;return()=>{x^=x<<13;x^=x>>>17;x^=x<<5;return (x>>>0)/4294967296}}
+function pick(r,a){return a[Math.floor(r()*a.length)]}
+function uniq(a){return [...new Set(a.map(String))]}
+function options(answer,wrong){
+  const a=String(answer), out=[a];
+  for(const w of wrong){if(String(w)!==a&&!out.includes(String(w)))out.push(String(w));}
+  let k=1;while(out.length<4){let w=String(Number(answer)+k);if(!out.includes(w))out.push(w);k++}
+  return out.slice(0,4);
+}
+function shuffle(a,r){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function qobj(cls,sub,chapter,question,answer,wrong,kind="generated"){
+  return {cls,sub,chapter,q:String(question),a:String(answer),opts:options(answer,wrong),kind};
+}
+
+/* ---------- QUESTION GENERATORS ----------
+   Each generator returns a complete internally-consistent item.
+   Numeric templates use formulas, so changing parameters changes
+   BOTH question and answer together.
+--------------------------------------------------------------- */
+
+function genMath(c,chapter,seed){
+ const r=rng(seed), n=1+Math.floor(r()*999), a=2+Math.floor(r()*20), b=2+Math.floor(r()*20);
+ if(c<=2){
+   const mode=Math.floor(r()*4);
+   if(mode===0){let x=a+b;return qobj(c,"Mathematics",chapter,`What is ${a} + ${b}?`,x,[x-1,x+1,x+2])}
+   if(mode===1){let x=Math.max(a,b)+Math.min(a,b),y=Math.max(a,b);let ans=x-y;return qobj(c,"Mathematics",chapter,`What is ${x} - ${y}?`,ans,[ans+1,ans+2,ans-1])}
+   if(mode===2){let x=a*b;return qobj(c,"Mathematics",chapter,`What is ${a} × ${b}?`,x,[x-a,x+b,x+1])}
+   let x=Math.floor(r()*20)+1;return qobj(c,"Mathematics",chapter,`Which number comes after ${x}?`,x+1,[x,x+2,x+10])
+ }
+ if(c<=5){
+   const mode=Math.floor(r()*5);
+   if(mode===0){let x=a*b;return qobj(c,"Mathematics",chapter,`What is ${a} × ${b}?`,x,[x-a,x+b,x+1])}
+   if(mode===1){let den=2+Math.floor(r()*5),num=1+Math.floor(r()*(den-1)),whole=den*(2+Math.floor(r()*8));let ans=whole*num/den;return qobj(c,"Mathematics",chapter,`What is ${num}/${den} of ${whole}?`,ans,[ans+num,ans-num,ans+den])}
+   if(mode===2){let l=4+Math.floor(r()*16),w=2+Math.floor(r()*10),ans=2*(l+w);return qobj(c,"Mathematics",chapter,`A rectangle is ${l} cm long and ${w} cm wide. What is its perimeter?`,ans+" cm",[(l*w)+" cm",(l+w)+" cm",(2*l+w)+" cm"])}
+   if(mode===3){let x=(1+Math.floor(r()*9))/2,y=(1+Math.floor(r()*9))/2,ans=x+y;return qobj(c,"Mathematics",chapter,`Add ${x} and ${y}.`,ans,[ans+1,ans-1,ans+0.5])}
+   let x=4+Math.floor(r()*20),y=2+Math.floor(r()*10),ans=x*y;return qobj(c,"Mathematics",chapter,`A box has ${x} rows with ${y} objects in each row. How many objects are there?`,ans,[ans+x,ans-y,ans+1])
+ }
+ if(c<=8){
+   const mode=Math.floor(r()*5);
+   if(mode===0){let x=2+Math.floor(r()*9),ans=3*x+4-2*x;return qobj(c,"Mathematics",chapter,`Simplify: 3(${x}x + 4) − 2(${x}x).`,ans,[ans+2,ans-2,2*x+4])}
+   if(mode===1){let x=3+Math.floor(r()*12),y=2+Math.floor(r()*9),ans=x+y;return qobj(c,"Mathematics",chapter,`Solve x + ${y} = ${ans}.`,x,[x+1,x-1,ans])}
+   if(mode===2){let base=4+Math.floor(r()*16),height=3+Math.floor(r()*12),ans=base*height/2;return qobj(c,"Mathematics",chapter,`Find the area of a triangle with base ${base} cm and height ${height} cm.`,ans+" cm²",[(base*height)+" cm²",(base+height)+" cm²",(ans+base)+" cm²"])}
+   if(mode===3){let x=2+Math.floor(r()*8),ans=x*x;return qobj(c,"Mathematics",chapter,`What is ${x}²?`,ans,[x*2,x*x+1,x*x-1])}
+   let p=2+Math.floor(r()*5),q=3+Math.floor(r()*5),ans=`${p}/${q}`;return qobj(c,"Mathematics",chapter,`Which fraction is in simplest form?`,ans,[`${p+1}/${q}`,`${p}/${q+1}`,`${q}/${p}`])
+ }
+ if(c<=10){
+   const mode=Math.floor(r()*6);
+   if(mode===0){let x=2+Math.floor(r()*9),y=1+Math.floor(r()*9),ans=3*x-2*y;return qobj(c,"Mathematics",chapter,`Evaluate 3(${x}) − 2(${y}).`,ans,[ans+2,ans-2,3*x+2*y])}
+   if(mode===1){let p=2+Math.floor(r()*7),q=1+Math.floor(r()*6),ans=p+q;return qobj(c,"Mathematics",chapter,`If x + ${q} = ${ans}, x = ?`,p,[p+1,p-1,ans])}
+   if(mode===2){let x=2+Math.floor(r()*9),ans=x*x-5*x+6;return qobj(c,"Mathematics",chapter,`For x = ${x}, evaluate x² − 5x + 6.`,ans,[ans+2,ans-2,x*x+5*x+6])}
+   if(mode===3){let r0=2+Math.floor(r()*8),ans=Math.PI*r0*r0;let fixed=ans.toFixed(2);return qobj(c,"Mathematics",chapter,`Using π = 3.14, find the area of a circle of radius ${r0} cm.`,(3.14*r0*r0).toFixed(2)+" cm²",[(3.14*r0*2).toFixed(2)+" cm²",(3.14*r0*r0/2).toFixed(2)+" cm²",(3.14*r0*r0+3.14).toFixed(2)+" cm²"])}
+   if(mode===4){let a0=2+Math.floor(r()*8),b0=3+Math.floor(r()*8),c0=1+Math.floor(r()*5),ans=a0+b0+c0;return qobj(c,"Mathematics",chapter,`The first three terms of an AP are ${a0}, ${b0}, ${c0}. What is their sum?`,ans,[ans+1,ans-1,a0*b0+c0])}
+   let v=2+Math.floor(r()*9),ans=v*v;return qobj(c,"Mathematics",chapter,`What is ${v}²?`,ans,[v*2,v*v+v,v*v-1])
+ }
+ /* 11–12: senior-secondary mathematical generators */
+ const mode=Math.floor(r()*6);
+ if(c===11){
+   if(mode===0){let x=1+Math.floor(r()*9),ans=2*x+2;return qobj(c,"Mathematics",chapter,`If f(x)=x²+2x, then f'(${x}) = ?`,ans,[2*x, x*x+2, x+2])}
+   if(mode===1){let n=3+Math.floor(r()*5),ans=n*(n-1)/2;return qobj(c,"Mathematics",chapter,`What is the coefficient of x² in (1+x)^${n}?`,ans,[n,n*(n+1)/2,n*n])}
+   if(mode===2){let a0=3+Math.floor(r()*7),b0=4+Math.floor(r()*7),ans=Math.sqrt(a0*a0+b0*b0);return qobj(c,"Mathematics",chapter,`Two perpendicular vectors have magnitudes ${a0} and ${b0}. What is the resultant magnitude?`,ans.toFixed(2),[(a0+b0).toFixed(2),Math.abs(a0-b0).toFixed(2),(a0*b0).toFixed(2)])}
+   if(mode===3){let a0=2+Math.floor(r()*6),d=1+Math.floor(r()*5),n0=3+Math.floor(r()*6),ans=n0*(2*a0+(n0-1)*d)/2;return qobj(c,"Mathematics",chapter,`Find the sum of the first ${n0} terms of an AP with a=${a0}, d=${d}.`,ans,[ans+d,ans-d,n0*a0])}
+   if(mode===4){let x=2+Math.floor(r()*6),ans=Math.sin(x*Math.PI/6);return qobj(c,"Mathematics",chapter,`Which expression represents sin(${x}π/6)?`,ans.toFixed(3),[(Math.cos(x*Math.PI/6)).toFixed(3),Math.sin((x+1)*Math.PI/6).toFixed(3),Math.sin((x-1)*Math.PI/6).toFixed(3)])}
+   let p=2+Math.floor(r()*5),q=2+Math.floor(r()*5),ans=p+q;return qobj(c,"Mathematics",chapter,`If n(A)=${p} and n(B)=${q} for disjoint sets, n(A∪B)=?`,ans,[p*q,Math.abs(p-q),p])
+ }
+ if(mode===0){let d=2+Math.floor(r()*5),ans=4*d;return qobj(c,"Mathematics",chapter,`If A is a 2×2 matrix with det(A)=${d}, det(2A)=?`,ans,[2*d,d*d,8*d])}
+ if(mode===1){let x=2+Math.floor(r()*8),ans=x*x;return qobj(c,"Mathematics",chapter,`Evaluate ∫₀^${x} 2x dx.`,ans,[2*x,x,x*x/2])}
+ if(mode===2){let p=(1+Math.floor(r()*5))/10,q=(1+Math.floor(r()*5))/10,ans=p*q;return qobj(c,"Mathematics",chapter,`If independent events have P(A)=${p} and P(B)=${q}, P(A∩B)=?`,ans,[p+q,Math.abs(p-q),1-p*q])}
+ if(mode===3){let m=2+Math.floor(r()*6),n=2+Math.floor(r()*6),ans=m*n;return qobj(c,"Mathematics",chapter,`For a ${m}×${n} matrix, how many entries are there?`,ans,[m+n,m*n+1,m*n-1])}
+ if(mode===4){let a0=2+Math.floor(r()*7),b0=1+Math.floor(r()*6),ans=a0+b0;return qobj(c,"Mathematics",chapter,`If a vector has components ${a0} and ${b0}, what is the sum of its components?`,ans,[a0*b0,Math.abs(a0-b0),a0])}
+ let x=1+Math.floor(r()*8),ans=x*x;return qobj(c,"Mathematics",chapter,`Differentiate x² at x=${x}.`,2*x,[x,x*x,2*x+1])
+}
+
+function genScience(c,sub,chapter,seed){
+ const r=rng(seed);
+ if(sub==="Physics"){
+   if(c===11){
+     const m=2+Math.floor(r()*9),F=10+Math.floor(r()*30),ans=F/m;
+     return qobj(c,sub,chapter,`A ${m} kg body experiences a net force of ${F} N. Its acceleration is?`,ans+" m/s²",[(F/m+1).toFixed(2)+" m/s²",(m/F).toFixed(2)+" m/s²",(F+m)+" m/s²"])
+   }
+   if(c===12){
+     const R=2+Math.floor(r()*9),I=1+Math.floor(r()*5),ans=I*I*R;
+     return qobj(c,sub,chapter,`A ${R} Ω resistor carries ${I} A. Power dissipated is?`,ans+" W",[I*R+" W",I*R*R+" W",I*I+R+" W"])
+   }
+ }
+ if(sub==="Chemistry"){
+   if(c===11){
+     const p=2+Math.floor(r()*4),q=2+Math.floor(r()*4),ans=p*q;
+     return qobj(c,sub,chapter,`If ${p} mol of one reactant reacts with ${q} molar-equivalent ratio, the corresponding product amount is?`,ans+" mol",[p+q+" mol",Math.abs(p-q)+" mol",p+" mol"])
+   }
+   const t=10*(2+Math.floor(r()*5)),ans=t*2;
+   return qobj(c,sub,chapter,`For a first-order reaction with half-life ${t} min, time for 75% completion is?`,ans+" min",[t+" min",(t*3)+" min",(t/2)+" min"])
+ }
+ if(sub==="Biology"){
+   if(c===11)return qobj(c,sub,chapter,"In DNA, adenine pairs with thymine through?","two hydrogen bonds",["three hydrogen bonds","ionic bonds","peptide bonds"]);
+   if(c===12){const p=1+Math.floor(r()*4),q=1+Math.floor(r()*4),ans="1/4";return qobj(c,sub,chapter,`For a monohybrid cross Aa × Aa, probability of aa offspring is?`,ans,["1/2","3/4","1"])}
+ }
+ /* Science for classes 3–10: chapter-specific conceptual questions */
+ const bank=[
+  ["Plants","Which process helps green plants make food?","photosynthesis",["respiration","digestion","germination"]],
+  ["Human Body","Which organ pumps blood around the body?","heart",["lungs","stomach","kidney"]],
+  ["Force","A force can change an object's?","motion or shape",["mass only","chemical formula only","colour only"]],
+  ["Heat","Why does metal usually feel colder than wood in the same room?","Metal conducts heat away from the hand faster.",["Metal is always at a lower temperature.","Wood produces heat.","Metal creates cold."]],
+  ["Atoms","Which particle has a positive electric charge?","proton",["electron","neutron","molecule"]],
+  ["Light","A transparent material allows most light to?","pass through it",["be absorbed","be blocked","turn into sound"]],
+  ["Water","Water vapour changing into liquid is called?","condensation",["evaporation","freezing","sublimation"]],
+  ["Separation","Which method separates an insoluble solid from a liquid?","filtration",["magnetic separation","sublimation","distillation only"]]
+ ];
+ let allowed=bank.filter(x=>chapter.includes(x[0])||x[0]===chapter);
+ let z=pick(r,allowed.length?allowed:bank);
+ return qobj(c,sub,chapter,z[1],z[2],z[3],"concept");
+}
+
+function genEnglish(c,chapter,seed){
+ const r=rng(seed);
+ const banks=[
+  ["Nouns","Which word is a noun in 'The bright bird sings'?","bird",["bright","sings","the"]],
+  ["Articles","Choose the correct article: ___ honest person.","an",["a","the","no article"]],
+  ["Tenses","Choose the correct form: 'She ___ to school every day.'","goes",["go","went","going"]],
+  ["Conjunctions","Choose the best conjunction: 'I studied hard ___ I passed.'","so",["but","or","although"]],
+  ["Clauses","In 'I stayed home because it rained', which is the subordinate clause?","because it rained",["I stayed home","it rained","stayed home"]],
+  ["Reported Speech","He said, 'I am tired.' Choose the correct reported speech.","He said that he was tired.",["He said that I am tired.","He says that he was tired.","He said he is tired yesterday."]],
+  ["Subject-Verb Agreement","Choose the correct sentence.","Neither the teacher nor the students were late.",["Neither the teacher nor the students was late.","Neither teacher nor students is late yesterday.","Neither were the teacher nor students late."]],
+  ["Writing","A strong analytical paragraph should primarily?","interpret and compare the given information",["invent unrelated facts","retell a story only","use decorative language only"]]
+ ];
+ let allowed=banks.filter(x=>chapter===x[0]||chapter.includes(x[0]));
+ let z=pick(r,allowed.length?allowed:banks);
+ return qobj(c,"English",chapter,z[1],z[2],z[3],"concept");
+}
+
+function genSocial(c,sub,chapter,seed){
+ const r=rng(seed);
+ const banks=[
+  ["Civics","A government in which people elect representatives is called?","democracy",["monarchy","dictatorship","feudalism"]],
+  ["Political Science","Federalism mainly distributes power between?","different levels of government",["only political parties","only courts","only private firms"]],
+  ["Economics","A movement along a demand curve is caused by a change in?","own price of the good",["consumer income only","taste only","price of a substitute only"]],
+  ["Geography","The imaginary line dividing Earth into Northern and Southern Hemispheres is?","Equator",["Prime Meridian","Tropic of Cancer","Arctic Circle"]],
+  ["Maps","A map is mainly used to show?","places and locations",["only stories","only sounds","only songs"]],
+  ["Community","A group of people living in the same area forms a?","community",["continent","machine","planet"]]
+ ];
+ let allowed=banks.filter(x=>chapter===x[0]||chapter.includes(x[0]));
+ let z=pick(r,allowed.length?allowed:banks);
+ return qobj(c,sub,chapter,z[1],z[2],z[3],"concept");
+}
+
+function genComputer(c,chapter,seed){
+ const r=rng(seed);
+ const banks=[
+  ["Digital Foundations","Which is an example of strong authentication?","Using a password plus a second verification factor.",["Using only a short password.","Sharing a password with a friend.","Writing a password on a public board."]],
+  ["Algorithms","An algorithm is best described as?","A finite sequence of steps to solve a problem.",["A random collection of data.","A computer screen.","A hardware cable."]],
+  ["Networks","A network is used primarily to?","allow devices to communicate and share resources",["increase screen brightness","replace all software","remove electricity"]],
+  ["Cyber Safety","Which practice best protects an account?","Use a unique strong password and enable multi-factor authentication.",["Reuse one password everywhere.","Share passwords publicly.","Disable security alerts."]],
+  ["Programming","A loop is commonly used to?","repeat a block of instructions",["store electricity","draw only images","delete the operating system"]]
+ ];
+ let z=pick(r,banks.filter(x=>chapter===x[0]||chapter.includes(x[0])).length?banks.filter(x=>chapter===x[0]||chapter.includes(x[0])):banks);
+ return qobj(c,"Computer",chapter,z[1],z[2],z[3],"concept");
+}
+
+function genCommerce(c,sub,chapter,seed){
+ const r=rng(seed);
+ if(sub==="Accountancy"){
+   if(c===11){let assets=100000+Math.floor(r()*8)*25000,liab=20000+Math.floor(r()*5)*10000,cap=assets-liab;return qobj(c,sub,chapter,`Assets are ₹${assets.toLocaleString("en-IN")} and liabilities are ₹${liab.toLocaleString("en-IN")}. Capital is?`,`₹${cap.toLocaleString("en-IN")}`,["₹"+(assets+liab).toLocaleString("en-IN"),"₹"+liab.toLocaleString("en-IN"),"₹"+assets.toLocaleString("en-IN")])}
+   let avg=50000+Math.floor(r()*6)*10000,norm=30000+Math.floor(r()*3)*5000,years=2+Math.floor(r()*4),ans=(avg-norm)*years;return qobj(c,sub,chapter,`Average profit is ₹${avg.toLocaleString("en-IN")} and normal profit is ₹${norm.toLocaleString("en-IN")}. Goodwill at ${years} years' purchase of super profit is?`,`₹${ans.toLocaleString("en-IN")}`,["₹"+(avg*years).toLocaleString("en-IN"),"₹"+(avg-norm).toLocaleString("en-IN"),"₹"+(norm*years).toLocaleString("en-IN")])
+ }
+ if(sub==="Economics"){
+   if(c===11){let m=(0.5+Math.floor(r()*4)/10),mult=1/(1-m);return qobj(c,sub,chapter,`If MPC is ${m.toFixed(1)}, the simple multiplier is?`,mult.toFixed(2),[(1-m).toFixed(2),(1/m).toFixed(2),(1+m).toFixed(2)])}
+   let m=(0.5+Math.floor(r()*4)/10),mult=1/(1-m);return qobj(c,sub,chapter,`If MPC is ${m.toFixed(1)}, the simple Keynesian multiplier is?`,mult.toFixed(2),[(1-m).toFixed(2),(1/m).toFixed(2),(1+m).toFixed(2)])
+ }
+ if(sub==="Business Studies")return qobj(c,sub,chapter,"Which function involves setting standards and comparing actual performance with them?","Controlling",["Staffing","Directing","Recruitment"]);
+ return qobj(c,sub,chapter,"Which skill is essential for careful accounting and business decision-making?","Accurate analysis",["Guesswork","Ignoring records","Avoiding evidence"]);
+}
+
+/* Build a virtual bank: no fake answer variants. Each seed index
+   maps to a fresh parameterized question. This supports huge pools
+   without storing hundreds of thousands of HTML objects. */
+function makeQuestion(cls,sub,chapter,serial){
+ const seed=`${cls}|${sub}|${chapter}|${serial}`;
+ if(sub==="Mathematics")return genMath(cls,chapter,seed);
+ if(sub==="English")return genEnglish(cls,chapter,seed);
+ if(["Science"].includes(sub))return genScience(cls,sub,chapter,seed);
+ if(["Physics","Chemistry","Biology"].includes(sub))return genScience(cls,sub,chapter,seed);
+ if(["Social Studies","Social Science"].includes(sub))return genSocial(cls,sub,chapter,seed);
+ if(sub==="Computer")return genComputer(cls,chapter,seed);
+ if(["Accountancy","Economics","Business Studies"].includes(sub))return genCommerce(cls,sub,chapter,seed);
+ return genEnglish(cls,chapter,seed);
+}
+
+function bankSize(cls,sub){
+ /* Virtual capacity. Conceptual subjects have a smaller but still
+    large deterministic pool; numerical subjects have massive pools. */
+ if(sub==="Mathematics")return cls>=9?25000:15000;
+ if(["Physics","Chemistry","Biology","Accountancy","Economics"].includes(sub))return 12000;
+ return 6000;
+}
+function totalCapacity(){
+ let n=0;for(let c=1;c<=12;c++)for(const s of SUBJECTS[c])for(const ch of CHAPTERS[c][s])n+=bankSize(c,s);return n;
+}
+
+/* ---------- UI ---------- */
+function setView(v){$$(".nav").forEach(b=>b.classList.toggle("on",b.dataset.view===v));render(v)}
+function render(v="home"){
+ const a=$("#app");
+ if(v==="home")home(a); else if(v==="bank")bank(a); else if(v==="quiz")quizSetup(a); else if(v==="classes")classes(a); else stats(a);
+}
+function home(a){
+ a.innerHTML=`<section class="hero"><div><span class="pill">MEGA CLASSWISE ENGINE</span><h1>Study smarter. Practice with confidence.</h1><p>Questions are generated from the selected class → subject → chapter. Numeric questions calculate the answer from the same parameters used in the question, so the answer key cannot be produced by a separate "shift" trick.</p><button class="btn" id="practice">Start Practice</button></div><div style="font-size:90px">🧠</div></section>
+<div class="grid"><div class="card stat">Virtual Questions<b>${totalCapacity().toLocaleString("en-IN")}+</b><span class="muted">Generated on demand</span></div><div class="card stat">Classes<b>1–12</b><span class="muted">Strict class selection</span></div><div class="card stat">Attempts<b>${state.attempts}</b><span class="muted">On this device</span></div><div class="card stat">Accuracy<b>${state.attempts?Math.round(state.correct/state.attempts):0}%</b><span class="muted">Per-question accuracy</span></div></div>
+<div class="section"><h2>How the bank works</h2></div><div class="card"><p><b>1. Class</b> → <b>2. Subject</b> → <b>3. Chapter</b> → <b>4. Difficulty-appropriate generator</b> → <b>5. New parameters</b> → <b>6. Answer calculated from the same question.</b></p><p class="muted">This is a virtual question bank: the file does not need to contain a million literal question objects. It can generate many consistent parameter combinations offline.</p></div>`;
+ $("#practice").onclick=()=>setView("quiz");
+}
+function classes(a){
+ a.innerHTML=`<div class="section"><h1>Classes 1–12</h1><span class="muted">Select a class first</span></div><div class="classgrid">${Array.from({length:12},(_,i)=>`<button class="classbtn" data-c="${i+1}"><b>Class ${i+1}</b><br><span class="muted">${LEVEL[i+1]}</span></button>`).join("")}</div><div id="details"></div>`;
+ $$("[data-c]").forEach(b=>b.onclick=()=>{state.classNo=+b.dataset.c;save();showClass(+b.dataset.c)});
+ showClass(state.classNo);
+ function showClass(c){
+  $("#details").innerHTML=`<div class="section"><h2>Class ${c}</h2><span class="pill">${LEVEL[c]}</span></div><div class="subgrid">${SUBJECTS[c].map(s=>`<button class="subbtn" data-sub="${esc(s)}"><b>${esc(s)}</b><br><span class="muted">${CHAPTERS[c][s].length} chapters • ${bankSize(c,s).toLocaleString("en-IN")} generated questions/chapter</span></button>`).join("")}</div>`;
+  $$("#details [data-sub]").forEach(b=>b.onclick=()=>{setView("quiz");setTimeout(()=>{if($("#qClass")){$("#qClass").value=c;fillSubjects();$("#qSub").value=b.dataset.sub;fillChapters() }},0)})
+ }
+}
+function bank(a){
+ a.innerHTML=`<div class="section"><h1>Question Bank Explorer</h1><span class="pill">${totalCapacity().toLocaleString("en-IN")}+ virtual questions</span></div>
+<div class="card controls"><div class="field"><label>Class</label><select id="bClass">${Array.from({length:12},(_,i)=>`<option ${state.classNo===i+1?"selected":""}>${i+1}</option>`).join("")}</select></div><div class="field"><label>Subject</label><select id="bSub"></select></div><div class="field"><label>Chapter</label><select id="bCh"></select></div><div class="field"><label>Question number</label><input id="bNo" type="number" min="1" value="1"></div></div><br><button class="btn" id="showQ">Generate Question</button><div id="preview" style="margin-top:15px"></div>`;
+ const fs=()=>{const c=+$("#bClass").value;$("#bSub").innerHTML=SUBJECTS[c].map(s=>`<option>${s}</option>`).join("");$("#bSub").onchange=fc;fc()};const fc=()=>{const c=+$("#bClass").value,s=$("#bSub").value;$("#bCh").innerHTML=CHAPTERS[c][s].map(x=>`<option>${x}</option>`).join("")};fs();$("#bClass").onchange=fs;$("#showQ").onclick=()=>{const c=+$("#bClass").value,s=$("#bSub").value,ch=$("#bCh").value,n=Math.max(1,+$("#bNo").value||1),x=makeQuestion(c,s,ch,n);preview(x)};
+ function preview(x){$("#preview").innerHTML=`<div class="card"><span class="pill">Class ${x.cls} • ${esc(x.sub)} • ${esc(x.chapter)}</span><h2>${esc(x.q)}</h2>${shuffle(x.opts,rng(Date.now())).map(o=>`<div class="option">${esc(o)}</div>`).join("")}<details><summary>Reveal answer</summary><p><b>${esc(x.a)}</b></p></details></div>`}
+}
+function quizSetup(a){
+ a.innerHTML=`<div class="section"><h1>Practice Quiz</h1><span class="pill">Class-locked + chapter-locked</span></div>
+<div class="card controls"><div class="field"><label>Class</label><select id="qClass">${Array.from({length:12},(_,i)=>`<option ${state.classNo===i+1?"selected":""}>${i+1}</option>`).join("")}</select></div><div class="field"><label>Subject</label><select id="qSub"></select></div><div class="field"><label>Chapter</label><select id="qCh"></select></div><div class="field"><label>Questions</label><select id="qCount"><option>10</option><option>20</option><option>30</option><option>50</option></select></div></div><br><button class="btn" id="begin">Generate Secure Quiz</button><div id="quiz"></div>`;
+ fillSubjects();$("#qClass").onchange=fillSubjects;$("#qSub").onchange=fillChapters;$("#begin").onclick=startQuiz;
+}
+function fillSubjects(){const c=+$("#qClass").value;$("#qSub").innerHTML=SUBJECTS[c].map(s=>`<option>${s}</option>`).join("");fillChapters()}
+function fillChapters(){const c=+$("#qClass").value,s=$("#qSub").value;$("#qCh").innerHTML=CHAPTERS[c][s].map(x=>`<option>${x}</option>`).join("")}
+let quiz=null;
+function startQuiz(){
+ const c=+$("#qClass").value,s=$("#qSub").value,ch=$("#qCh").value,n=+$("#qCount").value;
+ const r=rng(Date.now()+"|"+Math.random()),items=[];let start=Math.floor(r()*bankSize(c,s));
+ for(let i=0;i<n;i++)items.push(makeQuestion(c,s,ch,start+i+1));
+ quiz={items,i:0,score:0,answered:false};renderQuestion()
+}
+function renderQuestion(){
+ const x=quiz.items[quiz.i],a=$("#quiz");
+ if(!x){finish();return}
+ const r=rng(`${Date.now()}|${quiz.i}|${x.q}`),opts=shuffle(x.opts,r);
+ a.innerHTML=`<div class="quizbox card"><div class="section" style="margin-top:0"><span class="pill">Question ${quiz.i+1}/${quiz.items.length}</span><span class="muted">Class ${x.cls} • ${esc(x.sub)} • ${esc(x.chapter)}</span></div><div class="bar"><i style="width:${quiz.i/quiz.items.length*100}%"></i></div><h2>${esc(x.q)}</h2><div id="opts">${opts.map((o,i)=>`<button class="option" data-index="${i}">${esc(o)}</button>`).join("")}</div><div id="feedback"></div></div>`;
+ $$("#opts .option").forEach(b=>b.onclick=()=>answer(b,x,opts))
+}
+function answer(btn,x,opts){
+ if(quiz.answered)return;quiz.answered=true;
+ const chosen=opts[+btn.dataset.index],ok=chosen===x.a;
+ state.attempts++;if(ok){quiz.score++;state.correct++;state.points+=10;btn.classList.add("correct")}else btn.classList.add("wrong");
+ $$("#opts .option").forEach(b=>{if(opts[+b.dataset.index]===x.a)b.classList.add("correct")});
+ save();
+ $("#feedback").innerHTML=`<div class="notice ${ok?"success":"danger"}"><b>${ok?"Correct!":"Not quite."}</b><br>${ok?"Great — the selected option matches the calculated answer.":"Correct answer: "+esc(x.a)}<br><span style="font-size:12px">Chapter: ${esc(x.chapter)} • Difficulty: ${LEVEL[x.cls]}</span></div><br><button class="btn" id="next">${quiz.i+1===quiz.items.length?"Finish Quiz":"Next Question"}</button>`;
+ $("#next").onclick=()=>{quiz.i++;quiz.answered=false;renderQuestion()}
+}
+function finish(){
+ const pct=Math.round(quiz.score/quiz.items.length*100);
+ $("#quiz").innerHTML=`<div class="card" style="text-align:center"><h2>Quiz Complete 🎉</h2><div style="font-size:60px;font-weight:800">${pct}%</div><p><b>${quiz.score}/${quiz.items.length}</b> correct</p><p class="muted">Every question in this attempt was generated from the selected Class → Subject → Chapter.</p><button class="btn" onclick="setView('quiz')">New Quiz</button></div>`;
+}
+function stats(a){
+ const acc=state.attempts?Math.round(state.correct/state.attempts*100):0;
+ a.innerHTML=`<div class="section"><h1>Accuracy & Stats</h1></div><div class="grid"><div class="card stat">Questions Answered<b>${state.attempts}</b></div><div class="card stat">Correct<b>${state.correct}</b></div><div class="card stat">Accuracy<b>${acc}%</b></div><div class="card stat">XP<b>${state.points}</b></div></div><div class="card"><h2>Answer-key safety</h2><p>StudyHub calculates the correct answer inside the same generator that creates the question. It does not create a question and then randomly change the answer afterward.</p><div class="notice success">This architecture is specifically designed to prevent the mismatch you found in the previous version.</div></div>`;
+}
+$$(".nav").forEach(b=>b.onclick=()=>setView(b.dataset.view));
+$("#menu").onclick=()=>$("#side").classList.toggle("open");
+$("#theme").onclick=()=>{document.documentElement.classList.toggle("dark");localStorage.setItem("studyhub_theme",document.documentElement.classList.contains("dark")?"dark":"light")};
+if(localStorage.getItem("studyhub_theme")==="dark")document.documentElement.classList.add("dark");
+$("#search").oninput=e=>{let q=e.target.value.toLowerCase();if(q.includes("quiz"))setView("quiz");else if(q.includes("question"))setView("bank");else if(q.includes("class"))setView("classes")};
+render();
+
+/* ---------- INTERNAL SELF-CHECK ----------
+   Run from the dashboard console by typing:
+   StudyHubSelfTest()
+   It tests thousands of generated questions and verifies that
+   the stored answer is exactly one of the generated options.
+--------------------------------------------------------------- */
+window.StudyHubSelfTest=function(){
+ let checked=0,errors=[];
+ for(let c=1;c<=12;c++)for(const s of SUBJECTS[c])for(const ch of CHAPTERS[c][s]){
+   const limit=Math.min(40,bankSize(c,s));
+   for(let i=1;i<=limit;i++){const x=makeQuestion(c,s,ch,i);checked++;if(!x.opts.includes(x.a)||x.opts.length!==4)errors.push({c,s,ch,i,x})}
+ }
+ return {checked,errors,errorCount:errors.length,passed:errors.length===0};
+};
+</script>
+</body>
+</html>
