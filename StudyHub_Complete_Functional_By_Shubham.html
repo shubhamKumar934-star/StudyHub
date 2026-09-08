@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#4f46e5">
+<title>StudyHub — Smart Learning Platform | Created by Shubham Kumar</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#687386;--primary:#4f46e5;--primary2:#7c3aed;--line:#e7eaf1;--good:#16a34a;--bad:#dc2626;--shadow:0 12px 35px rgba(30,41,59,.08)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.app{display:flex;min-height:100vh}.side{width:250px;background:#101426;color:#fff;position:fixed;inset:0 auto 0 0;padding:20px 14px;z-index:20}.brand{display:flex;align-items:center;gap:10px;padding:8px 10px 24px;font-size:22px;font-weight:800}.logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#6366f1,#a855f7);display:grid;place-items:center}.nav{display:grid;gap:6px}.nav button{width:100%;text-align:left;background:transparent;color:#cbd0df;padding:12px;border-radius:10px;font-weight:650}.nav button:hover,.nav button.active{background:#202641;color:#fff}.sideBottom{position:absolute;bottom:18px;left:14px;right:14px;color:#8e96aa;font-size:12px;padding:10px}.main{margin-left:250px;width:calc(100% - 250px)}.top{height:70px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 26px;position:sticky;top:0;z-index:10}.search{flex:1;max-width:650px;position:relative}.search input{width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--bg);outline:none}.topBtns{margin-left:auto;display:flex;gap:8px}.iconBtn{width:42px;height:42px;border-radius:11px;background:var(--bg);color:var(--text)}.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#ddd6fe;color:#5b21b6;font-weight:800}.page{padding:26px;max-width:1500px;margin:auto}.hero{background:linear-gradient(135deg,#4338ca,#7c3aed);color:white;border-radius:22px;padding:30px;display:flex;justify-content:space-between;gap:20px;box-shadow:var(--shadow)}.hero h1{font-size:34px;margin:0 0 8px}.hero p{margin:0;color:#e8e7ff}.heroArt{font-size:70px;align-self:center}.grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(4,1fr);margin:20px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:18px;box-shadow:var(--shadow)}.stat{display:flex;align-items:center;justify-content:space-between}.stat b{font-size:28px}.muted{color:var(--muted)}.sectionHead{display:flex;align-items:center;justify-content:space-between;margin:28px 0 13px}.sectionHead h2{margin:0;font-size:21px}.subjectGrid{grid-template-columns:repeat(5,1fr)}.subject{padding:18px;border-radius:16px;background:var(--card);border:1px solid var(--line);cursor:pointer;transition:.18s}.subject:hover{transform:translateY(-2px);border-color:#c7c9ff}.subject .emoji{font-size:28px}.subject h3{margin:10px 0 4px}.classes{grid-template-columns:repeat(6,1fr)}.classBtn{padding:18px 8px;text-align:center;border-radius:14px;background:var(--card);border:1px solid var(--line);font-weight:800}.classBtn:hover{background:#eef2ff;border-color:#a5b4fc}.tools{grid-template-columns:repeat(4,1fr)}.tool{cursor:pointer}.tool strong{display:block;margin:9px 0 4px}.list{display:grid;gap:10px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--card)}.btn{padding:10px 15px;border-radius:10px;background:var(--primary);color:#fff;font-weight:750}.btn.secondary{background:#eef2ff;color:#3730a3}.btn.ghost{background:var(--bg);color:var(--text)}.btn.danger{background:#fee2e2;color:#991b1b}.btn.good{background:#dcfce7;color:#166534}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#eef2ff;color:#4338ca;font-size:12px;font-weight:700}.progress{height:9px;background:#e9edf5;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#4f46e5,#8b5cf6);border-radius:inherit}.two{grid-template-columns:1.5fr 1fr}.empty{text-align:center;padding:40px;color:var(--muted)}.hidden{display:none!important}
+.tabs{display:flex;gap:8px;overflow:auto;margin:15px 0}.tab{padding:9px 13px;border-radius:10px;background:var(--card);border:1px solid var(--line);white-space:nowrap}.tab.active{background:#4f46e5;color:#fff}.chapter{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--card);margin-bottom:10px}.chapter h3{margin:0 0 7px}.noteBox{white-space:pre-wrap;line-height:1.7;background:#fafafa;border:1px solid var(--line);border-radius:13px;padding:16px}.quizWrap{max-width:900px;margin:auto}.qTop{display:flex;justify-content:space-between;align-items:center;gap:10px}.question{font-size:22px;font-weight:800;line-height:1.45;margin:25px 0}.options{display:grid;gap:10px}.option{padding:14px;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:12px}.option:hover{border-color:#a5b4fc}.option.selected{border-color:#4f46e5;background:#eef2ff}.option.correct{border-color:#22c55e;background:#dcfce7}.option.wrong{border-color:#ef4444;background:#fee2e2}.result{text-align:center;padding:35px}.bigScore{font-size:60px;font-weight:900}.calc{max-width:400px;margin:auto}.calcDisplay{width:100%;font-size:30px;padding:16px;text-align:right;border:1px solid var(--line);border-radius:12px;background:#f8fafc}.calcKeys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}.calcKeys button{padding:16px;border-radius:10px;background:#eef2ff}.timer{text-align:center}.clock{font-size:76px;font-weight:900;margin:20px}.timer input{width:80px;padding:9px;border:1px solid var(--line);border-radius:8px}.chart{height:190px;display:flex;align-items:end;gap:12px;padding:15px 5px}.bar{flex:1;background:linear-gradient(#818cf8,#4f46e5);border-radius:8px 8px 2px 2px;min-height:5px;position:relative}.bar span{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--muted)}.modal{position:fixed;inset:0;background:rgba(15,23,42,.6);display:grid;place-items:center;padding:20px;z-index:50}.modalBox{width:min(650px,100%);max-height:90vh;overflow:auto;background:var(--card);border-radius:18px;padding:22px}.modalHead{display:flex;justify-content:space-between;align-items:center}.modal input,.modal textarea,.modal select{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;margin:7px 0 13px}.toast{position:fixed;right:20px;bottom:20px;background:#111827;color:#fff;padding:13px 17px;border-radius:11px;z-index:100;box-shadow:var(--shadow)}body.dark{--bg:#0b1020;--card:#121a2c;--text:#eef2ff;--muted:#9aa4ba;--line:#263149;--shadow:0 12px 35px rgba(0,0,0,.25)}body.dark .search input,body.dark .calcDisplay,body.dark .noteBox{background:#0e1628}body.dark .option,body.dark .chapter{background:var(--card)}
+@media(max-width:1050px){.subjectGrid{grid-template-columns:repeat(3,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.tools{grid-template-columns:repeat(2,1fr)}.classes{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:760px){.side{width:70px;padding:12px 8px}.brand span,.nav button span,.sideBottom{display:none}.brand{justify-content:center;padding-bottom:18px}.nav button{text-align:center}.main{margin-left:70px;width:calc(100% - 70px)}.top{padding:0 12px}.page{padding:15px}.hero{padding:22px}.hero h1{font-size:25px}.heroArt{font-size:45px}.subjectGrid{grid-template-columns:repeat(2,1fr)}.classes{grid-template-columns:repeat(3,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:450px){.stats,.tools,.subjectGrid{grid-template-columns:1fr 1fr}.classes{grid-template-columns:repeat(2,1fr)}.heroArt{display:none}.top .search{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="brand"><div class="logo">S</div><div><span>StudyHub</span><small style="display:block;font-size:9px;opacity:.65;letter-spacing:.4px;margin-top:2px">BY SHUBHAM KUMAR</small></div></div>
+  <nav class="nav">
+    <button class="active" onclick="showPage('home',this)">🏠 <span>Dashboard</span></button>
+    <button onclick="showPage('classes',this)">🎓 <span>My Classes</span></button>
+    <button onclick="showPage('quiz',this)">🧠 <span>Quiz Arena</span></button>
+    <button onclick="showPage('notes',this)">📝 <span>My Notes</span></button>
+    <button onclick="showPage('timer',this)">⏱️ <span>Focus Timer</span></button>
+    <button onclick="showPage('calculator',this)">🧮 <span>Calculator</span></button>
+    <button onclick="showPage('leaderboard',this)">🏆 <span>Leaderboard</span></button>
+    <button onclick="showPage('knowledge',this)">💡 <span>Daily Knowledge</span></button>
+  </nav>
+  <div class="sideBottom">Learn • Practice • Improve<br><span style="font-size:11px;opacity:.75">Created with ❤️ by <b>Shubham Kumar</b></span></div>
+</aside>
+<main class="main">
+<header class="top">
+  <div class="search"><input id="globalSearch" placeholder="Search classes, subjects, chapters..." oninput="searchSite(this.value)"></div>
+  <div class="topBtns">
+    <button class="iconBtn" onclick="toggleTheme()" title="Theme">🌙</button>
+    <button class="iconBtn" onclick="notify('No new notifications 🎉')" title="Notifications">🔔</button>
+    <button class="avatar" onclick="openProfile()">S</button>
+  </div>
+</header>
+<div id="appPage" class="page"></div>
+<footer style="margin:30px 0 10px;padding:18px 8px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:13px">StudyHub • Smart Learning Platform<br><strong style="color:var(--text)">Created with ❤️ by Shubham Kumar</strong><br><span style="font-size:11px">Learn • Practice • Improve • Achieve</span></footer>
+</main>
+</div>
+
+<div id="modal" class="modal hidden" onclick="if(event.target===this)closeModal()"><div class="modalBox" id="modalBox"></div></div>
+<div id="toast" class="toast hidden"></div>
+
+<script>
+const subjects={
+ Mathematics:{icon:'📐',desc:'Numbers, algebra, geometry and problem solving'},
+ English:{icon:'📖',desc:'Grammar, vocabulary, reading and communication'},
+ Science:{icon:'🔬',desc:'Explore living things, matter, energy and our world'},
+ 'Social Studies':{icon:'🌍',desc:'History, geography, civics and society'},
+ Computer:{icon:'💻',desc:'Digital skills, coding, internet and computer basics'},
+ Hindi:{icon:'🪶',desc:'भाषा, व्याकरण, साहित्य और रचनात्मक लेखन'}
+};
+const classSubjects={};
+for(let c=1;c<=12;c++) classSubjects[c]=c<=5?['Mathematics','English','EVS/Science','Hindi','Computer']:['Mathematics','English','Science','Social Studies','Computer','Hindi'];
+const chapterNames={
+ Mathematics:['Number System','Algebra & Patterns','Geometry','Measurement','Data Handling','Fractions & Decimals'],
+ English:['Grammar','Vocabulary','Reading Skills','Writing Skills','Comprehension','Communication'],
+ Science:['Living World','Matter','Force & Energy','Environment','Human Body','Space & Earth'],
+ 'EVS/Science':['My Surroundings','Plants & Animals','Food & Health','Water & Air','Family & Community','Earth & Environment'],
+ 'Social Studies':['History','Geography','Civics','Economics','Culture & Society','Maps & Resources'],
+ Computer:['Computer Basics','Hardware & Software','Internet','Algorithms & Coding','Cyber Safety','Digital Skills'],
+ Hindi:['व्याकरण','शब्द-भंडार','पठन कौशल','लेखन कौशल','साहित्य','भाषा अभ्यास']
+};
+const state={
+ page:'home', selectedClass:6, selectedSubject:'Mathematics', chapter:0,
+ quiz:null, quizScore:0, timer:null, notes:JSON.parse(localStorage.getItem('sh_notes')||'[]'),
+ stats:JSON.parse(localStorage.getItem('sh_stats')||'{"quizzes":0,"correct":0,"questions":0,"minutes":0}'),
+ history:JSON.parse(localStorage.getItem('sh_history')||'[]'),
+ theme:localStorage.getItem('sh_theme')||'light'
+};
+if(state.theme==='dark')document.body.classList.add('dark');
+
+function save(){localStorage.setItem('sh_notes',JSON.stringify(state.notes));localStorage.setItem('sh_stats',JSON.stringify(state.stats));localStorage.setItem('sh_history',JSON.stringify(state.history));}
+function notify(t){const x=document.getElementById('toast');x.textContent=t;x.classList.remove('hidden');clearTimeout(window.tt);window.tt=setTimeout(()=>x.classList.add('hidden'),2400)}
+function showPage(p,btn){
+ state.page=p; document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');
+ render();
+}
+function render(){
+ const p=document.getElementById('appPage');
+ if(state.page==='home')p.innerHTML=homePage();
+ if(state.page==='classes')p.innerHTML=classesPage();
+ if(state.page==='quiz')p.innerHTML=quizPage();
+ if(state.page==='notes')p.innerHTML=notesPage();
+ if(state.page==='timer')p.innerHTML=timerPage();
+ if(state.page==='calculator')p.innerHTML=calcPage();
+ if(state.page==='leaderboard')p.innerHTML=leaderboardPage();
+ if(state.page==='knowledge')p.innerHTML=knowledgePage();
+ if(state.page==='study')p.innerHTML=studyPage();
+}
+function homePage(){
+ const s=state.stats, accuracy=s.questions?Math.round(s.correct/s.questions*100):0;
+ return `<section class="hero"><div><h1>Welcome to StudyHub, Shubham 👋</h1><p>Your all-in-one learning, practice and progress platform.</p><div style="margin-top:18px"><button class="btn" onclick="showPage('classes')">Start Learning →</button></div></div><div class="heroArt">🎓</div></section>
+ <div class="grid stats">
+  <div class="card stat"><div><span class="muted">Quiz Attempts</span><br><b>${s.quizzes}</b></div><span>🧠</span></div>
+  <div class="card stat"><div><span class="muted">Questions Solved</span><br><b>${s.questions}</b></div><span>✅</span></div>
+  <div class="card stat"><div><span class="muted">Accuracy</span><br><b>${accuracy}%</b></div><span>🎯</span></div>
+  <div class="card stat"><div><span class="muted">Study Minutes</span><br><b>${s.minutes}</b></div><span>⏱️</span></div>
+ </div>
+ <div class="sectionHead"><h2>Choose Your Class</h2><button class="btn secondary" onclick="showPage('classes')">View All</button></div>
+ <div class="grid classes">${Array.from({length:12},(_,i)=>`<button class="classBtn" onclick="openClass(${i+1})">Class ${i+1}<br><small class="muted">Learn & Practice</small></button>`).join('')}</div>
+ <div class="sectionHead"><h2>Quick Tools</h2></div>
+ <div class="grid tools">
+  ${[['🧠','Quiz Arena','Test your knowledge','quiz'],['⏱️','Focus Timer','Study without distractions','timer'],['🧮','Calculator','Fast calculations','calculator'],['💡','Daily Knowledge','Learn something new','knowledge']].map(x=>`<div class="card tool" onclick="showPage('${x[3]}')"><span style="font-size:32px">${x[0]}</span><strong>${x[1]}</strong><span class="muted">${x[2]}</span></div>`).join('')}
+ </div>
+ <div class="sectionHead"><h2>Recent Activity</h2></div>
+ ${state.history.length?`<div class="list">${state.history.slice(-5).reverse().map(h=>`<div class="row"><span>📝 ${h.title}</span><span class="pill">${h.score}%</span></div>`).join('')}</div>`:`<div class="card empty">No activity yet. Take your first quiz!</div>`}`;
+}
+function classesPage(){
+ return `<div class="sectionHead"><div><h2>My Classes</h2><p class="muted">Select any class from 1 to 12.</p></div></div>
+ <div class="grid classes">${Array.from({length:12},(_,i)=>`<button class="classBtn" onclick="openClass(${i+1})">🎓<br>Class ${i+1}</button>`).join('')}</div>
+ <div id="classPanel" style="margin-top:22px">${classPanel(state.selectedClass)}</div>`;
+}
+function openClass(c){state.selectedClass=c;state.page='classes';render();setTimeout(()=>document.getElementById('classPanel')?.scrollIntoView({behavior:'smooth'}),50)}
+function classPanel(c){
+ const subs=classSubjects[c]||[];
+ return `<div class="card"><div class="sectionHead" style="margin-top:0"><div><h2>Class ${c} Learning Hub</h2><p class="muted">Choose a subject to open chapters, notes and practice.</p></div><span class="pill">${subs.length} Subjects</span></div>
+ <div class="grid subjectGrid">${subs.map(sub=>{let key=sub==='EVS/Science'?'EVS/Science':sub;return `<div class="subject" onclick="openStudy(${c},'${key.replaceAll("'","\\'")}')"><div class="emoji">${subjects[key]?.icon||'🌱'}</div><h3>${key}</h3><p class="muted">${subjects[key]?.desc||'Explore your world and learn new concepts.'}</p><span class="pill">Open →</span></div>`}).join('')}</div></div>`;
+}
+function openStudy(c,sub){state.selectedClass=c;state.selectedSubject=sub;state.chapter=0;state.page='study';render()}
+function studyPage(){
+ const sub=state.selectedSubject, c=state.selectedClass, names=chapterNames[sub]||chapterNames.Mathematics;
+ const name=names[state.chapter]||names[0];
+ const content=makeNote(c,sub,name);
+ return `<div class="sectionHead"><div><button class="btn secondary" onclick="showPage('classes')">← Classes</button><h2 style="margin-top:12px">Class ${c} • ${sub}</h2><p class="muted">Select a chapter to study.</p></div></div>
+ <div class="tabs">${names.map((n,i)=>`<button class="tab ${i===state.chapter?'active':''}" onclick="state.chapter=${i};render()">${n}</button>`).join('')}</div>
+ <div class="grid two"><div class="card"><h2>${name}</h2><div class="noteBox">${content}</div><div style="margin-top:15px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="startQuiz(${c},'${sub.replaceAll("'","\\'")}')">Practice This Subject</button><button class="btn secondary" onclick="addNote('${name.replaceAll("'","\\'")}','${content.replaceAll("'","\\'").replaceAll("\\n"," ")}')">Save to Notes</button></div></div>
+ <div class="card"><h3>Chapter Actions</h3><div class="list"><button class="row" onclick="startQuiz(${c},'${sub.replaceAll("'","\\'")}')"><span>🧠 Start Quiz</span><span>→</span></button><button class="row" onclick="showPage('notes')"><span>📝 My Notes</span><span>→</span></button><button class="row" onclick="showPage('timer')"><span>⏱️ Focus Timer</span><span>→</span></button></div></div></div>`;
+}
+function makeNote(c,sub,ch){
+ const basics={
+ Mathematics:`Class ${c} focus: ${ch}. Review definitions, solve examples step by step, and check every calculation.\\n\\nKey habit: write the given information first, choose the correct rule or formula, then verify your answer.`,
+ English:`Class ${c} focus: ${ch}. Read the sentence carefully, identify the grammar or vocabulary idea being tested, and explain your answer in your own words.\\n\\nPractice: read a short paragraph daily and write 3 new words with meanings.`,
+ Science:`Class ${c} focus: ${ch}. Science becomes easier when you connect an observation to a reason. Learn the key terms, then explain the concept without looking at the note.\\n\\nRemember: observe → explain → apply.`,
+ 'EVS/Science':`Class ${c} focus: ${ch}. Observe your surroundings and connect classroom ideas with real-life examples.\\n\\nPractice: make a small list of things you observe related to this chapter.`,
+ 'Social Studies':`Class ${c} focus: ${ch}. Learn important ideas in sequence and connect people, places, events and reasons.\\n\\nPractice: create a timeline or a small map/diagram whenever useful.`,
+ Computer:`Class ${c} focus: ${ch}. Understand what a digital tool does, why it is useful, and how to use it safely.\\n\\nPractice: explain one computer term to another student using a simple example.`,
+ Hindi:`कक्षा ${c} का विषय: ${ch}। पहले मुख्य नियम या विचार समझें, फिर उदाहरण पढ़ें और अंत में स्वयं एक उदाहरण बनाएँ।\\n\\nअभ्यास: रोज़ 5 नए शब्द लिखें और उनका वाक्य बनाएँ।`
+ };
+ return (basics[sub]||basics.Mathematics).replaceAll('\\\\n','\\n');
+}
+
+/* ---------- LARGE ORIGINAL QUESTION ENGINE ---------- */
+function seedFor(c,sub){return c*97+[...sub].reduce((a,x)=>a+x.charCodeAt(0),0)}
+function rng(seed){let x=Math.sin(seed++)*10000;return [x-Math.floor(x),seed]}
+function randInt(a,b,seed){let [r,s]=rng(seed);return [Math.floor(r*(b-a+1))+a,s]}
+function mcq(q,opts,a,tag){return {q,opts,a,tag}}
+function generateQuestions(c,sub,count=60){
+ let arr=[], seed=seedFor(c,sub), i=0;
+ const add=(q,o,a,t)=>arr.push(mcq(q,o,a,t));
+ while(arr.length<count){
+  let n1,n2,n3,s;
+  [n1,seed]=randInt(2,30,seed);[n2,seed]=randInt(2,20,seed);[n3,seed]=randInt(2,12,seed);
+  if(sub==='Mathematics'){
+   const type=i%10;
+   if(type===0){let ans=n1+n2;add(`What is ${n1} + ${n2}?`,[ans,ans+1,ans-1,ans+2].map(String),0,'Addition')}
+   else if(type===1){let ans=n1*n2;add(`What is ${n1} × ${n2}?`,[ans,ans+n1,ans-n2,ans+2].map(String),0,'Multiplication')}
+   else if(type===2){let ans=n1*n2;add(`What is ${ans} ÷ ${n1}?`,[n2,n2+1,n2-1,n2+2].map(String),0,'Division')}
+   else if(type===3){let ans=n1-n2;if(ans<0)continue;add(`What is ${n1} − ${n2}?`,[ans,ans+1,ans+2,Math.max(0,ans-1)].map(String),0,'Subtraction')}
+   else if(type===4){let ans=n1*2;add(`What is double of ${n1}?`,[ans,ans+1,n1,n1*3].map(String),0,'Number')}
+   else if(type===5){let ans=n1*10;add(`What is ${n1} × 10?`,[ans,ans+10,n1,n1*100].map(String),0,'Place Value')}
+   else if(type===6){let ans=n1%2===0?'Even':'Odd';add(`Is ${n1} an even or odd number?`,['Even','Odd','Prime','Neither'],ans==='Even'?0:1,'Number')}
+   else if(type===7){let ans=n1*n1;add(`What is ${n1}²?`,[ans,ans+n1,ans-n1,n1*2].map(String),0,'Square')}
+   else if(type===8){let ans= n1+n2+n3;add(`Find the sum of ${n1}, ${n2} and ${n3}.`,[ans,ans+1,ans-1,ans+2].map(String),0,'Addition')}
+   else {let ans=(n1+n2)*n3;add(`What is (${n1} + ${n2}) × ${n3}?`,[ans,ans+n3,ans-n3,ans+1].map(String),0,'Operations')}
+  } else if(sub==='English'){
+   const sets=[
+    [`Choose the correct plural of "${['child','book','city','box'][i%4]}".`,['childs','children','childes','childrens'],1],
+    ['Choose the correct article: ___ apple a day is a common phrase.',['A','An','The','No article'],1],
+    ['Choose the past tense of "go".',['goed','goes','went','going'],2],
+    ['Choose the synonym of "happy".',['sad','joyful','angry','weak'],1],
+    ['Choose the antonym of "early".',['fast','late','soon','quick'],1],
+    ['Which word is a noun?',['beautiful','quickly','teacher','run'],2],
+    ['Which word is an adjective?',['blue','slowly','jump','teacher'],0],
+    ['Choose the correct sentence.',['She go to school.','She goes to school.','She going school.','She gone school.'],1],
+    ['Which punctuation mark usually ends a question?',['.','!','? ',':'],2],
+    ['Choose the correct spelling.',['becaus','because','beacause','becose'],1]
+   ]; let x=sets[i%sets.length];add(x[0],x[1],x[2],'Grammar/Vocabulary');
+  } else if(sub==='Science'||sub==='EVS/Science'){
+   const sets=[
+    ['Which part of a plant usually absorbs water from soil?',['Flower','Root','Fruit','Leaf'],1],
+    ['Which gas do humans need for respiration?',['Oxygen','Helium','Hydrogen','Neon'],0],
+    ['Which state of matter has a fixed shape?',['Solid','Liquid','Gas','All gases'],0],
+    ['The Sun is a:',['Planet','Star','Satellite','Comet'],1],
+    ['Which organ pumps blood around the body?',['Lungs','Heart','Stomach','Brain'],1],
+    ['Which is a renewable source of energy?',['Sunlight','Coal','Petrol','Natural gas'],0],
+    ['Water changes into water vapour by:',['Freezing','Evaporation','Melting','Condensation'],1],
+    ['Which is a living thing?',['Rock','Chair','Tree','Bottle'],2],
+    ['Which force pulls objects toward Earth?',['Friction','Gravity','Magnetism','Sound'],2],
+    ['Which sense organ is used for seeing?',['Ear','Nose','Eye','Skin'],2]
+   ];let x=sets[i%sets.length];add(x[0],x[1],x[2],chFor(c,'Science'));
+  } else if(sub==='Social Studies'){
+   const sets=[
+    ['Which imaginary line divides Earth into Northern and Southern Hemispheres?',['Equator','Prime Meridian','Tropic of Cancer','Arctic Circle'],0],
+    ['A map is mainly used to:',['Cook food','Represent places','Measure temperature only','Grow plants'],1],
+    ['Which is a natural resource?',['Water','Plastic bottle','Computer','Road'],0],
+    ['A democracy is a system in which:',['People participate in choosing representatives','Only one person votes','No rules exist','Maps are banned'],0],
+    ['Which direction is opposite to east?',['North','South','West','Northeast'],2],
+    ['History mainly studies:',['Past events','Only future events','Only weather','Only numbers'],0],
+    ['Which is a continent?',['India','Asia','Pacific','Himalayas'],1],
+    ['Which institution generally makes laws in a democracy?',['Legislature','Hospital','Museum','Post office'],0],
+    ['Which is a primary source?',['A diary written during an event','A modern summary','A textbook chapter','A fictional story'],0],
+    ['Which feature helps identify height on many physical maps?',['Contour lines','Alphabetical order','Music notes','Clock hands'],0]
+   ];let x=sets[i%sets.length];add(x[0],x[1],x[2],'Social Studies');
+  } else if(sub==='Computer'){
+   const sets=[
+    ['What does CPU stand for?',['Central Processing Unit','Computer Power User','Central Print Unit','Control Program Utility'],0],
+    ['Which device is mainly used to type text?',['Keyboard','Monitor','Speaker','Projector'],0],
+    ['Which is an example of an operating system?',['Windows','Keyboard','Printer','Mouse'],0],
+    ['Which is used to move a pointer on screen?',['Mouse','Speaker','Microphone','Router'],0],
+    ['What should a strong password generally contain?',['Only your name','A mix of different characters','Only 123456','Only your birthday'],1],
+    ['Which one is a web browser?',['Chrome','Excel','Keyboard','CPU'],0],
+    ['Which device prints a document on paper?',['Printer','Scanner','Router','Monitor'],0],
+    ['What does URL refer to?',['A web address','A keyboard key','A battery type','A file colour'],0],
+    ['Which is safer online?',['Sharing passwords','Using privacy settings','Opening every unknown link','Posting personal details publicly'],1],
+    ['Which symbol commonly starts a hashtag?',['@','#','&','%'],1]
+   ];let x=sets[i%sets.length];add(x[0],x[1],x[2],'Computer');
+  } else if(sub==='Hindi'){
+   const sets=[
+    ['“राम स्कूल जाता है।” वाक्य में संज्ञा कौन-सी है?',['राम','जाता','है','कोई नहीं'],0],
+    ['“सुंदर” किस प्रकार का शब्द है?',['संज्ञा','विशेषण','क्रिया','सर्वनाम'],1],
+    ['“मैं” कौन-सा शब्द है?',['सर्वनाम','क्रिया','विशेषण','संज्ञा'],0],
+    ['“जल” का सामान्य समानार्थी शब्द कौन-सा है?',['आग','पानी','हवा','धूप'],1],
+    ['“दिन” का विलोम क्या है?',['सुबह','रात','प्रकाश','समय'],1],
+    ['“लड़का दौड़ता है।” में क्रिया कौन-सी है?',['लड़का','दौड़ता','है','में'],1],
+    ['“बहुत” किसका बोध करा सकता है?',['परिमाण','स्थान','व्यक्ति','नाम'],0],
+    ['वाक्य के अंत में सामान्य कथन के लिए कौन-सा चिह्न आता है?',['।','?','!',';'],0],
+    ['“पुस्तक” का बहुवचन क्या है?',['पुस्तकें','पुस्तकी','पुस्तकोंना','पुस्तकता'],0],
+    ['“सूर्य” का एक समानार्थी शब्द है:',['रवि','पवन','नीर','धरती'],0]
+   ];let x=sets[i%sets.length];add(x[0],x[1],x[2],'हिंदी');
+  }
+  i++;
+  // deterministic rotation prevents the same first option pattern
+  if(arr.length && i%3===0){let z=arr[arr.length-1];let shift=(i+c)%4;z.opts=z.opts.slice(shift).concat(z.opts.slice(0,shift));z.a=(z.a-shift+4)%4}
+ }
+ return arr.map((x,k)=>({...x,id:`${c}-${sub}-${k}-${x.q}`}));
+}
+function chFor(c,s){return c<=5?'EVS/Science':'Science'}
+function startQuiz(c,sub){
+ const pool=generateQuestions(c,sub,80);
+ for(let i=pool.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
+ state.quiz={c,sub,pool,index:0,selected:null,answered:false,score:0};
+ state.page='quiz';render();
+}
+function quizPage(){
+ if(!state.quiz)return `<div class="hero"><div><h1>Quiz Arena 🧠</h1><p>Choose a class and subject. Every session gets a shuffled set of questions.</p></div></div><div class="card" style="margin-top:20px"><h2>Start a Quiz</h2><div class="grid two"><div><label>Class</label><select id="qClass" style="width:100%;padding:12px;margin-top:7px">${Array.from({length:12},(_,i)=>`<option value="${i+1}" ${i+1===state.selectedClass?'selected':''}>Class ${i+1}</option>`).join('')}</select></div><div><label>Subject</label><select id="qSub" style="width:100%;padding:12px;margin-top:7px">${classSubjects[state.selectedClass].map(s=>`<option>${s}</option>`).join('')}</select></div></div><button class="btn" style="margin-top:15px" onclick="startQuizFromForm()">Start 20 Questions</button></div>`;
+ const q=state.quiz.pool[state.quiz.index], total=20, current=state.quiz.index+1;
+ if(current>total)return quizResult();
+ return `<div class="quizWrap"><div class="qTop"><div><span class="pill">Class ${state.quiz.c} • ${state.quiz.sub}</span><h2>Quiz Arena</h2></div><span class="pill">Question ${current}/${total}</span></div><div class="progress"><i style="width:${current/total*100}%"></i></div><div class="card" style="margin-top:15px"><div class="question">${q.q}</div><div class="options">${q.opts.map((o,i)=>`<button class="option ${state.quiz.answered?(i===q.a?'correct':i===state.quiz.selected?'wrong':''):state.quiz.selected===i?'selected':''}" onclick="selectAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div>${state.quiz.answered?`<div style="margin-top:18px"><b>${state.quiz.selected===q.a?'✅ Correct!':'❌ Not quite.'}</b><p class="muted">Correct answer: ${q.opts[q.a]}</p><button class="btn" onclick="nextQuestion()">${current===total?'See Result':'Next Question →'}</button></div>`:`<p class="muted" style="margin-top:15px">Select an answer to continue.</p>`}</div></div>`;
+}
+function startQuizFromForm(){const c=+document.getElementById('qClass').value,sub=document.getElementById('qSub').value;startQuiz(c,sub)}
+function selectAnswer(i){if(state.quiz.answered)return;state.quiz.selected=i;state.quiz.answered=true;if(i===state.quiz.pool[state.quiz.index].a)state.quiz.score++;render()}
+function nextQuestion(){state.quiz.index++;state.quiz.selected=null;state.quiz.answered=false;render()}
+function quizResult(){
+ const q=state.quiz, pct=Math.round(q.score/20*100);
+ if(!q.saved){state.stats.quizzes++;state.stats.correct+=q.score;state.stats.questions+=20;state.history.push({title:`Class ${q.c} • ${q.sub} Quiz`,score:pct,date:Date.now()});q.saved=true;save()}
+ return `<div class="quizWrap"><div class="card result"><div style="font-size:55px">${pct>=80?'🏆':pct>=50?'🎉':'💪'}</div><h1>Quiz Complete!</h1><div class="bigScore">${q.score}/20</div><p class="muted">You scored ${pct}% in Class ${q.c} ${q.sub}.</p><div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap"><button class="btn" onclick="startQuiz(${q.c},'${q.sub.replaceAll("'","\\'")}')">Try Again</button><button class="btn secondary" onclick="state.quiz=null;showPage('classes')">Study More</button><button class="btn ghost" onclick="state.quiz=null;showPage('home')">Dashboard</button></div></div></div>`;
+}
+function notesPage(){
+ return `<div class="sectionHead"><div><h2>My Notes 📝</h2><p class="muted">Your saved study notes stay on this device.</p></div><button class="btn" onclick="newNote()">+ New Note</button></div>
+ ${state.notes.length?`<div class="list">${state.notes.map((n,i)=>`<div class="card"><div class="sectionHead" style="margin:0 0 8px"><h3>${esc(n.title)}</h3><button class="btn danger" onclick="deleteNote(${i})">Delete</button></div><p class="muted">${esc(n.text)}</p></div>`).join('')}`:`<div class="card empty">No notes yet. Save a chapter note or create your own.</div>`}`;
+}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function addNote(title,text){state.notes.push({title,text,date:Date.now()});save();notify('Note saved successfully 📝');showPage('notes')}
+function newNote(){openModal(`<div class="modalHead"><h2>New Note</h2><button class="iconBtn" onclick="closeModal()">✕</button></div><label>Title</label><input id="nt" placeholder="e.g. Algebra formulas"><label>Note</label><textarea id="nx" rows="8" placeholder="Write your note..."></textarea><button class="btn" onclick="addNote(document.getElementById('nt').value||'Untitled',document.getElementById('nx').value||'') ;closeModal()">Save Note</button>`)}
+function deleteNote(i){if(confirm('Delete this note?')){state.notes.splice(i,1);save();render();notify('Note deleted')}}
+function timerPage(){
+ return `<div class="card timer"><h2>Focus Timer ⏱️</h2><p class="muted">Choose a study duration and focus.</p><div class="clock" id="clock">25:00</div><div><input id="mins" type="number" min="1" max="180" value="25"> minutes</div><div style="margin-top:18px;display:flex;justify-content:center;gap:8px"><button class="btn" onclick="startTimer()">Start</button><button class="btn secondary" onclick="pauseTimer()">Pause</button><button class="btn ghost" onclick="resetTimer()">Reset</button></div><p id="timerMsg" class="muted"></p></div>`;
+}
+function startTimer(){if(state.timer?.running)return;let input=document.getElementById('mins');if(!state.timer||state.timer.done){state.timer={seconds:(+input.value||25)*60,running:true,done:false}}else state.timer.running=true;runTimer()}
+function runTimer(){clearInterval(window.timerInt);window.timerInt=setInterval(()=>{if(!state.timer?.running){clearInterval(window.timerInt);return}state.timer.seconds--;updateClock();if(state.timer.seconds<=0){clearInterval(window.timerInt);state.timer.running=false;state.timer.done=true;state.stats.minutes+=(+(document.getElementById('mins')?.value)||25);save();notify('Focus session complete! 🎉');document.getElementById('timerMsg').textContent='Great work! Take a short break.'}},1000);updateClock()}
+function pauseTimer(){if(state.timer)state.timer.running=false;notify('Timer paused')}
+function resetTimer(){clearInterval(window.timerInt);state.timer=null;document.getElementById('clock').textContent='25:00';notify('Timer reset')}
+function updateClock(){const x=state.timer?.seconds||1500;document.getElementById('clock').textContent=`${String(Math.floor(x/60)).padStart(2,'0')}:${String(x%60).padStart(2,'0')}`}
+function calcPage(){return `<div class="card calc"><h2>Calculator 🧮</h2><input id="calcDisplay" class="calcDisplay" value="" readonly><div class="calcKeys">${['C','⌫','%','÷','7','8','9','×','4','5','6','−','1','2','3','+','0','.','(',')','='].map(k=>`<button onclick="calcKey('${k}')">${k}</button>`).join('')}</div></div>`}
+function calcKey(k){const d=document.getElementById('calcDisplay');if(!d)return;if(k==='C'){d.value='';return}if(k==='⌫'){d.value=d.value.slice(0,-1);return}if(k==='='){try{let e=d.value.replaceAll('×','*').replaceAll('÷','/').replaceAll('−','-').replace(/%/g,'/100');if(!/^[0-9+\-*/().\s]+$/.test(e))throw 0;d.value=String(Function('return '+e)())}catch{d.value='Error'}return}d.value+=k}
+function leaderboardPage(){
+ const names=['Aarav','Priya','Rohan','Ananya','Kabir','Meera','You'];let base=[980,930,890,850,810,770,Math.min(999,state.stats.correct*10)];
+ return `<div class="sectionHead"><div><h2>Leaderboard 🏆</h2><p class="muted">A friendly local leaderboard for your StudyHub session.</p></div></div><div class="card"><div class="list">${names.map((n,i)=>`<div class="row"><b>#${i+1} ${n}</b><span class="pill">${base[i]} XP</span></div>`).join('')}</div><p class="muted" style="margin-top:15px">XP is calculated from your quiz progress on this device.</p></div>`;
+}
+const facts=[
+['🧠','Your brain uses a large amount of the body’s energy even while you are resting.'],
+['🌳','Trees and other plants release oxygen as part of photosynthesis.'],
+['🌍','Earth rotates on its axis, producing the cycle of day and night.'],
+['💻','A computer follows instructions supplied by programs to process information.'],
+['💧','Water can naturally exist as a solid, liquid and gas.'],
+['🔭','Light from distant objects helps scientists study space.'],
+['📚','Spaced practice—reviewing material over several sessions—can support long-term learning.'],
+['🧩','Breaking a difficult problem into smaller steps is a useful problem-solving strategy.']
+];
+function knowledgePage(){let f=facts[new Date().getDate()%facts.length];return `<div class="hero"><div><h1>Daily Knowledge ${f[0]}</h1><p>${f[1]}</p><div style="margin-top:18px"><button class="btn" onclick="newFact()">Another Fact</button></div></div><div class="heroArt">💡</div></div><div class="grid two" style="margin-top:20px"><div class="card"><h2>Today’s Learning Challenge</h2><p class="muted">Explain today’s fact in your own words, then connect it to something you see in real life.</p></div><div class="card"><h2>Study Tip</h2><p class="muted">Use active recall: close your notes and try to explain the idea from memory.</p></div></div>`}
+function newFact(){let f=facts[Math.floor(Math.random()*facts.length)];openModal(`<div class="modalHead"><h2>${f[0]} Quick Fact</h2><button class="iconBtn" onclick="closeModal()">✕</button></div><p style="font-size:18px;line-height:1.6">${f[1]}</p><button class="btn" onclick="closeModal()">Got it</button>`)}
+function toggleTheme(){document.body.classList.toggle('dark');state.theme=document.body.classList.contains('dark')?'dark':'light';localStorage.setItem('sh_theme',state.theme);notify(state.theme==='dark'?'Dark mode on':'Light mode on')}
+function openProfile(){openModal(`<div class="modalHead"><h2>Student Profile</h2><button class="iconBtn" onclick="closeModal()">✕</button></div><div class="card" style="box-shadow:none"><div class="avatar" style="width:70px;height:70px;font-size:25px">S</div><h3>Shubham Kumar</h3><p><span class="pill">Creator • StudyHub</span></p><p class="muted">StudyHub learner</p><hr><p>Quiz attempts: <b>${state.stats.quizzes}</b></p><p>Questions solved: <b>${state.stats.questions}</b></p><p>Accuracy: <b>${state.stats.questions?Math.round(state.stats.correct/state.stats.questions*100):0}%</b></p></div>`)}
+function openModal(x){document.getElementById('modalBox').innerHTML=x;document.getElementById('modal').classList.remove('hidden')}
+function closeModal(){document.getElementById('modal').classList.add('hidden')}
+function searchSite(v){
+ if(!v.trim())return;
+ const q=v.toLowerCase();
+ const hits=[];
+ for(let c=1;c<=12;c++)for(const s of classSubjects[c])if((`class ${c} ${s}`).toLowerCase().includes(q))hits.push({c,s});
+ if(hits.length){openModal(`<div class="modalHead"><h2>Search Results</h2><button class="iconBtn" onclick="closeModal()">✕</button></div><div class="list">${hits.slice(0,20).map(h=>`<button class="row" onclick="closeModal();openStudy(${h.c},'${h.s}')"><span>Class ${h.c} • ${h.s}</span><span>→</span></button>`).join('')}</div>`)}
+}
+render();
+</script>
+</body>
+</html>
